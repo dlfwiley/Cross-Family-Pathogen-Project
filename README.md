@@ -10,6 +10,7 @@ Frogs were collected from during summer breeding months from 2009–2023 across 
 - Bd (Batrachochytrium dendrobatidis) (n = 1,281)
 - Pr (Amphibian Perkinsea) (n = 1,224)
 - Rv (Ranavirus) (n = 1,187)
+
 We also documented demographic traits (i.e. sex, age class), aspects of sampling locality (i.e. latitude, longitude, elevation), and environmental factors known to impact pathogen prevalence and distribution (i.e. WORLDCLIM 19 bioclimatic variables to do with temperature and precipitation).
 
 Analysis code is available on GitHub: https://github.com/dlfwiley/Cross-Family-Pathogen-Project. All data are linked to vouchered specimens housed at the Museum of Southwestern Biology (MSB) at the University of New Mexico, USA. Specimen records are accessible in the Artcos database (https://www.arctosdb.org).
