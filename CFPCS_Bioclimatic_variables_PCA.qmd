@@ -1,0 +1,666 @@
+---
+title: "Principal component analysis for temperature and precipitation variables"
+author: Dani Wiley
+date:   last-modified
+editor: visual
+description: |
+  We perform principal component analysis to reduce 19 BioClimatic Variables having to do with temperature & precipitation into two dimensions. 
+
+format:
+  html:
+    theme:            litera
+    highlight-style:  atom-one
+    page-layout:      full      # article, full   # https://quarto.org/docs/output-formats/page-layout.html
+    toc:              true
+    toc-location:     body  # body, left, right
+    number-sections:  false
+    self-contained:         false     # !!! this can cause a render error
+    code-overflow:          scroll    # scroll, wrap
+    code-block-bg:          true
+    code-block-border-left: "#30B0E0"
+    code-copy:              false     # true, false, hover a copy buttom in top-right of code block
+---
+#------------------------------------------------
+#Load packages
+
+```{r}
+library(dplyr)
+library(stats)
+library(factoextra)
+library(arm)
+library(ggplot2)
+library(corrplot)
+```
+
+#Load Data
+
+```{r}
+#Infection prevalence datasets:---------------------------------------------------
+
+#Bd prevalence dataset: contains all positive and negative individuals
+df_p_bd <- read.csv("All_Pathogen_Dataset.csv")
+df_p_bd <- dplyr::filter(df_p_bd, !is.na(df_p_bd$Status_Bd))
+
+#Bd intensity dataset: contains all positive individuals
+df_i_bd <- filter(df_p_bd, df_p_bd$Confirmed_Average_Bd_SQ > 0)
+df_i_bd <-filter(
+  df_i_bd, df_i_bd$Confirmed_Average_Bd_SQ != "low") #196
+
+#Pr prevalence dataset: contains all positive and negative individuals
+df_p_pr <- read.csv("All_Pathogen_Dataset.csv") 
+df_p_pr <- filter(df_p_pr, !is.na(df_p_pr$Status_Pr))
+
+#Rv prevalence dataset: contains all positive and negative individuals
+df_p_rv <- read.csv("All_Pathogen_Dataset.csv") 
+df_p_rv <- filter(df_p_rv, !is.na(df_p_rv$Status_Rv)) 
+```
+
+#------------------------------------------------
+
+# WorldClim Environmental variables
+
+Our data frames (both intensity and prevalence) have climatic variables already associated with each point. Point here refers to the latitude and longitude where the individual frog was collected, as recorded by each individuals unique Arctos entry (<https://arctos.database.museum/>). Specific Franklin, FL individuals who are on St. George & St. Vincent barrier islands were calculated from the next nearest mainland point, as BioClim does not have data for these specific islands.
+
+WORLDCLIM CODEBOOK
+
+```         
+ Downloaded 1 March 2024 at 30s resolution. They are coded as follows:  
+ BIO1  = Annual Mean Temperature  
+ BIO2  = Mean Diurnal Range (Mean of monthly (max temp - min temp)) 
+ BIO3  = Isothermality (BIO2/BIO7) (* 100) 
+ BIO4  = Temperature Seasonality (standard deviation *100) 
+ BIO5  = Max Temperature of Warmest Month 
+ BIO6  = Min Temperature of Coldest Month 
+ BIO7  = Temperature Annual Range (BIO5-BIO6) 
+ BIO8  = Mean Temperature of Wettest Quarter 
+ BIO9  = Mean Temperature of Driest Quarter 
+ BIO10 = Mean Temperature of Warmest Quarter 
+ BIO11 = Mean Temperature of Coldest Quarter 
+ BIO12 = Annual Precipitation 
+ BIO13 = Precipitation of Wettest Month 
+ BIO14 = Precipitation of Driest Month 
+ BIO15 = Precipitation Seasonality (Coefficient of Variation) 
+ BIO16 = Precipitation of Wettest Quarter 
+ BIO17 = Precipitation of Driest Quarter
+ BIO18 = Precipitation of Warmest Quarter BIO19 = Precipitation of Coldest Quarter  Elev  = STRM elevation from Worldclim 30s
+```
+
+1\) Scaleddata = scale(data) {base} ; subtracts column's mean (center) and divides the centered column by the deviation (scale), takes only numeric variables
+
+2\) Pcaresults = prcomp(Scaleddata) {stats} ; Assumes samples to be rows, can also perform scaling if data is unscaled : prcomp(data, scale = TRUE) or to define numberic variables: prcomp(\~v1+v2+v3, data, scale = TRUE)
+
+3\) summary(Pcaresults) and/or plot(Pcaresults) ; shows proportion of variance explained by each PC.
+
+#------------------------------------------------
+
+### Temperature PCA
+
+```{r}
+#Bd-----------------------------------------------------------------------
+#Separate out wanted variables
+bioclim_temp.bd.p <- df_p_bd[c(15:25)] #ALWAYS DOUBLE CHECK THESE
+# PCA of temperature data
+library(stats)
+temp.PCA.bd.p <-
+  prcomp( 
+    bioclim_temp.bd.p, center = TRUE, scale. = TRUE
+  )
+summary(temp.PCA.bd.p)
+#PC1 explains 74.9% of variation in the data 
+#PC2 explains a further 88.7% of the variation in the data
+
+
+#Adding PC1 & PC2 to df--------------------------------------------------------
+# Add PCs to the dataframe as variables: 
+df_p_bd$TPC1 <- temp.PCA.bd.p$x[,"PC1"]
+df_p_bd$TPC1 <- as.numeric(unlist(df_p_bd$TPC1))
+df_p_bd$TPC2 <- temp.PCA.bd.p$x[,"PC2"]
+df_p_bd$TPC2 <- as.numeric(unlist(df_p_bd$TPC2))
+```
+
+```{r, fig.height= 8, fig.width=10}
+#{factoextra}
+#PCA Scree plot:
+fviz_eig(temp.PCA.bd.p)
+#-------------------------------------------Visualizing loadings-----------------------------------------------------
+#PCA Loadings:
+fviz_pca_var(temp.PCA.bd.p, col.var = "contrib")
+#Contributions to Temperature PC1
+fviz_contrib(temp.PCA.bd.p, choice = "var", axes = 1)
+
+#As you go up PC1
+#For PC1 the variables below all contribute the most
+#BIO11:Temp of Coldest Quarter        (-0.34768826) As TPC1 increases, Mean temps of coldest quarter increase
+ggplot(df_p_bd, aes(x = BIO11_Mean_Temperature_of_Coldest_Quarter_30s, y = TPC1)) + geom_line()
+#BIO1: Annual Mean Temp               (-0.3468010) As TPC1 increases, Mean annual temps increase
+ggplot(df_p_bd, aes(x = BIO1_Annual_Mean_Temperature_30s , y = TPC1)) + geom_line()
+#BIO6: Min Temp of Coldest Month      (-0.34540991) As TPC1 increases, min temps of coldest month increase
+ggplot(df_p_bd, aes(x = BIO6_Min_Temperature_of_Coldest_Month_30s , y = TPC1)) + geom_line()
+#BIO4: Temp seasonality               ( 0.3375985) As TPC1 increases, temp seasonality decreases
+ggplot(df_p_bd, aes(x = BIO4_Temperature_Seasonality_30s , y = TPC1)) + geom_line()
+#BIO10: Mean Temp of Warmest Quarter  (-0.33156149)As TPC1 increases, temps of warmest quarter increase
+ggplot(df_p_bd, aes(x = BIO10_Mean_Temperature_of_Warmest_Quarter_30s , y = TPC1)) + geom_line()
+#BIO7: Temp annual range              (0.32397511) As TPC1 increases, temp annual range decreases
+ggplot(df_p_bd, aes(x = BIO7_Temperature_Annual_Range_30s , y = TPC1)) + geom_line()
+#BIo3: Isothermality                  (-0.31239112) As TPC1 increases, isothermality increases
+ggplot(df_p_bd, aes(x = BIO3_Isothermality_30s , y = TPC1)) + geom_line()
+#BIO9: Mean Temp of Driest Quarter    (-0.31082387) As TPC1 increases, mean temps of driest quarter increases
+ggplot(df_p_bd, aes(x =  BIO9_Mean_Temperature_of_Driest_Quarter_30s , y = TPC1)) + geom_line()
+#-------------------------------------------------------------------------------------------------------
+#Contributions to Temperature PC2
+fviz_contrib(temp.PCA.bd.p, choice = "var", axes = 2)
+#For PC2 the variables below all contribute the most:
+#FAR AND LARGE: BIO2: Mean Diurnal Range (-0.76336818) As TPC2 increases, Mean Diurnal Range increases
+ggplot(df_p_bd, aes(x =  BIO2_Mean_Diurnal_Range_30s , y = TPC2)) + geom_line()
+#less than 0.3 - BARELY CONTRIBUTES to TPC2
+#BIO8: Mean Temp of Wettest Quarter      (0.38356468) As TPC2 decreases, Mean temp of wet quarter decrease
+ggplot(df_p_bd, aes(x =  BIO8_Mean_Temperature_of_Wettest_Quarter_30s , y = TPC2)) + geom_line()
+#BIO5: Max Temp of Warmest Month         (-0.34494244) As TPC2 increases, Max temp of warmest month increase
+ggplot(df_p_bd, aes(x =  BIO5_Max_Temperature_of_Warmest_Month_30s , y = TPC2)) + geom_line()
+
+var=get_pca_var(temp.PCA.bd.p)
+var
+corrplot(var$cos2, is.corr=FALSE)
+temp.PCA.bd.p
+#                                                       PC1         PC2
+# BIO1_Annual_Mean_Temperature_30s              -0.34680102 -0.01619551  
+# BIO2_Mean_Diurnal_Range_30s                    0.03424674 -0.76336818 
+# BIO3_Isothermality_30s                        -0.31239112 -0.20867721 
+# BIO4_Temperature_Seasonality_30s               0.33759852 -0.10452716
+# BIO5_Max_Temperature_of_Warmest_Month_30s     -0.29341108 -0.34494244 
+# BIO6_Min_Temperature_of_Coldest_Month_30s     -0.34540991  0.08154934 
+# BIO7_Temperature_Annual_Range_30s              0.32397511 -0.25349293
+# BIO8_Mean_Temperature_of_Wettest_Quarter_30s  -0.17089668  0.38356468 
+# BIO9_Mean_Temperature_of_Driest_Quarter_30s   -0.31082387 -0.10387448  
+# BIO10_Mean_Temperature_of_Warmest_Quarter_30s -0.33156149 -0.11979924 
+# BIO11_Mean_Temperature_of_Coldest_Quarter_30s -0.34768826  0.01940986  
+```
+#### Interpretation: TPC1 & TPC2
+
+Higher TPC1 = Warm year round, more stable temps
+Lower TPC1  = Cooler year round, less stable temps
+Higher TPC2 = Mean Diurnal Range decreases, less fluctuation between day and night temps
+Lower TPC2  = Mean Diurnal Range increases, more fluctuation between day and night temps
+
+#### Visualization
+```{r}
+## Plot PCA Results: 
+# Plot PC1 and PC2 by site (all points appear in black): 
+autoplot(temp.PCA.bd.p) # colour = 'site') 
+# This plot prints proper PCA output. I can't get this to colour by site though because site isn't a variable in the PCA dataset
+
+library(ggplot2)
+p1 <- ggplot(data=df_p_bd, aes(x=TPC1, y=TPC2, color=Fam))
+p1 <- p1 + geom_point(size=1.5)
+#p1 <- p1 + geom_jitter(position = position_jitter(width = 0.1), alpha = 1/3, size=2.5)
+p1 <- p1 + labs(x = "TPC1 74.9%", y = "TPC2 13.8%", color="Family")
+#p1 <- p1 + scale_y_continuous(limits=c(-0.3,0.3), breaks = c(-0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3))
+#p1 <- p1 + scale_x_continuous(limits=c(-0.5,0.3), breaks = c(-0.5, -0.4, -0.3, -0.1, 0, 0.1, 0.2, 0.3))
+p1 <- p1 + theme_bw()
+p1 <- p1 + theme(plot.background = element_blank())
+p1 <- p1 + theme(panel.grid.major = element_blank())
+p1 <- p1 + theme(panel.grid.minor = element_blank())
+p1 <- p1 + theme(panel.background = element_blank())
+print(p1)
+```
+
+No overall pattern of clustering in the data based on taxonomic group.
+
+```{r}
+#Bd
+## Plot PCA Results: 
+df_p_bd$Status_Bd <- as.factor(df_p_bd$Status_Bd)
+library(ggplot2)
+p1 <- ggplot(data=df_p_bd, aes(x=TPC1, y=TPC2, colour = Status_Bd))
+p1 <- p1 + geom_point(size=1.5) 
+#p1 <- p1 + geom_jitter(position = position_jitter(width = 0.1), alpha = 1/3, size=2.5)
+p1 <- p1 + labs(x = "TPC1 74.9%", y = "TPC2 13.8%", color="Bd Status")
+#p1 <- p1 + scale_y_continuous(limits=c(-0.3,0.3), breaks = c(-0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3))
+#p1 <- p1 + scale_x_continuous(limits=c(-0.5,0.3), breaks = c(-0.5, -0.4, -0.3, -0.1, 0, 0.1, 0.2, 0.3))
+p1 <- p1 + theme_bw()
+p1 <- p1 + theme(plot.background = element_blank())
+p1 <- p1 + theme(panel.grid.major = element_line())
+p1 <- p1 + theme(panel.grid.minor = element_line())
+p1 <- p1 + theme(panel.background = element_blank())
+print(p1)
+```
+
+```{r}
+#Rv
+## Plot PCA Results: 
+df_p_rv$Status_Rv <- as.factor(df_p_rv$Status_Rv)
+library(ggplot2)
+p2 <- ggplot(data=df_p_rv, aes(x=TPC1, y=TPC2, color=Status_Rv))
+p2 <- p2 + geom_point(size=1.5) 
+p2 <- p2 + labs(x = "TPC1 74.9%", y = "TPC2 13.8%", color="Rv Status")
+p2 <- p2 + theme_bw()
+p2 <- p2 + theme(plot.background = element_blank())
+p2 <- p2 + theme(panel.grid.major = element_line())
+p2 <- p2 + theme(panel.grid.minor = element_line())
+p2 <- p2 + theme(panel.background = element_blank())
+print(p2)
+```
+
+No overall pattern of clustering in the data based on infection status.
+
+#------------------------------------------------------------------------
+
+### Precipitation PCA
+
+```{r}
+#Bd precipitation data
+bioclim_precip.bd.p <- df_p_bd[c(26:33)]
+
+# PCA of temperature data
+library(stats)
+precip.PCA.bd.p <-
+  prcomp( 
+    bioclim_precip.bd.p, center = TRUE, scale. = TRUE
+  )
+summary(precip.PCA.bd.p)
+#PC1 explains 69.3% of variation in the data 
+#PC2 explains a further 95.8% of the variation in the data
+
+#Adding PC1 & PC2 to df--------------------------------------------------------
+# Add PCs to the dataframe as variables: 
+df_p_bd$PPC1 <- precip.PCA.bd.p$x[,"PC1"]
+df_p_bd$PPC1 <- as.numeric(unlist(df_p_bd$PPC1))
+df_p_bd$PPC2 <- precip.PCA.bd.p$x[,"PC2"]
+df_p_bd$PPC2 <- as.numeric(unlist(df_p_bd$PPC2))
+
+write.csv(df_p_bd, file = "Bd_status_dataset_pcavarlist.csv")
+```
+
+```{r, fig.height= 8, fig.width=10}
+#{factoextra}
+#PCA Scree plot:
+library(factoextra)
+fviz_eig(precip.PCA.bd.p)
+
+#Visualizing loadings----------------------------------------------------------
+#PCA Loadings:
+fviz_pca_var(precip.PCA.bd.p, col.var = "contrib")
+
+#Contributions to Precipitation PC1
+fviz_contrib(precip.PCA.bd.p, choice = "var", axes = 1)
+#For PC1 the variables below all contribute the most
+
+#BIO12: Annual Precipitation                (-0.4214417)
+ggplot(df_p_bd, aes(x = BIO12_Annual_Precipitation_30s, y = PPC1)) + geom_line()
+#BIO17: Precipitation during driest quarter ( -0.3873883)
+ggplot(df_p_bd, aes(x = BIO17_Precipitation_of_Driest_Quarter_30s, y = PPC1)) + geom_line()
+#BIO19: Precipitation of coldest quarter    (-0.3851517)
+ggplot(df_p_bd, aes(x = BIO19_Precipitation_of_Coldest_Quarter_30s, y = PPC1)) + geom_line()
+#BIO14: Precipitation of driest month       (-0.3749144) 
+ggplot(df_p_bd, aes(x = BIO14_Precipitation_of_Driest_Month_30s, y = PPC1)) + geom_line()
+#BIO16 Precipitation of wettest quarter     (-0.3631007) 
+ggplot(df_p_bd, aes(x = BIO16_Precipitation_of_Wettest_Quarter_30s, y = PPC1)) + geom_line()
+
+#Contributions to Precipitation PC2
+fviz_contrib(precip.PCA.bd.p, choice = "var", axes = 2)
+#For PC2 the variables below all contribute the most:
+#FAR AND LARGE BIO15: Seasonality coefficient (0.63190687) 
+ggplot(df_p_bd, aes(x = BIO15_Precipitation_Seasonality_coefficient.of.variation_30s, y = PPC2)) + geom_line()
+#BIO18: Precipitation of warmest quarter      (0.38332779)
+ggplot(df_p_bd, aes(x = BIO18_Precipitation_of_Warmest_Quarter_30s, y = PPC2)) + geom_line()
+#BIO13 Precipitation of Wettest Month         (0.36410025) 
+ggplot(df_p_bd, aes(x = BIO13_Precipitation_of_Wettest_Month_30s, y = PPC2)) + geom_line()
+
+var1=get_pca_var(precip.PCA.bd.p)
+var1
+precip.PCA.bd.p
+#                                                                     PC1         PC2         
+# BIO12_Annual_Precipitation_30s                               -0.4214417 -0.00149709  
+# BIO13_Precipitation_of_Wettest_Month_30s                     -0.3526419  0.36410025  
+# BIO14_Precipitation_of_Driest_Month_30s                      -0.3749144 -0.29384553 
+# BIO15_Precipitation_Seasonality_coefficient.of.variation_30s  0.1400651  0.63190687 
+# BIO16_Precipitation_of_Wettest_Quarter_30s                   -0.3631007  0.34970028 
+# BIO17_Precipitation_of_Driest_Quarter_30s                    -0.3873883 -0.26576996  
+# BIO18_Precipitation_of_Warmest_Quarter_30s                   -0.3280212  0.38332779 
+# BIO19_Precipitation_of_Coldest_Quarter_30s                   -0.3851517 -0.20472694 
+```
+
+#### Interpretation: PPC1 & PPC2
+Higher TPC1 = Warm year round, more stable temps
+Lower TPC1  = Cooler year round, less stable temps
+Higher TPC2 = Mean Diurnal Range decreases, less fluctuation between day and night temps
+Lower TPC2  = Mean Diurnal Range increases, more fluctuation between day and night temps
+
+## Precipitation PCA v infection intensity
+
+#### Bd: PC1 (Wetter overall) is NOT significantly correlated to infection intensity.
+
+#### Bd: PC2 (More variable rainfall) is NOT significantly correlated to infection intensity.
+
+```{r}
+#Bd-----------------------------------------------------------------------
+#Separate out wanted variables
+bioclim_precip.bd.i <- df_i_bd[c(26:33)]
+# PCA of temperature data
+library(stats)
+precip.PCA.bd.i <-
+  prcomp( 
+    bioclim_precip.bd.i, center = TRUE, scale. = TRUE
+  )
+summary(precip.PCA.bd.i)
+#PC1 explains 72.7% of variation in the data 
+#PC2 explains a further 96% of the variation in the data
+
+
+#Adding PC1 & PC2 to df--------------------------------------------------------
+# Add PCs to the dataframe as variables: 
+df_i_bd$PPC1 <- precip.PCA.bd.i$x[,"PC1"]
+df_i_bd$PPC1 <- as.numeric(unlist(df_i_bd$PPC1))
+df_i_bd$PPC2 <- precip.PCA.bd.i$x[,"PC2"]
+df_i_bd$PPC2 <- as.numeric(unlist(df_i_bd$PPC2))
+```
+
+```{r, fig.height= 8, fig.width=10}
+#{factoextra}
+#PCA Scree plot:
+library(factoextra)
+fviz_eig(precip.PCA.bd.i)
+
+#Visualizing loadings----------------------------------------------------------
+#PCA Loadings:
+fviz_pca_var(precip.PCA.bd.i, col.var = "contrib")
+
+#Contributions to Precipitation PC1
+fviz_contrib(precip.PCA.bd.i, choice = "var", axes = 1)
+#For PC1 the variables below all contribute the most
+#BIO12: Annual Precipitation (0.410) Wetter year round
+#BIO17: Precipitation during driest quarter (0.383) Wetter dry season
+#BIO19: Precipitation of coldest quarter (0.383) Wetter cold season
+#BIO16: Precipitation of wettest quarter (0.379) Wetter year round
+#BIO13: Precipitation of wettest month (0.369) wetter wet season
+#BIO14: Precipitation of driest month (0.364) wetter dry month
+
+#Contributions to Precipitation PC2
+fviz_contrib(precip.PCA.bd.i, choice = "var", axes = 2)
+#For PC2 the variables below all contribute the most:
+#FAR AND LARGE: BIO15: Seasonality coefficient (larger = more variable precip) (0.718) More variable precipitation thorough the year 
+
+var1=get_pca_var(precip.PCA.bd.i)
+var1
+corrplot(var1$cos2, is.corr=FALSE)
+precip.PCA.bd.i
+
+```
+
+```{r}
+## Plot PCA Results: 
+# Plot PC1 and PC2 by site (all points appear in black): 
+autoplot(precip.PCA.bd.i) # colour = 'site') 
+# This plot prints proper PCA output. I can't get this to colour by site though because site isn't a variable in the PCA dataset
+```
+
+```{r}
+Bd_c <- c("darkgrey","#40B0A6")
+## Plot PCA Results: 
+df_p_bd$Status_Bd <- as.factor(df_p_bd$Status_Bd)
+library(ggplot2)
+p1 <- ggplot(data=df_p_bd, aes(x=PPC1, y=PPC2, color=Status_Bd))
+p1 <- p1 + geom_point(size=1.5) 
+p1 <- p1 + scale_colour_manual(breaks = df_p_bd$Status_Bd, values = Bd_c)
+#p1 <- p1 + geom_jitter(position = position_jitter(width = 0.1), alpha = 1/3, size=2.5)
+p1 <- p1 + labs(x = "PPC1 69.3%", y = "PPC2 26.5%", color="Bd Status")
+#p1 <- p1 + scale_y_continuous(limits=c(-0.3,0.3), breaks = c(-0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3))
+#p1 <- p1 + scale_x_continuous(limits=c(-0.5,0.3), breaks = c(-0.5, -0.4, -0.3, -0.1, 0, 0.1, 0.2, 0.3))
+p1 <- p1 + theme_bw()
+p1 <- p1 + theme(plot.background = element_blank())
+p1 <- p1 + theme(panel.grid.major = element_line())
+p1 <- p1 + theme(panel.grid.minor = element_line())
+p1 <- p1 + theme(panel.background = element_blank())
+print(p1)
+```
+
+We do see some clustering happening at some level where ranids have more diversity in points (there are literally more ranids that are infected, so no surprise there).
+
+```{r}
+lm.ppc1.bd.i <- glm( ~ PPC1, family = gaussian, data = df_i_bd)
+
+summary(lm.ppc1.bd.i)
+# Call:
+# glm(formula = LogSQ ~ PPC1, family = gaussian, data = df_i_bd)
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  1.80828    0.08361  21.627   <2e-16 ***
+# PPC1         0.03847    0.03474   1.107     0.27    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for gaussian family taken to be 1.349328)
+# 
+#     Null deviance: 259.38  on 192  degrees of freedom
+# Residual deviance: 257.72  on 191  degrees of freedom
+# AIC: 609.52
+# 
+# Number of Fisher Scoring iterations: 2
+
+exp(coef(lm.ppc1.bd.i))
+# (Intercept)        PPC1 
+#    6.099965    1.039220 
+
+#Rv-----------------------------------------------------------------------
+lm.ppc1.rv.i <- glm(LogSQ ~ PPC1, family = gaussian, data = df_i_rv)
+
+summary(lm.ppc1.rv.i)
+# Call:
+# glm(formula = LogSQ ~ PPC1, family = gaussian, data = df_i_rv)
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  1.54490    0.21079   7.329 6.97e-08 ***
+# PPC1        -0.05800    0.07193  -0.806    0.427    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for gaussian family taken to be 1.288565)
+# 
+#     Null deviance: 35.629  on 28  degrees of freedom
+# Residual deviance: 34.791  on 27  degrees of freedom
+# AIC: 93.578
+# 
+# Number of Fisher Scoring iterations: 2
+
+exp(coef(lm.ppc1.rv.i))
+# (Intercept)        PPC1 
+#   4.6875087   0.9436455 
+
+```
+
+Bd: Not considering anything else in the data, there is NOT a significant relationship between PPC1 and Bd intensity. Rv: Not considering anything else in the data, there is NOT a significant relationship between PPC1 and Rv intensity.
+
+```{r}
+lm.ppc2.bd.i <- glm(LogSQ ~ PPC2, family = gaussian, data = df_i_bd)
+
+summary(lm.ppc2.bd.i)
+# Call:
+# glm(formula = LogSQ ~ PPC2, family = gaussian, data = df_i_bd)
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  1.80828    0.08377  21.587   <2e-16 ***
+# PPC2         0.04448    0.06165   0.722    0.471    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for gaussian family taken to be 1.354297)
+# 
+#     Null deviance: 259.38  on 192  degrees of freedom
+# Residual deviance: 258.67  on 191  degrees of freedom
+# AIC: 610.23
+# 
+# Number of Fisher Scoring iterations: 2
+
+exp(coef(lm.ppc2.bd.i))
+# (Intercept)        PPC2 
+#    6.099965    1.045482 
+
+
+#Rv----------------------------------------------------------------------
+lm.ppc2.rv.i <- glm(LogSQ ~ PPC2, family = gaussian, data = df_i_rv)
+
+
+summary(lm.ppc2.rv.i)
+# Call:
+# glm(formula = LogSQ ~ PPC2, family = gaussian, data = df_i_rv)
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  1.54490    0.21304   7.252 8.45e-08 ***
+# PPC2        -0.05069    0.19059  -0.266    0.792    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for gaussian family taken to be 1.316153)
+# 
+#     Null deviance: 35.629  on 28  degrees of freedom
+# Residual deviance: 35.536  on 27  degrees of freedom
+# AIC: 94.193
+# 
+# Number of Fisher Scoring iterations: 2
+
+exp(coef(lm.ppc2.rv.i))
+# (Intercept)        PPC2 
+#   4.6875087   0.9505702 
+```
+
+Bd: Not considering anything else in the data, there is NOT a significant relationship between PPC2 and Bd intensity.
+
+Rv: Not considering anything else in the data, there is NOT a significant relationship between PPC2 and Rv intensity.
+#-----------------------------------------------
+
+## Standardize input variables prior to beginning modeling - Bd
+
+
+**Model specification (set of candidate models to consider) notes:**
+Null model: intercept Global model: Family + elev + TPC1 + TPC2 + PPC1 + PPC2 + (lat colinear with TPC1 - keep TPC1 instead)
+
+H0: little to no lack of fit 
+HA: model does not fit the data
+```{r}
+# Standardizing allows you to interpret model parameters that are all set to different scales
+# Here, I'll use the scale function from base R. This centers the data and divides by 2 SD (as recommended in Gelman 2008)
+
+# Centering = subtract the mean
+# standardizing = divides by 2 SD
+# Note: # Family and Species binomial - can't standardize because you can't take the mean of a factor variable
+# x1 <- (x1-mean(x1))/(2*sd(x1))   # TEMPLATE: standardization by Gelman method
+
+# Elevation---------------------------------------------------------------------
+elev.z                <- scale(df_i_bd$Elevation_30s)
+df_i_bd$elev.z        <- as.numeric(unlist(elev.z))
+elev.z.1              <- scale(df_p_bd$Elevation_30s)
+df_p_bd$elev.z.1      <- as.numeric(unlist(elev.z.1))
+
+# TPC1--------------------------------------------------------------------
+TPC1.z                <- scale(df_i_bd$TPC1)
+df_i_bd$TPC1.z        <- as.numeric(unlist(TPC1.z))
+TPC1.z.1              <- scale(df_p_bd$TPC1)
+df_p_bd$TPC1.z.1      <- as.numeric(unlist(TPC1.z.1))
+
+# TPC2--------------------------------------------------------------------
+TPC2.z                <- scale(df_i_bd$TPC2)
+df_i_bd$TPC2.z        <- as.numeric(unlist(TPC2.z))
+TPC2.z.1              <- scale(df_p_bd$TPC2)
+df_p_bd$TPC2.z.1      <- as.numeric(unlist(TPC2.z.1))
+
+# PPC1--------------------------------------------------------------------
+PPC1.z                <- scale(df_i_bd$PPC1)
+df_i_bd$PPC1.z        <- as.numeric(unlist(PPC1.z))
+PPC1.z.1              <- scale(df_p_bd$PPC1)
+df_p_bd$PPC1.z.1      <- as.numeric(unlist(PPC1.z.1))
+
+# PPC2--------------------------------------------------------------------
+PPC2.z                <- scale(df_i_bd$PPC2)
+df_i_bd$PPC2.z        <- as.numeric(unlist(PPC2.z))
+PPC2.z.1              <- scale(df_p_bd$PPC2)
+df_p_bd$PPC2.z.1      <-  as.numeric(unlist(PPC2.z.1))
+
+# lat--------------------------------------------------------------------
+lat.z                 <- scale(df_i_bd$Latitude)
+df_i_bd$lat.z         <- as.numeric(unlist(lat.z))
+lat.z.1               <- scale(df_p_bd$Latitude)
+df_p_bd$lat.z.1       <- as.numeric(unlist(lat.z.1))
+
+```
+
+Rv:
+```{r}
+# Elevation---------------------------------------------------------------------
+elev.zr               <- scale(df_i_rv$Elevation_30s)
+df_i_rv$elev.zr       <- as.numeric(unlist(elev.zr))
+elev.zr.1             <- scale(df_p_rv$Elevation_30s)
+df_p_rv$elev.zr.1     <- as.numeric(unlist(elev.zr.1))
+
+# TPC1--------------------------------------------------------------------
+TPC1.zr               <- scale(df_i_rv$TPC1)
+df_i_rv$TPC1.zr       <- as.numeric(unlist(TPC1.zr))
+TPC1.zr.1             <- scale(df_p_rv$TPC1)
+df_p_rv$TPC1.zr.1     <- as.numeric(unlist(TPC1.zr.1))
+
+# TPC2--------------------------------------------------------------------
+TPC2.zr               <- scale(df_i_rv$TPC2)
+df_i_rv$TPC2.zr       <- as.numeric(unlist(TPC2.zr))
+TPC2.zr.1             <- scale(df_p_rv$TPC2)
+df_p_rv$TPC2.zr.1     <- as.numeric(unlist(TPC2.zr.1))
+
+# PPC1--------------------------------------------------------------------
+PPC1.zr               <- scale(df_i_rv$PPC1)
+df_i_rv$PPC1.zr       <- as.numeric(unlist(PPC1.zr))
+PPC1.zr.1             <- scale(df_p_rv$PPC1)
+df_p_rv$PPC1.zr.1     <- as.numeric(unlist(PPC1.zr.1))
+
+# PPC2--------------------------------------------------------------------
+PPC2.zr               <- scale(df_i_rv$PPC2)
+df_i_rv$PPC2.zr       <- as.numeric(unlist(PPC2.zr))
+PPC2.zr.1             <- scale(df_p_rv$PPC2)
+df_p_rv$PPC2.zr.1     <-  as.numeric(unlist(PPC2.zr.1))
+
+# lat--------------------------------------------------------------------
+lat.zr                <- scale(df_i_rv$Latitude)
+df_i_rv$lat.zr        <- as.numeric(unlist(lat.zr))
+lat.zr.1              <- scale(df_p_rv$Latitude)
+df_p_rv$lat.zr.1      <- as.numeric(unlist(lat.zr.1))
+```
+
+```{r}
+#Creating exportable dataframe to run model selection with scaled data and shortened column names
+# change column name for x columnnames(df_i_bd)[names(df_i_bd) == "Species_binomial"] <- "Sp"
+
+names(df_i_bd)[names(df_i_bd) == "Elev.z"]            <- "Elev.z"
+names(df_i_bd)[names(df_i_bd) == "TPC1.z"]            <- "TPC1.z"
+names(df_i_bd)[names(df_i_bd) == "TPC2.z"]            <- "TPC2.z"
+names(df_i_bd)[names(df_i_bd) == "PPC1.Z"]            <- "PPC1.z"
+names(df_i_bd)[names(df_i_bd) == "PPC2.z"]            <- "PPC2.z"
+
+lm_Bdi_df <- df_i_bd[, c(1:78)]
+
+str(lm_Bdi_df)
+
+# Write pca.varlist to .csv
+
+write.csv(lm_Bdi_df, file = "Bd_intensity_fullmodel_dataset_w_scaled_data.csv", col.names = TRUE, row.names = FALSE)
+
+names(df_i_rv)[names(df_i_rv) == "Species_binomial"] <- "Sp"
+names(df_i_rv)[names(df_i_rv) == "Family"]   <- "Fam"
+names(df_i_rv)[names(df_i_rv) == "Catalogue_Number"]  <- "ID"
+names(df_i_rv)[names(df_i_rv) == "Sex"]  <- "Sex"
+names(df_i_rv)[names(df_i_rv) == "Age"]   <- "Age"
+names(df_i_rv)[names(df_i_rv) == "LogSQ"]  <- "LogSQ"
+names(df_i_rv)[names(df_i_rv) == "Final_Rv_Status"]  <- "Status"
+names(df_i_rv)[names(df_i_rv) == "Elev.z"] <- "Elev.z"
+names(df_i_rv)[names(df_i_rv) == "TPC1.z"] <- "TPC1.z"
+names(df_i_rv)[names(df_i_rv) == "TPC2.z"]  <- "TPC2.z"
+names(df_i_rv)[names(df_i_rv) == "PPC1.Z"]   <- "PPC1.z"
+names(df_i_rv)[names(df_i_rv) == "PPC2.z"]  <- "PPC2.z"
+
+
+lm_Rvi_df <- df_i_rv[, c(1:78)]
+
+# Write pca.varlist to .csv
+
+write.csv(lm_Rvi_df, file = "Rv_intensity_fullmodel_dataset_w_scaled_data.csv")
+```

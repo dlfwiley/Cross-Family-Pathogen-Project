@@ -1,0 +1,3156 @@
+---
+title: "Exploration and statistical analyses of prevalence and infection intensity and potential predictor variables for model selection for all pathogens (Bd, Pr, Rv)"
+author: Dani Wiley
+date:   last-modified
+editor: visual
+description: |
+  Explores the data, summarizing singular relationships between independent and dependent variables and running simple hypothesis tests to understand patterns in the data. Contact dlfwiley@gmail.com with any questions or requests for more information.
+
+format:
+  html:
+    theme:            litera
+    highlight-style:  atom-one
+    page-layout:      full      # article, full   # https://quarto.org/docs/output-formats/page-layout.html
+    toc:              true
+    toc-location:     body  # body, left, right
+    number-sections:  false
+    self-contained:         false     # !!! this can cause a render error
+    code-overflow:          scroll    # scroll, wrap
+    code-block-bg:          true
+    code-block-border-left: "#30B0E0"
+    code-copy:              false     # true, false, hover a copy buttom in top-right of code block
+---
+
+#-----------------------------------------------
+# Patterns in the data summary
+
+In pt 1 and pt 2 of the All_Pathogen_Statistical_Analyses.qmd, we explore the data in various ways, depending on the type of variables and relationships we are interested in testing. Overall summaries are listed here for convenience.
+
+Pt 2 (this document) covers analyses relating to infection intensity.
+
+1\) Chi-squared analysis (categorical independent and dependent variables)
+
+-   **Family v. infection status**
+
+    -   Bd - signif difference between observed and expected. Ranidae higher, Bufonidae & Hylidae lower than expected.
+
+    -   Pr - no signif difference between observed and expected, but low sample size.
+
+    -   Rv - signif difference between observed and expected. Ranidae higher, Bufonidae & Hylidae lower than expected.
+
+-   **Species v. infection status**
+
+    -   Bd - signif difference between observed and expected, Rana spp higher, all other non-Ranid spp lower than expected other than *P. crucifer* & *A. americanus*.
+
+    -   Pr - no signif difference between observed and expected, but low sample size.
+
+    -   Rv - signif difference between observed and expected. *R. catesbeiana* & *R. clamitans* higher, all but *R. sphenocephala* lower than expected.
+    
+-   **Age class vs. infection status**
+
+    -   Bd - No signif difference between observed and expected.
+    
+    -   Pr - No signif difference between observed and expected.
+
+    -   Rv - signif difference between observed and expected. Juveniles higher.
+
+-   **Sex vs. infection status**
+
+    -   Not signif for any pathogen.
+
+
+-   **Tissue type vs. infection status**
+
+    -   Bd - signif difference between observed and expected. External + combination tissue extracts are higher, while internal only are lower.
+    
+
+2\) Two tailed t-test (categorical independent variable of two groups and continuous dependent variable)
+
+-   **Age class v. infection intensity**
+
+    -   Bd - signif difference in means. Juveniles higher intensity.
+
+    -   Pr - not enough data.
+
+    -   Rv - no signif difference in means.
+    
+
+-   **Sex v. infection intensity**
+
+    -   Bd - no signif difference in means.
+
+    -   Pr - not enough data.
+
+    -   Rv - not enough data.
+
+-   **Single/coinfection v. infection intensity**
+    
+    -   Bd only v. Bd+Rv coinfection - no signif difference in Bd intensity means.
+    
+    -   Rv only v. Bd+Rv coinfection - no signif difference in Rv intensity means.
+    
+    -   Bd only v. Bd+Pr coinfection - no signif difference in Bd intensity means.
+    
+    -   Rv only v. Bd+Pr coinfection - no signif difference in Pr intensity means. 
+
+3\) Analysis of Variance (categorical independent variables with at least 3 or more categories and continuous dependent variable)
+
+-   **Family v. infection intensity**
+
+    -   Bd - signif difference in means. 
+
+        -   Post-hoc Tukey shows signif difference in means between Bufonidae and Ranidae.
+
+    -   Pr - no signif difference in means.
+
+    -   Rv - signif difference in means.
+
+        -   Post-hoc T-test w/ Bonferonni correction shows signif difference in means between Hylidae & Ranidae
+
+-   **Species v. infection intensity**
+
+    -   Bd - signif difference in means
+
+        -   Post-hoc Games Howell Test shows signif differences in means between *R. clamitans* vs. *A. americanus* & *R. catesbeiana*, & *R. pipiens*.
+
+    -   Pr - not enough data.
+
+    -   Rv - no signif difference in means.
+    
+-   **TPC1 v. infection status**
+
+    -   Signif difference in mean TPC1 between infected & uninfected individuals for all pathogens. 
+    
+-   **TPC2 v. infection status**
+
+    -   Bd signif difference in mean TPC2 between infected & uninfected individuals.
+    
+    -   Pr signif difference in mean TPC2 between infected & uninfected individuals.
+    
+    -   Rv no signif difference.
+    
+
+-   **PPC1 v. infection status**
+
+    -   No signif difference in means between infected and uninfected for any pathogen.
+    
+-   **PPC2 v. infection status**
+
+    -   Bd - Signif difference in mean PPC2 between infected and uninfected individuals. 
+    
+        -   Bd infected with higher average PPC2 values compared to uninfected.
+
+4\) Logistic regression (continuous independent variable and categorical dependent variables)
+
+-   **Latitude v. infection status**
+
+    -   Bd - signif correlation between latitude and odds ratio of Bd infection. Higher lat = higher probability of infection.
+
+    -   Pr - not enough data.
+
+    -   Rv - signif correlation between latitude and odds ratio of Rv infection. Higher lat = higher probability.
+
+-   **Elevation v. infection status**
+
+    -   Bd - No signif correlation between elevation and odds ratio of infection.
+    
+    -   Pr not enough data.
+    
+    -   Rv - No signif correlation between elevation and odds ratio of infection.
+    
+-   **TPC1 v. infection status**
+
+    -   Bd - Signif correlation between TPC1 and odds ratio of infection. 
+    
+        -   Lower TPC1 = higher probability of infection.
+  
+    -   Pr - Not enough data.
+    
+    -   Rv - Signif correlation between TPC1 and odds ratio of infection. 
+    
+        -   Lower TPC1 = higher probability of infection.
+        
+-   **TPC2 v. infection status**
+
+    -   Bd - Signif correlation between TPC2 and odds ratio of infection.
+      
+        -   Lower TPC2 = higher probability of infection.
+    
+    -   Pr - Signif correlation between TPC2 and odds ratio of infection.
+    
+        -   Lower TPC2 = higher probability of infection, but low sample sizes.
+    
+    -   Rv - No signif correlation between TPC2 and odds ratio of infection.
+    
+-   **PPC1 v. infection status**
+
+    -   No signif correlation between PPC1 and odds ratio of any pathogen.
+    
+-   **PPC2 v. infection status**
+
+    -   Bd -  Signif correlation between TPC2 and odds ratio of infection. 
+    
+        -   Higher PPC2 = higher probability of infection.
+    
+
+5\) Linear regression (continuous independent variable and continuous dependent variable)
+
+-   **Latitude v. infection intensity**
+
+    -   No signif correlation in infection intensity and latitude for all pathogens.
+
+-   **Elevation v. infection intensity**
+
+    -   No signif correlation in infection intensity and latitude for all pathogens.
+    
+-   **TPC1 v. infection intensity**
+
+    -   No signif correlation in infection intensity and latitude for all pathogens. 
+    
+-   **TPC2 v. infection intensity**
+
+    -   No signif correlation in infection intensity and latitude for all pathogens.
+    
+-   **PPC1 v. infection intensity**
+
+    -   No signif correlation in infection intensity and latitude for all pathogens.
+    
+-   **PPC2 v. infection intensity**
+
+    -   No signif correlation in infection intensity and latitude for all pathogens.
+
+#-----------------------------------------------
+# Load libraries
+
+```{r}
+library(dplyr)
+library(tidyverse)
+library(car)
+library(GGally)
+library(stats)
+library(gplots)
+library(ggplot2)
+library(arm) 
+library(ggfortify)
+library(erikmisc)
+library(rcompanion)
+library(binom)
+```
+
+#Load intensity data
+last updated 8/22/2024
+
+```{r}
+#Infection intensity datasets:---------------------------------------------------
+#Bd intensity dataset: contains all individuals screened for Bd
+df_i_bd <- read.csv("All_Pathogen_Dataset.csv")
+df_i_bd <- filter(df_i_bd, !is.na(df_i_bd$Status_Bd))
+#Note that this removes "low" individuals, as we could not average SQ values in a meaningful way
+df_i_bd <-filter(
+  df_i_bd, df_i_bd$Confirmed_Average_Bd_SQ != "low") #196. 
+df_i_bd <- subset(df_i_bd, df_i_bd$Confirmed_Log10_Average_Bd_SQ > 0) #192 observations
+
+#Pr intensity dataset: contains all individuals screened for Pr
+df_i_pr <- read.csv("All_Pathogen_Dataset.csv") 
+df_i_pr <- filter(df_i_pr, !is.na(df_i_pr$Status_Pr))
+#Note that this removes "low" individuals, as we could not average SQ values in a meaningful way.
+df_i_pr <-filter(
+  df_i_pr, df_i_pr$Confirmed_Average_Pr_SQ != "low") #10
+df_i_pr <- subset(df_i_pr, df_i_pr$Confirmed_Log10_Average_Pr_SQ > 0) #10 observations
+
+#Rv intensity dataset: ontains all individuals screened for Rv
+df_i_rv <- read.csv("All_Pathogen_Dataset.csv") 
+df_i_rv <- filter(df_i_rv, !is.na(df_i_rv$Status_Rv)) 
+#Note that this removes "low" individuals, as we could not average SQ values in a meaningful way. 
+df_i_rv <-filter(
+  df_i_rv, df_i_rv$Confirmed_Average_Rv_SQ != "low") #29
+df_i_rv <- subset(df_i_rv, df_i_rv$Confirmed_Log10_Average_Rv_SQ> 0) #29 observations
+
+#Re-classifying variables for downstream analyses-------------------------------
+#SQ = Numeric
+df_i_bd$Confirmed_Average_Bd_SQ        <- as.numeric(df_i_bd$Confirmed_Average_Bd_SQ)
+df_i_pr$Confirmed_Average_Pr_SQ        <- as.numeric(df_i_pr$Confirmed_Average_Pr_SQ)
+df_i_rv$Confirmed_Average_Rv_SQ        <- as.numeric(df_i_rv$Confirmed_Average_Rv_SQ)
+
+#Fam = categorical, factor; Bufonidae, Hylidae, Ranidae
+df_i_bd$Fam                         <- as.factor(df_i_bd$Fam)
+df_i_pr$Fam                         <- as.factor(df_i_pr$Fam)
+df_i_rv$Fam                         <- as.factor(df_i_rv$Fam)
+
+#Final_Pathogen_Status = categorical, binomial 1=infected 0=uninfected
+df_i_bd$Status_Bd                <- as.factor(df_i_bd$Status_Bd)
+df_i_pr$Status_Pr                <- as.factor(df_i_pr$Status_Pr)
+df_i_rv$Status_Rv                <- as.factor(df_i_rv$Status_Rv)
+
+#For species comparisons (see notes in section)
+Bd_spp_df <- subset(df_i_bd
+                    , df_i_bd$Sp == "Anaxyrus americanus" |
+                      df_i_bd$Sp == "Pseudacris crucifer" |
+                      df_i_bd$Sp == "Rana catesbeiana" |
+                      df_i_bd$Sp == "Rana clamitans" |
+                      df_i_bd$Sp == "Rana pipiens" |
+                      df_i_bd$Sp == "Rana sphenocephala" )
+Rv_spp_df <- subset(df_i_rv
+                    , df_i_rv$Sp == "Rana catesbeiana" |
+                      df_i_rv$Sp == "Rana clamitans")
+
+#Sp = categorical, factor (see tables below)
+df_i_bd$Sp               <- as.factor(df_i_bd$Sp)
+df_i_pr$Sp               <- as.factor(df_i_pr$Sp)
+df_i_rv$Sp               <- as.factor(df_i_rv$Sp)
+
+Bd_spp_df$Sp              <- as.factor(Bd_spp_df$Sp)
+Rv_spp_df$Sp              <- as.factor(Rv_spp_df$Sp)
+#MUTATION OF SEX CHARACTERISTICS--------------------------------------------------
+#For simplicity, we are including female ? as female & male ? as male (n<15 individuals total), creating separate dataframes for female v. male only that exclude unknown sex rows.
+Sexconditions         <- c("female ?", "male ?")
+Sexreplacement_values <- c("female", "male")
+
+#Use replace() to replace the names in the 'Sex' column
+df_i_bd$Sex <- replace(df_i_bd$Sex, df_i_bd$Sex %in% Sexconditions, Sexreplacement_values)
+sx_df_i_bd  <- subset(df_i_bd,  
+                      df_i_bd$Sex == "female" | 
+                      df_i_bd$Sex == "male")
+
+
+
+df_i_pr$Sex <- replace(df_i_pr$Sex, df_i_pr$Sex %in% Sexconditions, Sexreplacement_values)
+sx_df_i_pr  <- subset(df_i_pr,  
+                       df_i_pr$Sex %in% c('female','male'))
+
+
+df_i_rv$Sex <- replace(df_i_rv$Sex, df_i_rv$Sex %in% Sexconditions, Sexreplacement_values)
+sx_df_i_rv  <- subset(df_i_rv,  
+                       df_i_rv$Sex %in% c('female','male'))
+
+df_i_bd$Sex <- as.factor(df_i_bd$Sex)
+df_i_pr$Sex <- as.factor(df_i_pr$Sex)
+df_i_rv$Sex <- as.factor(df_i_rv$Sex)
+
+#MUTATION OF AGE CLASS------------------------------------------------------------
+#Creating separate dataframes for adult v. juvenile - excluding unknown age class rows and excluding larva (n=8), as no infections were found in this group to avoid 0 values.
+
+ag_df_i_bd  <- subset(df_i_bd, 
+                      df_i_bd$Age == "adult" | 
+                      df_i_bd$Age == "juvenile")
+ag_df_i_pr <- subset(df_i_pr,
+                      df_i_pr$Age == "adult" | 
+                      df_i_pr$Age == "juvenile")
+ag_df_i_rv <- subset(df_i_rv,
+                      df_i_rv$Age == "adult" | 
+                      df_i_rv$Age == "juvenile")
+
+Bd.a.df <- subset(ag_df_i_bd, ag_df_i_bd$Age == "adult") #128
+Bd.j.df <- subset(ag_df_i_bd, ag_df_i_bd$Age == "juvenile") #30
+
+Pr.a.df <- subset(ag_df_i_pr, ag_df_i_pr$Age == "adult") #5
+Pr.j.df <- subset(ag_df_i_pr, ag_df_i_pr$Age == "juvenile") #1
+
+Rv.a.df <- subset(ag_df_i_rv, ag_df_i_rv$Age == "adult") #16
+Rv.j.df <- subset(ag_df_i_rv, ag_df_i_rv$Age == "juvenile") #7
+
+ag_df_i_bd$Age <- as.factor(ag_df_i_bd$Age)
+ag_df_i_pr$Age <- as.factor(ag_df_i_pr$Age)
+ag_df_i_rv$Age <- as.factor(ag_df_i_rv$Age)
+
+
+#MUTATION OF TISSUE CHARACTERISTICS-----------------------------------------------
+#For simplicity, we are interested in external only vs. internal only vs combination of tissues used and its affects on infection Bd infection intensity. A more formalized experimental version of this study was completed by Torres A., Wiley D. et al., 2024 that showed significant detection differences between tissue types used in our established qPCR protocol (DOI: 10.7589/JWD-D-24-00025).
+
+names(df_i_bd)[45] <- paste("Bd_Tissue")
+names(df_i_pr)[46] <- paste("Pr_Tissue")
+names(df_i_rv)[47] <- paste("Rv_Tissue")
+
+df_i_bd$Bd_Tissue[df_i_bd$Bd_Tissue=="Liver_included_no_skin"]  <-"Internal_tissues"
+df_i_bd$Bd_Tissue[df_i_bd$Bd_Tissue=="Liver_muscle"]            <-"Internal_tissues"
+df_i_bd$Bd_Tissue[df_i_bd$Bd_Tissue=="Liver_only"]              <-"Internal_tissues"
+df_i_bd$Bd_Tissue[df_i_bd$Bd_Tissue=="Muscle_only"]             <-"Internal_tissues"
+df_i_bd$Bd_Tissue[df_i_bd$Bd_Tissue=="Toe_only"]                <-"External_tissues"
+df_i_bd$Bd_Tissue[df_i_bd$Bd_Tissue=="Whole_organism"]          <-"External_tissues"
+df_i_bd$Bd_Tissue[df_i_bd$Bd_Tissue=="Liver_toe"]               <-"Combination"
+df_i_bd$Bd_Tissue[df_i_bd$Bd_Tissue=="Muscle_toe"]              <-"Combination"
+
+df_i_pr$Pr_Tissue[df_i_pr$Pr_Tissue=="Liver_included_no_skin"]  <-"Internal_tissues"
+df_i_pr$Pr_Tissue[df_i_pr$Pr_Tissue=="Liver_muscle"]            <-"Internal_tissues"
+df_i_pr$Pr_Tissue[df_i_pr$Pr_Tissue=="Liver_only"]              <-"Internal_tissues"
+df_i_pr$Pr_Tissue[df_i_pr$Pr_Tissue=="Muscle_only"]             <-"Internal_tissues"
+df_i_pr$Pr_Tissue[df_i_pr$Pr_Tissue=="Toe_only"]                <-"External_tissues"
+df_i_pr$Pr_Tissue[df_i_pr$Pr_Tissue=="Whole_organism"]          <-"External_tissues"
+df_i_pr$Pr_Tissue[df_i_pr$Pr_Tissue=="Liver_toe"]               <-"Combination"
+df_i_pr$Pr_Tissue[df_i_pr$Pr_Tissue=="Muscle_toe"]              <-"Combination"
+
+df_i_rv$Rv_Tissue[df_i_rv$Rv_Tissue=="Liver_included_no_skin"]  <-"Internal_tissues"
+df_i_rv$Rv_Tissue[df_i_rv$Rv_Tissue=="Liver_muscle"]            <-"Internal_tissues"
+df_i_rv$Rv_Tissue[df_i_rv$Rv_Tissue=="Liver_only"]              <-"Internal_tissues"
+df_i_rv$Rv_Tissue[df_i_rv$Rv_Tissue=="Muscle_only"]             <-"Internal_tissues"
+df_i_rv$Rv_Tissue[df_i_rv$Rv_Tissue=="Toe_only"]                <-"External_tissues"
+df_i_rv$Rv_Tissue[df_i_rv$Rv_Tissue=="Whole_organism"]          <-"External_tissues"
+df_i_rv$Rv_Tissue[df_i_rv$Rv_Tissue=="Liver_toe"]               <-"Combination"
+df_i_rv$Rv_Tissue[df_i_rv$Rv_Tissue=="Muscle_toe"]              <-"Combination"
+#Mutation of sample type for external/internal comparison
+tiss_bd_df_i <-   subset(df_i_bd
+                     , df_i_bd$Bd_Tissue == "Combination" |
+                       df_i_bd$Bd_Tissue == "External_tissues" | 
+                       df_i_bd$Bd_Tissue == "Internal_tissues" )
+tiss_pr_df_i <-   subset(df_i_pr
+                     , df_i_pr$Pr_Tissue == "Combination" |
+                       df_i_pr$Pr_Tissue == "External_tissues" | 
+                       df_i_pr$Pr_Tissue == "Internal_tissues" )
+tiss_rv_df_i <-   subset(df_i_rv
+                     , df_i_rv$Rv_Tissue == "Combination" |
+                       df_i_rv$Rv_Tissue == "External_tissues" | 
+                       df_i_rv$Rv_Tissue == "Internal_tissues" )
+
+Bd_exto_tiss_i <- subset(tiss_bd_df_i
+                       , tiss_bd_df_i$Bd_Tissue == "Combination" |
+                         tiss_bd_df_i$Bd_Tissue == "External_tissues" |
+                         tiss_bd_df_i$Bd_Tissue == "Internal_tissues")
+
+Bd_exto_tiss_i$Bd_Tissue[Bd_exto_tiss_i$Bd_Tissue=="Combination"]       <-"Exto"
+Bd_exto_tiss_i$Bd_Tissue[Bd_exto_tiss_i$Bd_Tissue=="External_tissues"]  <-"Exto"
+
+Bd_exto_i <- subset(Bd_exto_tiss_i
+                    , Bd_exto_tiss_i$Bd_Tissue == "Exto") #180 samples of external/combination
+Bd_inter_i <- subset(Bd_exto_tiss_i
+                     , Bd_exto_tiss_i$Bd_Tissue == "Internal_tissues") # 12 samples of internal-only
+
+Pr_exto_tiss_i <- subset(tiss_pr_df_i
+                       , tiss_pr_df_i$Pr_Tissue == "Combination" |
+                         tiss_pr_df_i$Pr_Tissue == "External_tissues" |
+                         tiss_pr_df_i$Pr_Tissue == "Internal_tissues")
+
+Pr_exto_tiss_i$Pr_Tissue[Pr_exto_tiss_i$Pr_Tissue=="Combination"]       <-"Exto"
+Pr_exto_tiss_i$Pr_Tissue[Pr_exto_tiss_i$Pr_Tissue=="External_tissues"]  <-"Exto"
+
+Rv_exto_tiss_i <- subset(tiss_rv_df_i
+                       , tiss_rv_df_i$Rv_Tissue == "Combination" |
+                         tiss_rv_df_i$Rv_Tissue == "External_tissues" |
+                         tiss_rv_df_i$Rv_Tissue == "Internal_tissues")
+
+Rv_exto_tiss_i$Rv_Tissue[Rv_exto_tiss_i$Rv_Tissue=="Combination"]       <-"Exto"
+Rv_exto_tiss_i$Rv_Tissue[Rv_exto_tiss_i$Rv_Tissue=="External_tissues"]  <-"Exto"
+
+Bd.a.df_exto <- subset(Bd_exto_i, Bd_exto_i$Age == "adult") #36
+Bd.j.df_exto <- subset(Bd_exto_i, Bd_exto_i$Age == "juvenile") #6
+
+df_i_bd$Bd_Tissue <- as.factor(df_i_bd$Bd_Tissue)
+df_i_pr$Pr_Tissue <- as.factor(df_i_pr$Pr_Tissue)
+df_i_rv$Rv_Tissue <- as.factor(df_i_rv$Rv_Tissue)
+
+Bd_exto_tiss_i$Bd_Tissue <- as.factor(Bd_exto_tiss_i$Bd_Tissue)
+Pr_exto_tiss_i$Pr_Tissue <- as.factor(Pr_exto_tiss_i$Pr_Tissue)
+Rv_exto_tiss_i$Rv_Tissue <- as.factor(Rv_exto_tiss_i$Rv_Tissue)
+
+Bd.a.df_exto$Bd_Tissue <- as.factor(Bd.a.df_exto$Bd_Tissue)
+Bd.j.df_exto$Bd_Tissue <- as.factor(Bd.j.df_exto$Bd_Tissue)
+```
+
+## Tranforming response variable justification:
+last updated 8/22/2024
+## Sample distribution
+
+```{r}
+# RESPONSE VARIABLE (INFECTION INTENSITY) - continuous response
+# GROUPs (SPECIES) - categorical variable
+plotNormalHistogram(df_i_bd$Confirmed_Average_Bd_SQ) 
+qqPlot(df_i_bd$Confirmed_Average_Bd_SQ) 
+
+aovBd.fam <- aov(Confirmed_Average_Bd_SQ ~ Fam, data = df_i_bd)
+boxCox(aovBd.fam) #Recommendation to log transform the data. 
+
+aov.l.Bd.fam <- aov(Confirmed_Log10_Average_Bd_SQ~Fam, data = df_i_bd)
+e_plot_lm_diagnostics(aov.l.Bd.fam) 
+#Close to 1 - no transformations needed. 
+
+summary(df_i_bd$Confirmed_Log10_Average_Bd_SQ)
+#    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0.03126 0.85819 1.64105 1.81340 2.67513 4.61758 
+```
+
+**BD CONCLUSIONS:** Log transform our response variable.
+
+```{r}
+plotNormalHistogram(df_i_pr$Confirmed_Average_Pr_SQ) 
+qqPlot(df_i_pr$Confirmed_Average_Pr_SQ) 
+
+aovPr.fam <- aov(Confirmed_Average_Pr_SQ ~ Fam, data = df_i_pr)
+boxCox(aovPr.fam) #Recommendation to log transform the data. 
+
+#df_i_pr$LogSQ <- log10(df_i_pr$Confirmed_Average_Pr_SQ)
+aov.l.Pr.fam <- aov(Confirmed_Log10_Average_Pr_SQ~ Fam, data = df_i_pr)
+
+e_plot_lm_diagnostics(aov.l.Pr.fam)
+#Close to 1 - no transformations needed. 
+
+summary(df_i_pr$Confirmed_Log10_Average_Pr_SQ)
+ # Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ # 0.5795  1.6437  2.0589  2.1443  2.7270  3.5104 
+```
+
+**PR CONCLUSIONS:** Log transformation our response variable.
+
+```{r}
+plotNormalHistogram(df_i_rv$Confirmed_Average_Rv_SQ) 
+qqPlot(df_i_rv$Confirmed_Average_Rv_SQ) 
+
+aovRv.fam <- aov(Confirmed_Average_Rv_SQ ~ Fam, data = df_i_rv)
+boxCox(aovRv.fam) #Recommendation to log transform the data.
+
+#df_i_rv$LogSQ <- log10(df_i_rv$Confirmed_Average_Rv_SQ)
+aov.l.Rv.fam <- aov(Confirmed_Log10_Average_Rv_SQ~Fam, data = df_i_rv)
+
+e_plot_lm_diagnostics(aov.l.Rv.fam)
+#Close to 1 - no transformations needed. 
+
+summary(df_i_rv$Confirmed_Log10_Average_Rv_SQ)
+ # Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ #  0.100   0.700   1.190   1.545   2.090   4.270 
+```
+
+**RV CONCLUSIONS:** Log transforming our response variable.
+
+------------------------------------------------------------------------
+
+**OVERALL: Bd, Rv & Pr infection intensity response variable needs** $logSQ$ **transformation.**
+After consultation with UNM Statistics & Mathematics consultation (Erin Schwertner-Watson, MS) & Dr. Erik Ernhardt, we will log transform infection intensity and *NOT* take the square root. This is because normality, residuals, etc., look acceptable with the log(SQ) and the less transformations (i.e. the simpler model) is best for clarity.
+
+**Observations 22 (DLFW 298), 15 (LNB 2325), and 40 (LNB 2955) have leverage and high Cook's distance compared to other points. When we look at family-level comparisons, we see DLFW 298 and LNB 2955 are in A. americanus with higher intensity than other Bufonidae samples. These samples will make our relationships more conservative. LNB 2325 is H. chrys/versicolor and drops out in interspecific comparisons.**
+
+------------------------------------------------------------------------
+#-----------------------------------------------
+#PT 2 START: Infection intensity
+
+## Family v. intensity
+
+#### Bd: Significantly different 
+
+#### Pr: Not significantly different 
+
+#### Rv: Significantly different 
+
+#### Distribution summary by family
+```{r}
+#Removing un-infected individuals from dataframes for direct comparisons. 
+
+#subsetting by Fam for infection intensity data
+#Bd ---------------------------------------------------------------#
+Bd_Bufo_df <- subset(df_i_bd, df_i_bd$Fam == "Bufonidae") #19 observations
+Bd_Hyli_df <- subset(df_i_bd, df_i_bd$Fam == "Hylidae") #25 observations
+Bd_Rani_df <- subset(df_i_bd, df_i_bd$Fam == "Ranidae") #148 observations
+
+#Pr ---------------------------------------------------------------#
+Pr_Bufo_df <- subset(df_i_pr, df_i_pr$Fam == "Bufonidae") #2 observations
+Pr_Hyli_df <- subset(df_i_pr, df_i_pr$Fam == "Hylidae") #3 observations
+Pr_Rani_df <- subset(df_i_pr, df_i_pr$Fam == "Ranidae") #5 observations
+
+#Rv ---------------------------------------------------------------#
+Rv_Bufo_df <- subset(df_i_rv, df_i_rv$Fam == "Bufonidae") #2 observations
+Rv_Hyli_df <- subset(df_i_rv, df_i_rv$Fam == "Hylidae") #3 observations
+Rv_Rani_df <- subset(df_i_rv, df_i_rv$Fam == "Ranidae") #24 observations
+```
+
+```{r}
+#calculate means after removing NA's from each Fam's SQ
+#Bd intensity summaries by Fam------------------------------------------------
+summary(Bd_Bufo_df$Confirmed_Log10_Average_Bd_SQ)
+summary(Bd_Hyli_df$Confirmed_Log10_Average_Pr_SQ)
+summary(Bd_Rani_df$Confirmed_Log10_Average_Rv_SQ)
+
+#Pr intensity summaries by Fam------------------------------------------------
+summary(Pr_Bufo_df$Confirmed_Log10_Average_Bd_SQ)
+summary(Pr_Hyli_df$Confirmed_Log10_Average_Pr_SQ)
+summary(Pr_Rani_df$Confirmed_Log10_Average_Rv_SQ)
+
+#Rv intensity summaries by Fam------------------------------------------------
+summary(Rv_Bufo_df$Confirmed_Log10_Average_Bd_SQ)
+summary(Rv_Hyli_df$Confirmed_Log10_Average_Pr_SQ)
+summary(Rv_Rani_df$Confirmed_Log10_Average_Rv_SQ)
+```
+
+#### Analysis of variance: Family
+Bd:
+```{r}
+#Bd-------------------------------------------------------------------------------
+#Levene’s test for Bd - PASSED
+#$H_0$: variances are equal
+#$H_1$: at least one variance is different
+df_i_bd$Fam  <- as.factor(df_i_bd$Fam)
+leveneTest(df_i_bd$Confirmed_Log10_Average_Bd_SQ ~ df_i_bd$Fam)
+# Levene's Test for Homogeneity of Variance (center = median)
+#        Df F value Pr(>F)
+# group   2  1.4922 0.2275
+#       189
+#PASSED - EQUAL VARIANCES
+
+#Summary of overall LogSQ distribution
+summary(df_i_bd$Confirmed_Log10_Average_Bd_SQ)
+#    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0.03126 0.85819 1.64105 1.81340 2.67513 4.61758 
+
+#Run Analysis of Variance
+# Null-hypothesis: Equal variances in infection intensities across family groups
+BdSQ_res_aov <- aov(Confirmed_Log10_Average_Bd_SQ ~ Fam, data = df_i_bd)
+
+# plot diagnostics
+e_plot_lm_diagnostics(BdSQ_res_aov)
+
+#Assess diagnostics:
+# The Bd diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 35, 106, 126 as outliers. With categorical variables, the Cooks Distance v. Leverage means every point is equally as influential.
+# 
+# No pattern in residuals and variance looks equal with no pattern. Homoscedasticity is acceptable. Variable plots show some observations in Bufonidae pulling the slope down, while Ranidae have some observations pulling the slope things up. No extreme values warrant removal.
+
+#Report on significance between groups
+summary(BdSQ_res_aov)
+#Bd One-Way ANOVA test ---
+#              Df Sum Sq Mean Sq F value Pr(>F)  
+# Fam           2  12.21   6.104   4.686 0.0103 *
+# Residuals   189 246.20   1.303                 
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# SIGNIFICANT
+
+library(report)
+report(BdSQ_res_aov)
+# The ANOVA (formula: Confirmed_Log10_Average_Bd_SQ ~ Fam) suggests that:
+# 
+#   - The main effect of Fam is statistically significant and small (F(2, 189) = 4.69, p = 0.010; Eta2 = 0.05, 95% CI [6.56e-03, 1.00])
+# 
+# Effect sizes were labelled following Field's (2013) recommendations.
+```
+
+We see a small, but significant difference in Bd intensities between family groups that will need to be teased apart using post-hoc analyses further down.
+
+Bd external/combination samples only:
+```{r}
+Bd_exto_tiss_i$Fam  <- as.factor(Bd_exto_tiss_i$Fam)
+Bd_exto_i <- subset(Bd_exto_tiss_i
+                    , Bd_exto_tiss_i$Bd_Tissue == "Exto") #180 samples of external/combination
+Bd_inter_i <- subset(Bd_exto_tiss_i
+                     , Bd_exto_tiss_i$Bd_Tissue == "Internal_tissues") # 12 samples of internal-only
+#Bd external/combination samples only---------------------------------------------
+#Levene’s test for Bd external only - PASSED
+#$H_0$: variances are equal
+#$H_1$: at least one variance is different
+leveneTest(Bd_exto_i$Confirmed_Log10_Average_Bd_SQ ~ Bd_exto_i$Fam)
+# Levene's Test for Homogeneity of Variance (center = median)
+#        Df F value Pr(>F)
+# group   2  1.6573 0.1936
+#       177  
+
+#Summary of overall LogSQ distribution
+summary(Bd_exto_i$Confirmed_Log10_Average_Bd_SQ)
+#    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0.03126 0.89341 1.66398 1.86823 2.76425 4.61758 
+
+#Run Analysis of Variance
+# Null-hypothesis: Equal variances in infection intensities across family groups (when removing internal)
+BdSQ_res_aov_exto <- aov(Confirmed_Log10_Average_Bd_SQ ~ Fam, data = Bd_exto_i)
+
+# plot diagnostics
+e_plot_lm_diagnostics(BdSQ_res_aov_exto)
+
+#Assess diagnostics:
+# The Bd diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 35, 106, 126 as outliers. With categorical variables, the Cooks Distance v. Leverage means every point is equally as influential.
+# 
+# No pattern in residuals and variance looks equal with no pattern. Homoscedasticity is acceptable. Variable plots show some observations 106 acting to contradict the slope, making our observations more conservative. No extreme values warrant removal.
+
+#Report on significance between groups
+summary(BdSQ_res_aov_exto)
+#Bd One-Way ANOVA test ---
+#              Df Sum Sq Mean Sq F value  Pr(>F)   
+# Fam           2  13.41   6.704   5.154 0.00667 **
+# Residuals   177 230.21   1.301                   
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# SIGNIFICANT
+
+library(report)
+report(BdSQ_res_aov_exto)
+# The ANOVA (formula: Confirmed_Log10_Average_Bd_SQ ~ Fam) suggests that:
+# 
+#   - The main effect of Fam is statistically significant and small (F(2, 177) = 5.15, p = 0.007; Eta2 = 0.06, 95% CI [9.28e-03, 1.00])
+# 
+# Effect sizes were labelled following Field's (2013) recommendations.
+```
+When we remove internal-only samples, we still see a small, but significant difference in Bd intensities between family groups.
+
+Pr:
+```{r}
+#Pr-------------------------------------------------------------------------------
+#Levene’s test for Pr - PASSED
+#$H_0$: variances are equal
+#$H_1$: at least one variance is different
+df_i_pr$Fam  <- as.factor(df_i_pr$Fam)
+leveneTest(df_i_pr$Confirmed_Log10_Average_Pr_SQ ~ df_i_pr$Fam)
+# Levene's Test for Homogeneity of Variance (center = median)
+#       Df F value Pr(>F)
+# group  2  0.4328  0.665
+#        7 
+#PASSED - EQUAL VARIANCES
+summary(df_i_pr$Confirmed_Log10_Average_Pr_SQ)
+ #  Min.    1st Qu.  Median    Mean 3rd Qu.    Max. 
+ # 0.5795  1.6437  2.0589  2.1443  2.7270  3.5104
+
+#Run Analysis of Variance
+# Null-hypothesis: Equal variances in infection intensities across family groups (when removing internal)
+PrSQ_res_aov <- aov(Confirmed_Log10_Average_Pr_SQ ~ Fam, data = df_i_pr)
+
+# plot diagnostics
+e_plot_lm_diagnostics(PrSQ_res_aov)
+
+#Assess diagnostics:
+# The Pr diagnostic plots are minimal due to sample sizes and cannot be assessed in ernest. 
+
+#Report on significance between groups
+summary(PrSQ_res_aov)
+#Pr One-Way ANOVA test ---
+#             Df Sum Sq Mean Sq F value Pr(>F)
+# Fam          2  1.683  0.8413   1.222  0.351
+# Residuals    7  4.819  0.6884 
+# NOT SIGNIFICANT
+
+library(report)
+report(PrSQ_res_aov)
+# The ANOVA (formula: Confirmed_Log10_Average_Pr_SQ ~ Fam) suggests that:
+# 
+#   - The main effect of Fam is statistically not significant and large (F(2, 7) = 1.22, p = 0.351; Eta2 = 0.26, 95% CI [0.00, 1.00])
+# 
+# Effect sizes were labelled following Field's (2013) recommendations.
+```
+
+We see no significant difference in Pr intensities between family groups.
+
+```{r}
+#Rv-------------------------------------------------------------------------------
+#$H_0$: variances are equal
+#$H_1$: at least one variance is different
+df_i_rv$Fam  <- as.factor(df_i_rv$Fam)
+leveneTest(df_i_rv$Confirmed_Log10_Average_Rv_SQ ~ df_i_rv$Fam)
+# Levene's Test for Homogeneity of Variance (center = median)
+#       Df F value  Pr(>F)  
+# group  2  3.4304 0.04762 *
+#       26                  
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+#FAILED - UNEQUAL VARIANCES
+summary(df_i_rv$Confirmed_Log10_Average_Rv_SQ)
+  #  Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  # 0.100   0.700   1.190   1.545   2.090   4.270 
+
+#Run Analysis of Variance
+# Null-hypothesis: Equal variances in infection intensities across family groups (when removing internal)
+RvSQ_res_aov <- aov(Confirmed_Log10_Average_Rv_SQ ~ Fam, data = df_i_rv)
+
+# plot diagnostics
+e_plot_lm_diagnostics(RvSQ_res_aov)
+
+#Assess diagnostics:
+# The Rv diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows no major outliers. With categorical variables, the Cooks Distance v. Leverage means every point is equally as influential.
+# 
+# We see unequal residuals between families, but no pattern in residuals vs order of data. Homoscedasticity is should be accounted for. Variable plots show  no observations with extreme values that warrant removal.
+
+
+#NEED TO RUN NON-PARAMETRIC ANALYSIS OF VARIANCE
+#perform Welch's ANOVA
+RvSQ_res_aov <- oneway.test(Confirmed_Log10_Average_Rv_SQ ~ Fam, data = df_i_rv, var.equal = FALSE)
+
+#Report on significance between groups
+RvSQ_res_aov
+#Rv One-Way ANOVA test ---
+# 	One-way analysis of means (not assuming equal variances)
+# 
+# data:  Confirmed_Log10_Average_Rv_SQ and Fam
+# F = 15.452, num df = 2.0000, denom df = 2.6223, p-value = 0.0354
+# SIGNIFICANT
+```
+
+Because Rv fails the Levene's test of equal variance, we need to run a non-parametric aov.
+We see a small, but significant difference in Bd intensities between family groups that will need to be teased apart using post-hoc analyses further down.
+
+#### Post-hoc analysis
+
+Used <https://statsandr.com/blog/anova-in-r/> for reference.
+Bd will use a Tukey HSD test & confirm with a Bonferroni correction & student's t-test
+Rv will use Bonferroni correction & Welch's t-test\
+
+Bd:
+```{r}
+library(multcomp)
+# Tukey HSD test:
+Bd_post_test <- TukeyHSD(BdSQ_res_aov)
+Bd_post_test
+#   Tukey multiple comparisons of means
+#     95% family-wise confidence level
+# 
+# Fit: aov(formula = Confirmed_Log10_Average_Bd_SQ ~ Fam, data = df_i_bd)
+# 
+# $Fam
+#                        diff        lwr       upr     p adj
+# Hylidae-Bufonidae 0.6056365 -0.2149636 1.4262367 0.1918339
+# Ranidae-Bufonidae 0.8372696  0.1802132 1.4943259 0.0083050
+# Ranidae-Hylidae   0.2316330 -0.3513746 0.8146407 0.6166006
+```
+
+Bd post-hoc shows significant difference between Ranidae vs.Bufonidae and not between other groups.
+
+Bd external/combination tissues only:
+```{r}
+library(multcomp)
+# Tukey HSD test:
+Bd_post_test_exto <- TukeyHSD(BdSQ_res_aov_exto)
+Bd_post_test_exto
+#   Tukey multiple comparisons of means
+#     95% family-wise confidence level
+# 
+# Fit: aov(formula = Confirmed_Log10_Average_Bd_SQ ~ Fam, data = Bd_exto_i)
+# 
+# $Fam
+#                        diff        lwr       upr     p adj
+# Hylidae-Bufonidae 0.7290482 -0.1151584 1.5732548 0.1054680
+# Ranidae-Bufonidae 0.8935087  0.2341992 1.5528181 0.0045728
+# Ranidae-Hylidae   0.1644605 -0.4540387 0.7829597 0.8046701
+```
+We see that the pattern still holds between Ranidae and Bufonidae *only* when we remove internal-only samples.
+
+Rv:
+```{r}
+#We have 3 sets of comparisons. Bonferroni correction is alpha (0.05 is what we'll use here) divided by the number of comparisons (3: Bufo-Hyli, Bufo-Rani, Hyli-Rani)
+(0.05/3)
+#0.01666667 = our new p-value
+
+#Now we can run multiple Welche's T-tests to compare Rv infection intensity across these families.
+Bufo_Hyli_df <- subset(df_i_rv, df_i_rv$Fam == "Bufonidae" | df_i_rv$Fam == "Hylidae") # 5 total observations 
+Bufo_Rani_df <- subset(df_i_rv, df_i_rv$Fam == "Bufonidae" | df_i_rv$Fam == "Ranidae") # 26 total observation 
+Hyli_Rani_df <- subset(df_i_rv, df_i_rv$Fam == "Hylidae" | df_i_rv$Fam == "Ranidae") # 27 total observation 
+
+
+#Rv One-Way WELCH ANOVA test
+#BUFONIDAE VS. HYLIDAE (5 OBSERVATIONS, LOW SAMPLE SIZES)
+Rv_ttest_Bufo_Hyli <- t.test(Confirmed_Log10_Average_Rv_SQ ~ Fam, 
+  data = Bufo_Hyli_df, alternative = "two.sided",
+  var.equal = FALSE # assuming unequal variances
+)
+
+print(Rv_ttest_Bufo_Hyli)
+# 	Welch Two Sample t-test
+# 
+# data:  Confirmed_Log10_Average_Rv_SQ by Fam
+# t = 4.7017, df = 1.0271, p-value = 0.1285
+# alternative hypothesis: true difference in means between group Bufonidae and group Hylidae is not equal to 0
+# 95 percent confidence interval:
+#  -0.9109353  2.0942687
+# sample estimates:
+# mean in group Bufonidae   mean in group Hylidae 
+#               1.2650000               0.6733333 
+# NOT SIGNIFICANT
+#----------------------------------------------------------------------
+#BUFONIDAE VS. RANIDAE
+Rv_ttest_Bufo_Rani <- t.test(Confirmed_Log10_Average_Rv_SQ ~ Fam,
+  data = Bufo_Rani_df, alternative = "two.sided",
+  var.equal = FALSE # assuming unequal variances
+)
+print(Rv_ttest_Bufo_Rani)
+# 	Welch Two Sample t-test
+# 
+# data:  Confirmed_Log10_Average_Rv_SQ by Fam
+# t = -1.5061, df = 14.157, p-value = 0.154
+# alternative hypothesis: true difference in means between group Bufonidae and group Ranidae is not equal to 0
+# 95 percent confidence interval:
+#  -0.999323  0.174323
+# sample estimates:
+# # mean in group Bufonidae   mean in group Ranidae 
+#                  1.2650                  1.6775 
+# NOT SIGNIFICANT
+#----------------------------------------------------------------------
+#HYLIDAE VS. RANIDAE
+Rv_ttest_Hyli_Rani <- t.test(Confirmed_Log10_Average_Rv_SQ ~ Fam,
+  data = Hyli_Rani_df, alternative = "two.sided",
+  var.equal = FALSE # assuming unequal variances
+)
+print(Rv_ttest_Hyli_Rani)
+# 	Welch Two Sample t-test
+# 
+# data:  Confirmed_Log10_Average_Rv_SQ by Fam
+# t = -4.1132, df = 23.16, p-value = 0.0004197
+# alternative hypothesis: true difference in means between group Hylidae and group Ranidae is not equal to 0
+# 95 percent confidence interval:
+#  -1.509001 -0.499332
+# sample estimates:
+# mean in group Hylidae mean in group Ranidae 
+#             0.6733333             1.6775000 
+#SIGNIFICANT
+# EVEN WITH BONFERONNI CORRECTION, (P-VALUE = 0.0167), WE SEE THAT THERE IS A SIGNFICANT DIFFERENCE BETWEEN RANIDAE & HYLIDAE WHICH IS CAUSING THE OVERALL DIFFERENCE BETWEEN FAMILIES.
+```
+
+Rv infection intensity is not significantly different between Bufonidae & Hylidae, and Bufonidae and Ranidae. However, there is a significant difference in infection intensity between Hylidae & Ranidae (with Ranidae having higher intensities), but our sampling is very small for Hyli, so more likely an artifact of sample sizes - need more data.
+
+#### Visualization
+```{r}
+#Visualize dataset
+#Set colors for pathogen comparisons
+Bd_c <- c("#40B0A6", "#40B0A6", "#40B0A6")
+Pr_c <- c("#E1BE6A",  "#E1BE6A",  "#E1BE6A")
+Rv_c <- c("#9966FF", "#9966FF", "#9966FF")
+
+BdSQ_Fam_box <- ggplot(
+  data = df_i_bd, mapping = aes(x = Fam , y = Confirmed_Log10_Average_Bd_SQ , colour =  Confirmed_Log10_Average_Bd_SQ, na.rm = TRUE)) +
+  geom_boxplot(colour = "black", fill= Bd_c) +
+  scale_color_gradient(low = "#8BD5CE", high = "#1F5550") +
+  geom_jitter(size=1.5, alpha=0.9) +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    legend.background = element_blank(), #transparent legend bg
+    legend.box.background = element_blank() #trt legend panel
+    ) +
+    scale_y_continuous(limits=c(0,5)) + 
+    theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+  theme(legend.position="none") #+
+   #coord_flip()
+
+print(BdSQ_Fam_box)
+
+PrSQ_Fam_box <- ggplot(
+  data = df_i_pr, mapping = aes(x = Fam , y = Confirmed_Log10_Average_Pr_SQ , colour =  Confirmed_Log10_Average_Pr_SQ, na.rm = TRUE)) +
+  geom_boxplot(colour = "black", fill= Pr_c) +
+  scale_color_gradient(low = "#F3E5C3", high = "#80631A") +
+  geom_jitter(size=1.5, alpha=0.9) +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    legend.background = element_blank(), #transparent legend bg
+    legend.box.background = element_blank() #trt legend panel
+    ) +
+    scale_y_continuous(limits=c(0,5)) + 
+    theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+  theme(legend.position="none") #+
+   #coord_flip()
+
+print(PrSQ_Fam_box)
+
+RvSQ_Fam_box <- ggplot(
+  data = df_i_rv, mapping = aes(x = Fam , y = Confirmed_Log10_Average_Rv_SQ , colour =  Confirmed_Log10_Average_Rv_SQ, na.rm = TRUE)) +
+  geom_boxplot(colour = "black", fill= Rv_c) +
+  scale_color_gradient(low = "#D3BDFF", high = "#4100C4") +
+  geom_jitter(size=1.5, alpha=0.9) +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    legend.background = element_blank(), #transparent legend bg
+    legend.box.background = element_blank() #trt legend panel
+    ) +
+    scale_y_continuous(limits=c(0,5)) + 
+    theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+  theme(legend.position="none") #+
+   #coord_flip()
+
+print(RvSQ_Fam_box)
+```
+
+Figure 2b & 2d
+```{r fig.height=10, fig.width=8}
+library(patchwork)
+(BdSQ_Fam_box | PrSQ_Fam_box | RvSQ_Fam_box) 
+```
+
+#-----------------------------------------------
+
+## Species v. intensity
+
+#### Bd: Significantly different
+
+#### Pr: Not enough data
+
+#### Rv: Not significantly different
+
+```{r}
+#Bd
+table(Bd_spp_df$Sp, Bd_spp_df$Status_Bd)
+  #                      1
+  # Anaxyrus americanus 15
+  # Pseudacris crucifer 16
+  # Rana catesbeiana    36
+  # Rana clamitans      42
+  # Rana pipiens        16
+  # Rana sphenocephala  54
+
+#Pr - NOT ENOUGH DATA
+
+#Rv
+table(Rv_spp_df$Sp, Rv_spp_df$Status_Bd)
+  #                  0 1
+  # Rana catesbeiana 8 7
+  # Rana clamitans   4 3
+```
+
+Because Pr doesn't have many datapoints, we'll only include Bd & Rv in our species analysis comparisons.
+
+#### Distribution summary by species
+```{r}
+#Removing un-infected individuals from dataframes for direct comparisons. 
+
+#subsetting by Sp for infection intensity data
+#Bd ---------------------------------------------------------------#
+Bd_Aame_df <- subset(Bd_spp_df, Bd_spp_df$Sp == "Anaxyrus americanus") #15 observations
+Bd_Pcru_df <- subset(Bd_spp_df, Bd_spp_df$Sp == "Pseudacris crucifer") #16 observations
+Bd_Rcat_df <- subset(Bd_spp_df, Bd_spp_df$Sp == "Rana catesbeiana") #36 observations
+Bd_Rcla_df <- subset(Bd_spp_df, Bd_spp_df$Sp == "Rana clamitans") #42 observations
+Bd_Rpip_df <- subset(Bd_spp_df, Bd_spp_df$Sp == "Rana pipiens") #16 observations
+Bd_Rsph_df <- subset(Bd_spp_df, Bd_spp_df$Sp == "Rana sphenocephala") #54 observations
+
+#Rv ---------------------------------------------------------------#
+Rv_Rcat_df <- subset(Rv_spp_df, Rv_spp_df$Sp == "Rana catesbeiana") #15 observations
+Rv_Rcla_df <- subset(Rv_spp_df, Rv_spp_df$Sp == "Rana clamitans") #7 observations
+```
+
+```{r}
+#calculate means after removing NA's from each Sp SQ
+#Bd intensity summaries by Sp------------------------------------------------
+summary(Bd_Aame_df$Confirmed_Log10_Average_Bd_SQ)
+summary(Bd_Pcru_df$Confirmed_Log10_Average_Bd_SQ)
+summary(Bd_Rcat_df$Confirmed_Log10_Average_Bd_SQ)
+summary(Bd_Rcla_df$Confirmed_Log10_Average_Bd_SQ)
+summary(Bd_Rpip_df$Confirmed_Log10_Average_Bd_SQ)
+summary(Bd_Rsph_df$Confirmed_Log10_Average_Bd_SQ)
+
+#Rv intensity summaries by Sp------------------------------------------------
+summary(Rv_Rcat_df$Confirmed_Log10_Average_Rv_SQ)
+summary(Rv_Rcla_df$Confirmed_Log10_Average_Rv_SQ)
+```
+
+#### Analysis of variance: Species
+Bd:
+```{r}
+#Bd-------------------------------------------------------------------------------
+#Levene’s test for Bd - FAILED
+#$H_0$: variances are equal
+#$H_1$: at least one variance is different
+Bd_spp_df$Sp  <- as.factor(Bd_spp_df$Sp)
+leveneTest(Bd_spp_df$Confirmed_Log10_Average_Bd_SQ ~ Bd_spp_df$Sp)
+# Levene's Test for Homogeneity of Variance (center = median)
+#        Df F value   Pr(>F)   
+# group   5  4.0565 0.001659 **
+#       173                    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#FAILED - UNEQUAL VARIANCES
+
+#Summary of overall LogSQ distribution
+summary(Bd_spp_df$Confirmed_Log10_Average_Bd_SQ)
+#    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0.03126 0.91702 1.67617 1.85552 2.73825 4.61758
+
+#Run Analysis of Variance
+# Null-hypothesis: Equal variances in infection intensities across species
+BdSQ_res_aov.sp <- aov(Confirmed_Log10_Average_Bd_SQ ~ Sp, data = Bd_spp_df)
+
+# plot diagnostics
+e_plot_lm_diagnostics(BdSQ_res_aov.sp)
+#Assess diagnostics:
+# The Bd diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 106, 126, and 181 as outliers. 
+# With categorical variables, the Cooks Distance v. Leverage means every point is equally as influential.
+# 
+# No pattern in residuals and variance is unequal (as seen in levene test). 
+# Homoscedasticity is acceptable. 
+# Variable plots show observation 106 counteracting slope, potentially making our observations more conservative. Observation 181 is exaggerating the slope upward on the opposite end, which balances 106. No extreme values warrant removal.
+
+#NEED TO RUN NON-PARAMETRIC ANALYSIS OF VARIANCE
+#perform Welch's ANOVA
+BdSQ_res_aov.sp <- oneway.test(Bd_spp_df$Confirmed_Log10_Average_Bd_SQ ~ Bd_spp_df$Sp,
+  data = Bd_spp_df,
+  var.equal = FALSE # assuming unequal variances
+)
+BdSQ_res_aov.sp
+# 	One-way analysis of means (not assuming equal variances)
+# 
+# data:  Bd_spp_df$Confirmed_Log10_Average_Bd_SQ and Bd_spp_df$Sp
+# F = 4.3156, num df = 5.000, denom df = 57.155, p-value = 0.002122
+```
+
+We see a significant difference in Bd intensities between species groups that will need to be teased apart using post-hoc analyses further down.
+
+Bd external/combination samples only:
+```{r}
+#Levene’s test for Bd -
+leveneTest(Bd_exto_i$Confirmed_Log10_Average_Bd_SQ ~ Bd_exto_i$Sp)
+# Levene's Test for Homogeneity of Variance (center = median)
+#        Df F value   Pr(>F)   
+# group   9  2.8758 0.003474 **
+#       170                    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# FAILED - UNEQUAL VARIANCES
+
+#Summary of overall LogSQ distribution
+summary(Bd_exto_i$Confirmed_Log10_Average_Bd_SQ)
+#    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0.03126 0.89341 1.66398 1.86823 2.76425 4.6175
+
+#Run Analysis of Variance
+# Null-hypothesis: Equal variances in infection intensities across species
+BdSQ_res_aov.sp_exto <- aov(Confirmed_Log10_Average_Bd_SQ ~ Sp, data = Bd_exto_i)
+
+# plot diagnostics
+e_plot_lm_diagnostics(BdSQ_res_aov.sp_exto)
+#Assess diagnostics:
+# The Bd diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 35, 36, and 106 as outliers. 
+# With categorical variables, the Cooks Distance v. Leverage means every point is equally as influential.
+# 
+# No pattern in residuals and variance is unequal (as seen in levene test). 
+# Homoscedasticity should be noted. 
+# Variable plots show observations 106 & 181 exaggerating slope for Anaxyrus spp. Observation 34 & 35 working to exaggerate slope of SpHyla chrys/vers | other. 
+
+#NEED TO RUN NON-PARAMETRIC ANALYSIS OF VARIANCE
+#perform Welch's ANOVA
+BdSQ_res_aov.sp_exto <- oneway.test(Bd_exto_i$Confirmed_Log10_Average_Bd_SQ ~ Bd_exto_i$Sp,
+  data = Bd_exto_i,
+  var.equal = FALSE # assuming unequal variances
+)
+BdSQ_res_aov.sp_exto
+# 	One-way analysis of means (not assuming equal variances)
+# 
+# data:  Bd_exto_i$Confirmed_Log10_Average_Bd_SQ and Bd_exto_i$Sp
+# F = 20.037, num df = 9.000, denom df = 16.409, p-value = 3.365e-07
+# SIGNIFICANT
+```
+
+Even after removing internal-only tissues, we see a significant difference in infection intensity between species.
+
+Rv:
+```{r}
+#Rv-------------------------------------------------------------------------------
+#Levene’s test for Rv - PASSED
+#$H_0$: variances are equal
+#$H_1$: at least one variance is different
+Rv_spp_df$Sp  <- as.factor(Rv_spp_df$Sp)
+leveneTest(Rv_spp_df$Confirmed_Log10_Average_Rv_SQ ~ Rv_spp_df$Sp)
+# 
+# Levene's Test for Homogeneity of Variance (center = median)
+#       Df F value Pr(>F)
+# group  1  0.1893 0.6681
+#       20 
+# PASSED - EQUAL VARIANCES
+
+#Summary of overall LogSQ distribution
+summary(Rv_spp_df$Confirmed_Log10_Average_Rv_SQ)
+ #   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ # 0.1000  0.9275  1.4750  1.6955  2.4775  4.2700
+
+#Run Analysis of Variance
+# Null-hypothesis: Equal variances in infection intensities across species
+RvSQ_res_aov.sp <- aov(Confirmed_Log10_Average_Rv_SQ ~ Sp, data = Rv_spp_df)
+
+# plot diagnostics
+e_plot_lm_diagnostics(RvSQ_res_aov.sp)
+
+#Assess diagnostics:
+# The Rv diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 18 as an outlier. 
+# With categorical variables, the Cooks Distance v. Leverage means every point is equally as influential.
+# 
+# No pattern in residuals and variance is unequal (as seen in levene test). 
+# Homoscedasticity should be noted. 
+# Variable plots show observation 18 may be counteracting the slope and making our relationships more conservative. 
+
+summary(RvSQ_res_aov.sp)
+#             Df Sum Sq Mean Sq F value Pr(>F)
+# Sp           1  0.535  0.5352   0.341  0.566
+# Residuals   20 31.419  1.5709
+# NOT SIGNIFICANT
+```
+
+#### Post-hoc analysis
+
+Bd:
+Games-Howell post-hoc assuming unequal variances (only for n > 5 sample populations, i.e. A. americanus, P. crucifer, R. catesbeiana, R. clamitans, R. pipiens, and R. sphenocephala)
+```{r}
+library(rstatix)
+g.h.Bd <- games_howell_test(Bd_spp_df, Confirmed_Log10_Average_Bd_SQ~ Sp, conf.level = 0.95, detailed = FALSE)
+print(g.h.Bd)    
+# A tibble: 15 × 8
+#    .y.                           group1              group2              estimate conf.low conf.high p.adj p.adj.signif
+#  * <chr>                         <chr>               <chr>                  <dbl>    <dbl>     <dbl> <dbl> <chr>       
+#  1 Confirmed_Log10_Average_Bd_SQ Anaxyrus americanus Pseudacris crucifer   0.520   -0.549      1.59  0.674 ns          
+#  2 Confirmed_Log10_Average_Bd_SQ Anaxyrus americanus Rana catesbeiana      0.220   -0.736      1.17  0.978 ns          
+#  3 Confirmed_Log10_Average_Bd_SQ Anaxyrus americanus Rana clamitans        1.13     0.0961     2.16  0.026 *           
+#  4 Confirmed_Log10_Average_Bd_SQ Anaxyrus americanus Rana pipiens          0.166   -0.867      1.20  0.996 ns          
+#  5 Confirmed_Log10_Average_Bd_SQ Anaxyrus americanus Rana sphenocephala    0.786   -0.191      1.76  0.169 ns          
+#  6 Confirmed_Log10_Average_Bd_SQ Pseudacris crucifer Rana catesbeiana     -0.301   -1.10       0.500 0.857 ns          
+#  7 Confirmed_Log10_Average_Bd_SQ Pseudacris crucifer Rana clamitans        0.606   -0.289      1.50  0.347 ns          
+#  8 Confirmed_Log10_Average_Bd_SQ Pseudacris crucifer Rana pipiens         -0.354   -1.26       0.548 0.836 ns          
+#  9 Confirmed_Log10_Average_Bd_SQ Pseudacris crucifer Rana sphenocephala    0.266   -0.563      1.09  0.924 ns          
+# 10 Confirmed_Log10_Average_Bd_SQ Rana catesbeiana    Rana clamitans        0.907    0.180      1.63  0.006 **          
+# 11 Confirmed_Log10_Average_Bd_SQ Rana catesbeiana    Rana pipiens         -0.0531  -0.795      0.688 1     ns          
+# 12 Confirmed_Log10_Average_Bd_SQ Rana catesbeiana    Rana sphenocephala    0.567   -0.0666     1.20  0.106 ns          
+# 13 Confirmed_Log10_Average_Bd_SQ Rana clamitans      Rana pipiens         -0.960   -1.81      -0.114 0.018 *           
+# 14 Confirmed_Log10_Average_Bd_SQ Rana clamitans      Rana sphenocephala   -0.340   -1.10       0.422 0.783 ns          
+# 15 Confirmed_Log10_Average_Bd_SQ Rana pipiens        Rana sphenocephala    0.620   -0.153      1.39  0.18  ns  
+```
+
+We see significant differences in means between:
+- Anaxyrus americanus Rana clamitans *
+- Rana catesbeiana    Rana clamitans **
+- Rana clamitans      Rana pipiens *
+
+Rv:
+No post-hoc necessary for Rv since no significant difference detected in data.
+
+#### Visualization
+```{r, fig.width=6, fig.height=6}
+Bd_c <- c("#40B0A6", "#40B0A6", "#40B0A6","#40B0A6", "#40B0A6", "#40B0A6")
+# Pr_c <- c("#E1BE6A",  "#E1BE6A",  "#E1BE6A")
+Rv_c <- c("#9966FF", "#9966FF")
+BdSQ_Spp_box <- ggplot(
+  data = Bd_spp_df, mapping = aes(x = Sp , y = Confirmed_Log10_Average_Bd_SQ , colour =  Confirmed_Log10_Average_Bd_SQ, na.rm = TRUE)) +
+ # stat_boxplot(geom ='errorbar', width = 0.5, colour = "black") +
+  geom_boxplot(outlier.color = "black", outlier.size = 1.5, fill= Bd_c, outlier.shape = 1) +
+  scale_color_gradient(low = "#8BD5CE", high = "#1F5550") +
+  geom_jitter(size=1.5, alpha=0.9) +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    legend.background = element_blank(), #transparent legend bg
+    legend.box.background = element_blank() #trt legend panel
+    ) +
+    scale_y_continuous(limits=c(0,5)) + 
+    theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+  theme(legend.position="none") #+
+   #coord_flip()
+ 
+print(BdSQ_Spp_box)  
+
+print(BdSQ_Spp_box)
+
+RvSQ_Spp_box <- ggplot(
+  data = Rv_spp_df, mapping = aes(x = Sp , y = Confirmed_Log10_Average_Rv_SQ , colour =  Confirmed_Log10_Average_Rv_SQ, na.rm = TRUE)) +
+  geom_boxplot(outlier.color = "black", outlier.size = 1.5, fill= Rv_c, outlier.shape = 1) +
+  scale_color_gradient(low = "#D3BDFF", high = "#4100C4") +
+  geom_jitter(size=1.5, alpha=0.9) +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    legend.background = element_blank(), #transparent legend bg
+    legend.box.background = element_blank() #trt legend panel
+    ) +
+    scale_y_continuous(limits=c(0,5)) + 
+    theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+  theme(legend.position="none") #+
+   #coord_flip()
+ 
+print(RvSQ_Spp_box)
+```
+
+Figure 2b-e
+```{r fig.height=8, fig.width=10}
+library(patchwork)
+
+BdSQ_Fam_box | BdSQ_Spp_box | RvSQ_Fam_box | RvSQ_Spp_box
+
+```
+
+#-----------------------------------------------
+
+## Age v. intensity
+
+#### Bd: Significantly different
+
+#### Pr: Not enough data points
+
+#### Rv: Not significantly different
+
+#### Distribution summary by age
+```{r}
+# Hypothesis (null): Age class and infection intensity are significantly correlated.
+summary(Bd.a.df$Confirmed_Log10_Average_Bd_SQ)
+summary(Bd.j.df$Confirmed_Log10_Average_Bd_SQ)
+summary(Pr.a.df$Confirmed_Log10_Average_Pr_SQ)
+summary(Pr.j.df$Confirmed_Log10_Average_Pr_SQ) # 1 observation
+summary(Rv.a.df$Confirmed_Log10_Average_Rv_SQ)
+summary(Rv.j.df$Confirmed_Log10_Average_Rv_SQ)
+
+ag_df_i_rv <- rbind(Rv.a.df,Rv.j.df)
+```
+
+#### T-test: Age
+Bd:
+```{r}
+#Null hypothesis: There is no significant difference in the mean LogSQ between age classes.
+Bd_age_var.t <- var.test(Bd.a.df$Confirmed_Log10_Average_Bd_SQ, Bd.j.df$Confirmed_Log10_Average_Bd_SQ, alternative = "two.sided") 
+Bd_age_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd.a.df$Confirmed_Log10_Average_Bd_SQ and Bd.j.df$Confirmed_Log10_Average_Bd_SQ
+# F = 0.59812, num df = 127, denom df = 29, p-value = 0.05582
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.3178224 1.0126493
+# sample estimates:
+# ratio of variances 
+#          0.5981155 
+#PASSED - EQUAL VARIANCE
+
+plotNormalHistogram(df_p_bd$Latitude) #NORMAL ENOUGH DISTRIBUTION
+qqPlot(df_p_bd$Latitude) #Fat tails, but within range.
+
+BdAge_ttest.int <-t.test(Confirmed_Log10_Average_Bd_SQ ~ Age, data = ag_df_i_bd, alternative = "two.sided", var.equal = TRUE)
+BdAge_ttest.int
+# 	Two Sample t-test
+# 
+# data:  Confirmed_Log10_Average_Bd_SQ by Age
+# t = -3.6316, df = 156, p-value = 0.0003816
+# alternative hypothesis: true difference in means between group adult and group juvenile is not equal to 0
+# 95 percent confidence interval:
+#  -1.2742910 -0.3764328
+# sample estimates:
+#    mean in group adult mean in group juvenile 
+#               1.645159               2.470521 
+# SIGNIFICANT
+```
+
+We see a significant difference in mean intensity of infection between adult and juvenile frogs, with juvenile frogs having higher intensities.
+
+When we compare the LogSQ data, we see unequal variances and difference in means between adult and juvenile frogs Bd infection intensities. When we use the square root of the LogSQ, this interaction gets muted and becomes insignificant.This may be due a few outliers.
+
+Bd external/combination tissues only:
+```{r}
+#Null hypothesis: There is no significant difference in the mean LogSQ between age classes.
+ag_df_i_bd_exto <- rbind(Bd.a.df_exto, Bd.j.df_exto)
+
+Bd_age_var.t_exto <- var.test(
+  Bd.a.df_exto$Confirmed_Log10_Average_Bd_SQ, Bd.j.df_exto$Confirmed_Log10_Average_Bd_SQ, alternative = "two.sided")
+Bd_age_var.t_exto
+# 	F test to compare two variances
+# 
+# data:  Bd.a.df_exto$Confirmed_Log10_Average_Bd_SQ and Bd.j.df_exto$Confirmed_Log10_Average_Bd_SQ
+# F = 0.59557, num df = 119, denom df = 28, p-value = 0.05886
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.3121709 1.0192993
+# sample estimates:
+# ratio of variances 
+#          0.5955747 
+#PASSED - EQUAL VARIANCES
+BdSQ_ttest.ag_exto <-t.test(Confirmed_Log10_Average_Bd_SQ ~ Age, data = ag_df_i_bd_exto, alternative = "two.sided", var.equal = TRUE)
+BdSQ_ttest.ag_exto
+# 	Two Sample t-test
+# 
+# data:  Confirmed_Log10_Average_Bd_SQ by Age
+# t = -3.5146, df = 147, p-value = 0.0005857
+# alternative hypothesis: true difference in means between group adult and group juvenile is not equal to 0
+# 95 percent confidence interval:
+#  -1.2757044 -0.3574142
+# sample estimates:
+#    mean in group adult mean in group juvenile 
+#               1.697196               2.513755  
+# SIGNIFICANT
+```
+
+Even when we remove internal-only tissues, we still see a significant difference in mean intensity of infection between adult and juvenile frogs, with juvenile frogs having higher intensities.
+
+Rv:
+```{r}
+#Null hypothesis: There is no significant difference in the mean LogSQ between age classes.
+Rv_age_var.t <- var.test(Rv.a.df$Confirmed_Log10_Average_Rv_SQ, Rv.j.df$Confirmed_Log10_Average_Rv_SQ, alternative = "two.sided") 
+Rv_age_var.t
+# 	F test to compare two variances
+# 
+# data:  Rv.a.df$Confirmed_Log10_Average_Rv_SQ and Rv.j.df$Confirmed_Log10_Average_Rv_SQ
+# F = 0.9177, num df = 15, denom df = 6, p-value = 0.8242
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.1741806 3.1336362
+# sample estimates:
+# ratio of variances 
+#          0.9176996
+# PASSED - EQUAL VARIANCES
+
+plotNormalHistogram(ag_df_i_rv$Confirmed_Log10_Average_Rv_SQ) #NORMAL DISTRIBUTION
+qqPlot(ag_df_i_rv$Confirmed_Log10_Average_Rv_SQ) 
+
+RvSQ_ttest.ag <-t.test(Confirmed_Log10_Average_Rv_SQ ~ Age, data = ag_df_i_rv, alternative = "two.sided", var.equal = TRUE)
+RvSQ_ttest.ag  
+# 	Two Sample t-test
+# 
+# data:  Confirmed_Log10_Average_Rv_SQ by Age
+# t = -0.25446, df = 21, p-value = 0.8016
+# alternative hypothesis: true difference in means between group adult and group juvenile is not equal to 0
+# 95 percent confidence interval:
+#  -1.310374  1.024660
+# sample estimates:
+#    mean in group adult mean in group juvenile 
+#               1.500000               1.642857 
+# NOT SIGNIFICANT
+```
+
+No further analyses needed since insignificant.
+
+####Visualization
+```{r}
+#Visualize dataset
+#Set colors for pathogen comparisons
+Bd_c <- "#40B0A6"
+Pr_c <- "#E1BE6A"
+Rv_c <- "#9966FF"
+
+BdSQ_Age_box <- ggplot(
+  data = ag_df_i_bd, mapping = aes(x = Age , y = Confirmed_Log10_Average_Bd_SQ, na.rm = TRUE)) +
+  geom_boxplot(outlier.color="black", fill= Bd_c) +
+  #labs(y = "Average log Pr SQ",
+  #     x = "Sex", title = "Pr infection intensity between sexes n = 5") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    legend.background = element_rect(fill='transparent'), #transparent legend bg
+    legend.box.background = element_rect(fill='transparent') #trt legend panel
+    ) +
+    scale_y_continuous(limits=c(0,5)) + 
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank())
+
+print(BdSQ_Age_box)
+
+PrSQ_Age_box <- ggplot(
+  data = ag_df_i_pr, mapping = aes(x = Age , y = Confirmed_Log10_Average_Pr_SQ , na.rm = TRUE)) +
+  geom_boxplot(outlier.color="black", fill= Pr_c) +
+  #labs(y = "Average log Pr SQ", 
+  #     x = "Age class", title = "Pr infection intensity across age classes n = 6") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    legend.background = element_rect(fill='transparent'), #transparent legend bg
+    legend.box.background = element_rect(fill='transparent') #trt legend panel
+    ) +
+    scale_y_continuous(limits=c(0,5)) + 
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank())
+
+print(PrSQ_Age_box)
+
+RvSQ_Age_box <- ggplot(
+  data = ag_df_i_rv, mapping = aes(x = Age , y = Confirmed_Log10_Average_Rv_SQ , na.rm = TRUE)) +
+  geom_boxplot(outlier.color="black", fill= Rv_c) +
+#  labs(y = "Average log Rv SQ",
+#      x = "Age class", title = "Rv infection intensity across age classes n = 22") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    legend.background = element_rect(fill='transparent'), #transparent legend bg
+    legend.box.background = element_rect(fill='transparent') #trt legend panel
+    ) +
+    scale_y_continuous(limits=c(0,5)) + 
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank())
+
+print(RvSQ_Age_box)
+```
+
+```{r fig.height=10, fig.width=8}
+library(patchwork)
+(BdSQ_Age_box | PrSQ_Age_box | RvSQ_Age_box) 
+```
+
+#-----------------------------------------------
+
+## Sex v. intensity
+
+#### Bd: Not Significantly different
+
+#### Pr: Not enough data points
+
+#### Rv: Not Significantly different
+
+#### Distribution summary by age
+```{r}
+# Hypothesis (null): Sex and infection intensity are significantly correlated.
+#Bd-----------------------------------------
+sex.Bd.table.i <- table(df_i_bd$Sex, df_i_bd$Status_Bd)
+sex.Bd.table.i
+Bd.f.df <- subset(df_i_bd, df_i_bd$Sex == "female")
+Bd.m.df <- subset(df_i_bd, df_i_bd$Sex == "male")
+Bd.u.df <- subset(df_i_bd, df_i_bd$Sex == "unknown")
+
+summary(Bd.f.df$Confirmed_Log10_Average_Bd_SQ)
+summary(Bd.m.df$Confirmed_Log10_Average_Bd_SQ)
+summary(Bd.u.df$Confirmed_Log10_Average_Bd_SQ)
+
+#BD EXTERNAL TISSUES ONLY------------------------------------------------
+Bd.f.df_exto <- subset(Bd_exto_i, Bd_exto_i$Sex == "female") #43
+Bd.m.df_exto <- subset(Bd_exto_i, Bd_exto_i$Sex == "male") #64
+df_i_bd_fm_exto <- rbind(Bd.f.df_exto, Bd.m.df_exto)
+
+summary(Bd.f.df_exto$Confirmed_Log10_Average_Bd_SQ)
+summary(Bd.m.df_exto$Confirmed_Log10_Average_Bd_SQ)
+
+#Pr-----------------------------------------
+sex.Pr.table.i <- table(df_i_pr$Sex, df_i_pr$Status_Pr)
+sex.Pr.table.i
+Pr.f.df <- subset(df_i_pr, df_i_pr$Sex == "female")
+Pr.m.df <- subset(df_i_pr, df_i_pr$Sex == "male")
+Pr.u.df <- subset(df_i_pr, df_i_pr$Sex == "unknown")
+
+summary(Pr.f.df$Confirmed_Log10_Average_Pr_SQ)
+summary(Pr.m.df$Confirmed_Log10_Average_Pr_SQ)
+summary(Pr.u.df$Confirmed_Log10_Average_Pr_SQ)
+
+#Rv-----------------------------------------
+sex.Rv.table.i <- table(df_i_rv$Sex, df_i_rv$Status_Rv)
+sex.Rv.table.i
+Rv.f.df <- subset(df_i_rv, df_i_rv$Sex == "female")
+Rv.m.df <- subset(df_i_rv, df_i_rv$Sex == "male")
+Rv.u.df <- subset(df_i_rv, df_i_rv$Sex == "unknown")
+
+summary(Rv.f.df$Confirmed_Log10_Average_Rv_SQ)
+summary(Rv.m.df$Confirmed_Log10_Average_Rv_SQ)
+summary(Rv.u.df$Confirmed_Log10_Average_Rv_SQ)
+
+# Make dataframe with only male v. female for meaningful analyses
+df_i_bd_fm <- rbind(Bd.f.df,Bd.m.df)
+df_i_pr_fm <- rbind(Pr.f.df,Pr.m.df)
+df_i_rv_fm <- rbind(Rv.f.df,Rv.m.df)
+```
+
+####T-test: Sex
+Bd:
+```{r}
+#Null hypothesis: There is no significant difference in the mean LogSQ between sexes.
+Bd_sex_var.t <- var.test(Bd.f.df$Confirmed_Log10_Average_Bd_SQ, Bd.m.df$Confirmed_Log10_Average_Bd_SQ, alternative = "two.sided")
+Bd_sex_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd.f.df$Confirmed_Log10_Average_Bd_SQ and Bd.m.df$Confirmed_Log10_Average_Bd_SQ
+# F = 0.90336, num df = 42, denom df = 63, p-value = 0.7347
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.5249189 1.6044171
+# sample estimates:
+# ratio of variances 
+#          0.9033635 
+#PASSED - EQUAL VARIANCE
+
+plotNormalHistogram(df_i_bd_fm$Confirmed_Log10_Average_Bd_SQ) #NORMAL DISTRIBUTION
+qqPlot(df_i_bd_fm$Confirmed_Log10_Average_Bd_SQ) 
+
+BdSQ_ttest.sx <-t.test(Confirmed_Log10_Average_Bd_SQ ~ Sex, data = df_i_bd_fm, alternative = "two.sided", var.equal = TRUE)
+BdSQ_ttest.sx
+# 	Two Sample t-test
+# 
+# data:  Confirmed_Log10_Average_Bd_SQ by Sex
+# t = -0.72264, df = 105, p-value = 0.4715
+# alternative hypothesis: true difference in means between group female and group male is not equal to 0
+# 95 percent confidence interval:
+#  -0.5831581  0.2716292
+# sample estimates:
+# mean in group female   mean in group male 
+#             1.575289             1.731054 
+# NOT SIGNIFICANT
+```
+There is no significant difference in mean infection intensities between male and female frogs.
+
+Bd external/combination tissues only:
+```{r}
+#Null hypothesis: There is no significant difference in the mean LogSQ between sexes.
+Bd_sex_var.t_exto <- var.test(
+  Bd.f.df_exto$Confirmed_Log10_Average_Bd_SQ, Bd.m.df_exto$Confirmed_Log10_Average_Bd_SQ, alternative = "two.sided")
+Bd_sex_var.t_exto
+# 	F test to compare two variances
+# 
+# data:  Bd.f.df_exto$Confirmed_Log10_Average_Bd_SQ and Bd.m.df_exto$Confirmed_Log10_Average_Bd_SQ
+# F = 0.87923, num df = 39, denom df = 59, p-value = 0.6769
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.5012383 1.5965043
+# sample estimates:
+# ratio of variances 
+#          0.8792315  
+#PASSED - EQUAL VARIANCE
+
+
+BdSQ_ttest.sx_exto <-t.test(Confirmed_Log10_Average_Bd_SQ ~ Sex, data = df_i_bd_fm_exto, alternative = "two.sided", var.equal = TRUE)
+BdSQ_ttest.sx_exto
+# 	Two Sample t-test
+# 
+# data:  Confirmed_Log10_Average_Bd_SQ by Sex
+# t = -0.58224, df = 98, p-value = 0.5617
+# alternative hypothesis: true difference in means between group female and group male is not equal to 0
+# 95 percent confidence interval:
+#  -0.5725010  0.3127651
+# sample estimates:
+# mean in group female   mean in group male 
+#             1.647732             1.777600 
+# NOT SIGNIFICANT
+```
+When removing internal-only samples, there still is no significant difference in mean infection intensities between male and female frogs.
+
+Rv:
+```{r}
+#Null hypothesis: There is no significant difference in the mean LogSQ between sexes.
+Rv_sex_var.t <- var.test(Rv.f.df$Confirmed_Log10_Average_Rv_SQ, Rv.m.df$Confirmed_Log10_Average_Rv_SQ, alternative = "two.sided") 
+Rv_sex_var.t
+# 	F test to compare two variances
+# 
+# data:  Rv.f.df$Confirmed_Log10_Average_Rv_SQ and Rv.m.df$Confirmed_Log10_Average_Rv_SQ
+# F = 5.6463, num df = 1, denom df = 9, p-value = 0.08297
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#     0.7831946 5438.9661488
+# sample estimates:
+# ratio of variances 
+#           5.646271  
+#PASSED - EQUAL VARIANCE
+
+plotNormalHistogram(df_i_rv_fm$Confirmed_Log10_Average_Rv_SQ) #NORMAL ENOUGH DISTRIBUTION
+qqPlot(df_i_rv_fm$Confirmed_Log10_Average_Rv_SQ) 
+
+RvSQ_ttest.sx <-t.test(Confirmed_Log10_Average_Rv_SQ ~ Sex, data = df_i_rv_fm, alternative = "two.sided", var.equal = TRUE)
+RvSQ_ttest.sx
+# 	Two Sample t-test
+# 
+# data:  Confirmed_Log10_Average_Rv_SQ by Sex
+# t = 1.3014, df = 10, p-value = 0.2223
+# alternative hypothesis: true difference in means between group female and group male is not equal to 0
+# 95 percent confidence interval:
+#  -0.7833376  2.9833376
+# sample estimates:
+# mean in group female   mean in group male 
+#                2.165                1.065
+# NOT SIGNIFICANT
+```
+
+####Visualization
+```{r}
+#Visualize dataset
+
+#Set colors for pathogen comparisons
+Bd_c <- "#40B0A6"
+Pr_c <- "#E1BE6A"
+Rv_c <- "#9966FF"
+
+
+BdSQ_Sex_box <- ggplot(data = df_i_bd_fm, mapping = aes(x = Sex , y = Confirmed_Log10_Average_Bd_SQ, na.rm = TRUE)) +
+  geom_boxplot(outlier.color="black", fill= Bd_c) +
+  #labs(y = "Average log Bd SQ", x = "Sex", title = "Bd infection intensity between sexes n = 81") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    legend.background = element_rect(fill='transparent'), #transparent legend bg
+    legend.box.background = element_rect(fill='transparent') #trt legend panel
+    )+
+    scale_y_continuous(limits=c(0,5)) + 
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank())#+
+#  scale_x_discrete(labels = NULL, breaks = NULL) + labs(x = NULL) #removes female (left) and male (right)
+
+print(BdSQ_Sex_box)
+
+PrSQ_Sex_box <- ggplot(data = df_i_pr_fm, mapping = aes(x = Sex , y = Confirmed_Log10_Average_Pr_SQ, na.rm = TRUE)) +
+  geom_boxplot(outlier.color="black", fill= Pr_c) +
+  #labs(y = "Average log Pr SQ",
+  #     x = "Sex", title = "Pr infection intensity between sexes n = 5") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    legend.background = element_rect(fill='transparent'), #transparent legend bg
+    legend.box.background = element_rect(fill='transparent') #trt legend panel
+    ) +
+    scale_y_continuous(limits=c(0,5)) + 
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank())#+
+ # scale_x_discrete(labels = NULL, breaks = NULL) + labs(x = NULL) #removes female (left) and male (right)
+
+print(PrSQ_Sex_box)
+
+RvSQ_Sex_box <- ggplot(data = df_i_rv_fm, mapping = aes(x = Sex , y = Confirmed_Log10_Average_Rv_SQ, na.rm = TRUE)) +
+  geom_boxplot(outlier.color="black", fill= Rv_c) +
+  #labs(y = "Average log Rv SQ", 
+   #    x = "Sex", title = "Rv infection intensity between sexes n = 11") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    legend.background = element_rect(fill='transparent'), #transparent legend bg
+    legend.box.background = element_rect(fill='transparent') #trt legend panel
+    )+
+    scale_y_continuous(limits=c(0,5)) + 
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank()) #+
+#  scale_x_discrete(labels = NULL, breaks = NULL) + labs(x = NULL) #removes female (left) and male (right)
+
+print(RvSQ_Sex_box)
+```
+
+```{r fig.height=10, fig.width=8}
+library(patchwork)
+(BdSQ_Sex_box | PrSQ_Sex_box | RvSQ_Sex_box)
+```
+
+#-----------------------------------------------
+# One way tests for environmental variables + response variables
+#-----------------------------------------------
+## Latitude v. intensity
+
+#### Bd: Not significant
+
+#### Pr: Not enough data
+
+#### Rv: Not significant
+
+#### Linear regression: Latitude
+
+Bd:
+```{r}
+# Null hypothesis: There is no significant correlation between latitude and infection intensity.
+lat_lm_bd <- lm(Confirmed_Log10_Average_Bd_SQ~Latitude, data = df_i_bd)
+
+# diagnostic plots
+e_plot_lm_diagnostics(lat_lm_bd)
+#Assess diagnostics:
+# The Bd diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 95, 114, & 181 as outliers, however they're working to make our slope more conservative. 
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show observation 18 may be counteracting the slope and making our relationships more conservative. 
+summary(lat_lm_bd)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Bd_SQ ~ Latitude, data = df_i_bd)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.7789 -0.9472 -0.1659  0.8448  2.8538 
+# 
+# Coefficients:
+#              Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  2.064702   0.527791   3.912 0.000127 ***
+# Latitude    -0.006742   0.013978  -0.482 0.630139    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.165 on 190 degrees of freedom
+# Multiple R-squared:  0.001223,	Adjusted R-squared:  -0.004034 
+# F-statistic: 0.2326 on 1 and 190 DF,  p-value: 0.6301
+# NOT SIGNIFICANT
+```
+No relationship between latitude and infection intensity.
+
+Bd external/combination only:
+```{r}
+# Null hypothesis: There is no significant correlation between latitude and infection intensity.
+lat_lm_bd_exto <- lm(Confirmed_Log10_Average_Bd_SQ~Latitude, data = Bd_exto_i)
+
+# diagnostic plots
+e_plot_lm_diagnostics(lat_lm_bd_exto)
+#Assess diagnostics:
+# The Bd diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 95, 114, & 181 as outliers, however they're working to make our slope more conservative. 
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show observation 95, 114, & 181 are counteracting the slope and making our relationships more conservative. 
+
+summary(lat_lm_bd_exto)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Bd_SQ ~ Latitude, data = Bd_exto_i)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.8934 -0.9739 -0.1643  0.8755  2.8824 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  2.59947    0.56192   4.626 7.15e-06 ***
+# Latitude    -0.01936    0.01470  -1.317    0.189    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.164 on 178 degrees of freedom
+# Multiple R-squared:  0.009652,	Adjusted R-squared:  0.004088 
+# F-statistic: 1.735 on 1 and 178 DF,  p-value: 0.1895
+# NOT SIGNIFICANT
+```
+No relationship between latitude and infection intensity.
+
+Rv:
+```{r}
+# Null hypothesis: There is no significant correlation between latitude and infection intensity.
+lat_lm_rv <- lm(Confirmed_Log10_Average_Rv_SQ~Latitude, data = df_i_rv)
+
+# diagnostic plots
+e_plot_lm_diagnostics(lat_lm_rv)
+#Assess diagnostics:
+# The Rv diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 2, 14, & 18 as outliers.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show observation 14 and 18 work to exaggerate our slope. 
+
+summary(lat_lm_rv)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Rv_SQ ~ Latitude, data = df_i_rv)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.5108 -0.6573 -0.3312  0.7785  2.5938 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)
+# (Intercept)  0.29990    1.57888   0.190    0.851
+# Latitude     0.03056    0.03840   0.796    0.433
+# 
+# Residual standard error: 1.136 on 27 degrees of freedom
+# Multiple R-squared:  0.02292,	Adjusted R-squared:  -0.01327 
+# F-statistic: 0.6334 on 1 and 27 DF,  p-value: 0.4331
+# NOT SIGNIFICANT
+```
+No relationship between latitude and infection intensity.
+
+#### Visualization
+
+```{r}
+Bd_lat_int_line <- ggplot(df_i_bd, aes(x = Confirmed_Log10_Average_Bd_SQ, y = Latitude)) + geom_point() + geom_smooth()
+Bd_lat_int_line
+
+Rv_lat_int_line <- ggplot(df_i_rv, aes(x = Confirmed_Log10_Average_Rv_SQ, y = Latitude)) + geom_point() + geom_smooth()
+Rv_lat_int_line
+```
+
+#-----------------------------------------------
+## Longitude v. intensity
+
+#### Bd: Not significant
+
+#### Pr: Not enough data
+
+#### Rv: Not significant
+
+#### Linear regression: Longitude
+
+Bd:
+```{r}
+# Null hypothesis: There is no significant correlation between longitude and infection intensity.
+long_lm_bd <- lm(Confirmed_Log10_Average_Bd_SQ~Longitude, data = df_i_bd)
+
+# diagnostic plots
+e_plot_lm_diagnostics(long_lm_bd)
+#Assess diagnostics:
+# The Bd diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 81, 95, & 181 as outliers.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show observation 181 may be counteracting the slope and making our relationships more conservative. 
+summary(long_lm_bd)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Bd_SQ ~ Longitude, data = df_i_bd)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.8599 -0.9643 -0.2448  0.8613  2.6509 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept) 3.126633   0.826451   3.783 0.000207 ***
+# Longitude   0.015615   0.009777   1.597 0.111882    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.158 on 190 degrees of freedom
+# Multiple R-squared:  0.01325,	Adjusted R-squared:  0.008055 
+# F-statistic: 2.551 on 1 and 190 DF,  p-value: 0.1119
+# NOT SIGNIFICANT
+```
+No relationship between longitude and infection intensity.
+
+Bd external/combination only:
+```{r}
+# Null hypothesis: There is no significant correlation between longitude and infection intensity.
+long_lm_bd_exto <- lm(Confirmed_Log10_Average_Bd_SQ~Longitude, data = Bd_exto_i)
+
+# diagnostic plots
+e_plot_lm_diagnostics(long_lm_bd_exto)
+#Assess diagnostics:
+# The Bd diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 81, 95, & 181 as outliers.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show observation 181 may be counteracting the slope and making our relationships more conservative. 
+summary(long_lm_bd_exto)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Bd_SQ ~ Longitude, data = Bd_exto_i)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.8841 -0.9179 -0.2369  0.8427  2.6267 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  2.94769    0.84314   3.496 0.000596 ***
+# Longitude    0.01288    0.01001   1.287 0.199721    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.164 on 178 degrees of freedom
+# Multiple R-squared:  0.009221,	Adjusted R-squared:  0.003655 
+# F-statistic: 1.657 on 1 and 178 DF,  p-value: 0.1997
+# NOT SIGNIFICANT
+```
+No relationship between longitude and infection intensity.
+
+Rv:
+```{r}
+# Null hypothesis: There is no significant correlation between longitude and infection intensity.
+long_lm_rv <- lm(Confirmed_Log10_Average_Rv_SQ~Longitude, data = df_i_rv)
+
+# diagnostic plots
+e_plot_lm_diagnostics(long_lm_rv)
+#Assess diagnostics:
+# The Rv diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 14, & 18 as outliers.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show observation 14 and 18 work to exaggerate our slope. 
+
+summary(long_lm_rv)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Rv_SQ ~ Longitude, data = df_i_rv)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.3906 -0.7633 -0.3214  0.7709  2.5548 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)  
+# (Intercept)  2.83134    1.62352   1.744   0.0925 .
+# Longitude    0.01619    0.02027   0.799   0.4313  
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.136 on 27 degrees of freedom
+# Multiple R-squared:  0.0231,	Adjusted R-squared:  -0.01308 
+# F-statistic: 0.6384 on 1 and 27 DF,  p-value: 0.4313
+# NOT SIGNIFICANT
+```
+No relationship between longitude and infection intensity.
+
+#### Visualization
+
+```{r}
+Bd_long_int_line <- ggplot(df_i_bd, aes(x = Confirmed_Log10_Average_Bd_SQ, y = Longitude)) + geom_point() + geom_smooth()
+Bd_long_int_line
+
+Rv_long_int_line <- ggplot(df_i_rv, aes(x = Confirmed_Log10_Average_Rv_SQ, y = Longitude)) + geom_point() + geom_smooth()
+Rv_long_int_line
+```
+
+#-----------------------------------------------
+## Elevation v. intensity
+
+#### Bd: *Significant - External only 
+
+#### Pr: Not enough data
+
+#### Rv: Not significant
+
+#### Linear regression: Elevation
+
+Bd:
+```{r}
+# Null hypothesis: There is no significant correlation between elevation and infection intensity.
+elev_lm_bd <- lm(Confirmed_Log10_Average_Bd_SQ~(log10(Elevation_30s)), data = df_i_bd)
+
+# diagnostic plots
+e_plot_lm_diagnostics(elev_lm_bd)
+#Assess diagnostics:
+# The Bd diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 3, 114, 149 as outliers.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show observation 3, 114, 149 work to make our slope more conservative. 
+
+summary(elev_lm_bd)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Bd_SQ ~ (log10(Elevation_30s)), 
+#     data = df_i_bd)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.9641 -0.9859 -0.1128  0.8017  2.9342 
+# 
+# Coefficients:
+#                      Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)            2.1297     0.2412   8.830  6.9e-16 ***
+# log10(Elevation_30s)  -0.1680     0.1201  -1.398    0.164    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.16 on 190 degrees of freedom
+# Multiple R-squared:  0.01018,	Adjusted R-squared:  0.004975 
+# F-statistic: 1.955 on 1 and 190 DF,  p-value: 0.1637
+# NOT SIGNIFICANT
+```
+We see no significant correlation between infection intensity and elevation.
+
+Bd external/combination only:
+```{r}
+# Null hypothesis: There is no significant correlation between elevation and infection intensity.
+elev_lm_bd_exto <- lm(Confirmed_Log10_Average_Bd_SQ~(log10(Elevation_30s)), data = Bd_exto_i)
+
+# diagnostic plots
+e_plot_lm_diagnostics(elev_lm_bd_exto)
+#Assess diagnostics:
+# The Bd diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 114, 149, 150 as outliers.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show observation 114, 149, 150 work to make our slope more conservative. 
+
+summary(elev_lm_bd_exto)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Bd_SQ ~ (log10(Elevation_30s)), 
+#     data = Bd_exto_i)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.8074 -0.9885 -0.1338  0.7735  2.9484 
+# 
+# Coefficients:
+#                      Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)            2.4054     0.2617   9.192   <2e-16 ***
+# log10(Elevation_30s)  -0.2771     0.1275  -2.174    0.031 *  
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.155 on 178 degrees of freedom
+# Multiple R-squared:  0.02586,	Adjusted R-squared:  0.02039 
+# F-statistic: 4.725 on 1 and 178 DF,  p-value: 0.03104
+# SLIGHTLY SIGNIFICANT
+```
+When we remove internal-only samples, we see a slight significant correlation between elevation and infection intensity.
+
+Rv:
+```{r}
+# Null hypothesis: There is no significant correlation between elevation and infection intensity.
+elev_lm_rv <- lm(Confirmed_Log10_Average_Rv_SQ~(log10(Elevation_30s)), data = df_i_rv)
+
+# diagnostic plots    
+e_plot_lm_diagnostics(elev_lm_rv)
+#Assess diagnostics:
+# The Rv diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 14 as an outlier.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show observation show no major influential points
+
+summary(elev_lm_rv)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Rv_SQ ~ (log10(Elevation_30s)), 
+#     data = df_i_rv)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.4144 -0.8414 -0.3934  0.5318  2.6784 
+# 
+# Coefficients:
+#                      Estimate Std. Error t value Pr(>|t|)  
+# (Intercept)            1.7868     0.9970   1.792   0.0843 .
+# log10(Elevation_30s)  -0.1137     0.4585  -0.248   0.8060  
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.148 on 27 degrees of freedom
+# Multiple R-squared:  0.002274,	Adjusted R-squared:  -0.03468 
+# F-statistic: 0.06153 on 1 and 27 DF,  p-value: 0.806
+# NOT SIGNIFICANT
+```
+We see no significant correlation between infection intensity and elevation.
+
+#### Visualization
+```{r}
+Bd_elev_int_line <- ggplot(df_i_bd, aes(x = Confirmed_Log10_Average_Bd_SQ, y = log(Elevation_30s))) + geom_point() + geom_smooth()
+Bd_elev_int_line
+
+Bd_elev_int_line_exto <- ggplot(Bd_exto_i, aes(x = Confirmed_Log10_Average_Bd_SQ, y = log(Elevation_30s))) + geom_point() + geom_smooth()
+Bd_elev_int_line_exto
+
+Rv_elev_int_line <- ggplot(df_i_rv, aes(x = Confirmed_Log10_Average_Rv_SQ, y = log(Elevation_30s))) + geom_point() + geom_smooth()
+Rv_elev_int_line
+```
+
+#-----------------------------------------------
+
+# TPC1 v. intensity
+
+#### Bd: Not significant
+
+#### Pr: Not enough data
+
+#### Rv: Not significant
+
+#### Linear regression: TPC1
+
+Bd:
+```{r}
+# Null hypothesis: There is no significant correlation between TPC1 and infection intensity.
+TPC1_lm_bd <- lm(Confirmed_Log10_Average_Bd_SQ~TPC1, data = df_i_bd)
+
+# diagnostic plots
+e_plot_lm_diagnostics(TPC1_lm_bd)
+#Assess diagnostics:
+# The Bd diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 90, 95, 114 as outliers.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show observation 90, 95, 114 work to make our slope more conservative. 
+
+summary(TPC1_lm_bd)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Bd_SQ ~ TPC1, data = df_i_bd)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.7652 -0.9598 -0.1699  0.8471  2.8445 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept) 1.822083   0.087976  20.711   <2e-16 ***
+# TPC1        0.009235   0.027319   0.338    0.736    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.166 on 190 degrees of freedom
+# Multiple R-squared:  0.0006011,	Adjusted R-squared:  -0.004659 
+# F-statistic: 0.1143 on 1 and 190 DF,  p-value: 0.7357
+# NOT SIGNIFICANT
+```
+We see no significant correlation between infection intensity and TPC1.
+
+Bd external/combination only:
+```{r}
+# Null hypothesis: There is no significant correlation between TPC1 and infection intensity.
+TPC1_lm_bd_exto <- lm(Confirmed_Log10_Average_Bd_SQ~TPC1, data = Bd_exto_i)
+
+# diagnostic plots
+e_plot_lm_diagnostics(TPC1_lm_bd_exto)
+#Assess diagnostics:
+# The Bd diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 90, 95, 114 as outliers.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show observation 90, 95, 114 work to make our slope more conservative. 
+
+summary(TPC1_lm_bd_exto)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Bd_SQ ~ TPC1, data = Bd_exto_i)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.8775 -1.0005 -0.1701  0.8923  2.8824 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  1.90624    0.09323  20.448   <2e-16 ***
+# TPC1         0.03223    0.02865   1.125    0.262    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.166 on 178 degrees of freedom
+# Multiple R-squared:  0.007059,	Adjusted R-squared:  0.001481 
+# F-statistic: 1.265 on 1 and 178 DF,  p-value: 0.2621
+# NOT SIGNIFICANT
+```
+When we remove internal-only samples, we see no significant correlation between infection intensity and TPC1.
+
+Rv:
+```{r}
+# Null hypothesis: There is no significant correlation between TPC1 and infection intensity.
+TPC1_lm_rv <- lm(Confirmed_Log10_Average_Rv_SQ~TPC1, data = df_i_rv)
+
+# diagnostic plots    
+e_plot_lm_diagnostics(TPC1_lm_rv)
+#Assess diagnostics:
+# The Rv diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 2, 14, 18 as an outlier.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show observation no major influential points
+
+summary(TPC1_lm_rv)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Rv_SQ ~ TPC1, data = df_i_rv)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.4883 -0.6742 -0.3171  0.7799  2.5825 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  1.38493    0.28644   4.835 4.75e-05 ***
+# TPC1        -0.05915    0.07158  -0.826    0.416    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.135 on 27 degrees of freedom
+# Multiple R-squared:  0.02466,	Adjusted R-squared:  -0.01146 
+# F-statistic: 0.6827 on 1 and 27 DF,  p-value: 0.4159
+# NOT SIGNIFICANT
+```
+
+#### Visualization
+```{r}
+Bd_TPC1_int_line <- ggplot(df_i_bd, aes(x = Confirmed_Log10_Average_Bd_SQ, y = TPC1)) + geom_point() + geom_smooth()
+Bd_TPC1_int_line
+
+Rv_TPC1_int_line <- ggplot(df_i_rv, aes(x = Confirmed_Log10_Average_Rv_SQ, y = TPC1)) + geom_point() + geom_smooth()
+Rv_TPC1_int_line
+```
+#--------------------------------------------------------------
+# TPC2 v. intensity
+
+#### Bd: *Significant
+
+#### Pr: Not enough data
+
+#### Rv: Not significant
+
+#### Linear regression: TPC2
+
+Bd:
+```{r}
+# Null hypothesis: There is no significant correlation between TPC2 and infection intensity.
+TPC2_lm_bd <- lm(Confirmed_Log10_Average_Bd_SQ~TPC2, data = df_i_bd)
+
+# diagnostic plots
+e_plot_lm_diagnostics(TPC2_lm_bd)
+#Assess diagnostics:
+# The Bd diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 3, 32, 35 as outliers.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show no outlier observations having a strong impact on slope.
+
+summary(TPC2_lm_bd)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Bd_SQ ~ TPC2, data = df_i_bd)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -2.0521 -0.9819 -0.1713  0.8535  2.7329 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  1.76667    0.08686  20.339   <2e-16 ***
+# TPC2        -0.11618    0.06066  -1.915    0.057 .  
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.155 on 190 degrees of freedom
+# Multiple R-squared:  0.01894,	Adjusted R-squared:  0.01378 
+# F-statistic: 3.668 on 1 and 190 DF,  p-value: 0.05696
+# ALMOST SIGNIFICANT
+```
+We see a pattern that is almost significant between infection intensity and TPC2.
+
+Bd external/combination only:
+```{r}
+# Null hypothesis: There is no significant correlation between TPC2 and infection intensity.
+TPC2_lm_bd_exto <- lm(Confirmed_Log10_Average_Bd_SQ~TPC2, data = Bd_exto_i)
+
+# diagnostic plots
+e_plot_lm_diagnostics(TPC2_lm_bd_exto)
+#Assess diagnostics:
+# The Bd diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 32, 35, 182 as outliers.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show no outlier observations having a strong impact on slope. 
+
+summary(TPC2_lm_bd_exto)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Bd_SQ ~ TPC2, data = Bd_exto_i)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.9965 -0.9486 -0.1685  0.8110  2.6566 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  1.81938    0.08880  20.488   <2e-16 ***
+# TPC2        -0.13939    0.06294  -2.215    0.028 *  
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.154 on 178 degrees of freedom
+# Multiple R-squared:  0.02682,	Adjusted R-squared:  0.02135 
+# F-statistic: 4.905 on 1 and 178 DF,  p-value: 0.02804
+# SIGNIFICANT
+```
+When we remove internal-only samples, we see no significant correlation between infection intensity and TPC2.
+
+Rv:
+```{r}
+# Null hypothesis: There is no significant correlation between TPC2 and infection intensity.
+TPC2_lm_rv <- lm(Confirmed_Log10_Average_Rv_SQ~TPC2, data = df_i_rv)
+
+# diagnostic plots    
+e_plot_lm_diagnostics(TPC2_lm_rv)
+#Assess diagnostics:
+# The Rv diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 22 as an outlier.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show observation 22 is making our slope more conservative.
+
+summary(TPC2_lm_rv)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Rv_SQ ~ TPC2, data = df_i_rv)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.4056 -0.8635 -0.3187  0.5255  2.7058 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  1.54793    0.21379   7.240 8.69e-08 ***
+# TPC2         0.03817    0.19961   0.191     0.85    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.149 on 27 degrees of freedom
+# Multiple R-squared:  0.001352,	Adjusted R-squared:  -0.03563 
+# F-statistic: 0.03656 on 1 and 27 DF,  p-value: 0.8498
+# NOT SIGNIFICANT
+```
+We see no significant correlation between infection intensity and TPC2.
+
+#### Visualization
+```{r}
+Bd_TPC2_int_line <- ggplot(df_i_bd, aes(x = Confirmed_Log10_Average_Bd_SQ, y = TPC2)) + geom_point() + geom_smooth()
+Bd_TPC2_int_line
+
+Rv_TPC2_int_line <- ggplot(df_i_rv, aes(x = Confirmed_Log10_Average_Rv_SQ, y = TPC2)) + geom_point() + geom_smooth()
+Rv_TPC2_int_line
+```
+
+#-----------------------------------------------------------------------------
+# PPC1 v. intensity
+
+#### Bd: Not significant (but external is)
+
+#### Pr: Not enough data
+
+#### Rv: Not significant
+
+#### Linear regression: PPC1
+Bd:
+```{r}
+# Null hypothesis: There is no significant correlation between PPC1 and infection intensity.
+PPC1_lm_bd <- lm(Confirmed_Log10_Average_Bd_SQ~PPC1, data = df_i_bd)
+
+# diagnostic plots
+e_plot_lm_diagnostics(PPC1_lm_bd)
+#Assess diagnostics:
+# The Bd diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 54, 149, 167 as outliers.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show observation 54 exaggerating our slope.
+
+summary(PPC1_lm_bd)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Bd_SQ ~ PPC1, data = df_i_bd)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.8490 -0.9500 -0.1547  0.8602  2.8290 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  1.82218    0.08426  21.625   <2e-16 ***
+# PPC1         0.04145    0.03730   1.111    0.268    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.162 on 190 degrees of freedom
+# Multiple R-squared:  0.006459,	Adjusted R-squared:  0.00123 
+# F-statistic: 1.235 on 1 and 190 DF,  p-value: 0.2678
+# NOT SIGNIFICANT
+```
+We see no significant correlation between infection intensity and PPC1.
+
+Bd external/combination only:
+```{r}
+# Null hypothesis: There is no significant correlation between PPC1 and infection intensity.
+PPC1_lm_bd_exto <- lm(Confirmed_Log10_Average_Bd_SQ~PPC1, data = Bd_exto_i)
+
+# diagnostic plots
+e_plot_lm_diagnostics(PPC1_lm_bd_exto)
+#Assess diagnostics:
+# The Bd diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 132, 149, 167 as outliers.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show no outlier observations having a strong impact on slope. 
+
+summary(PPC1_lm_bd_exto)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Bd_SQ ~ PPC1, data = Bd_exto_i)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.9387 -0.9306 -0.1105  0.8157  2.8154 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  1.89780    0.08746  21.700   <2e-16 ***
+# PPC1         0.07863    0.03901   2.016   0.0454 *  
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.157 on 178 degrees of freedom
+# Multiple R-squared:  0.02231,	Adjusted R-squared:  0.01682 
+# F-statistic: 4.062 on 1 and 178 DF,  p-value: 0.04535
+# SIGNIFICANT
+```
+When we remove internal-only samples, we see a significant correlation between infection intensity and PPC1.
+
+Rv:
+```{r}
+# Null hypothesis: There is no significant correlation between PPC1 and infection intensity.
+PPC1_lm_rv <- lm(Confirmed_Log10_Average_Rv_SQ~PPC1, data = df_i_rv)
+
+# diagnostic plots    
+e_plot_lm_diagnostics(PPC1_lm_rv)
+#Assess diagnostics:
+# The Rv diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 2 as an outlier.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show no outlier observation having a strong impact on slope.
+
+summary(PPC1_lm_rv)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Rv_SQ ~ PPC1, data = df_i_rv)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.4810 -0.8045 -0.3373  0.5953  2.7273 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  1.52547    0.25349   6.018 2.02e-06 ***
+# PPC1        -0.01539    0.10695  -0.144    0.887    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.149 on 27 degrees of freedom
+# Multiple R-squared:  0.0007667,	Adjusted R-squared:  -0.03624 
+# F-statistic: 0.02072 on 1 and 27 DF,  p-value: 0.8866
+# NOT SIGNIFICANT
+```
+We see no significant correlation between infection intensity and PPC1.
+
+#### Visualization
+```{r}
+Bd_PPC1_int_line <- ggplot(df_i_bd, aes(x = Confirmed_Log10_Average_Bd_SQ, y = PPC1)) + geom_point() + geom_smooth()
+Bd_PPC1_int_line
+
+Bd_PPC1_int_line_exto <- ggplot(Bd_exto_i, aes(x = Confirmed_Log10_Average_Bd_SQ, y = PPC1)) + geom_point() + geom_smooth()
+Bd_PPC1_int_line_exto
+
+Rv_PPC1_int_line <- ggplot(df_i_rv, aes(x = Confirmed_Log10_Average_Rv_SQ, y = PPC1)) + geom_point() + geom_smooth()
+Rv_PPC1_int_line
+```
+#------------------------------------------
+#PPC2 v. intensity
+
+#### Bd: Not significant
+
+#### Pr: Not enough data
+
+#### Rv: Not significant
+
+#### Linear regression: PPC2
+Bd:
+```{r}
+# Null hypothesis: There is no significant correlation between PPC2 and infection intensity.
+PPC2_lm_bd <- lm(Confirmed_Log10_Average_Bd_SQ~PPC2, data = df_i_bd)
+
+# diagnostic plots
+e_plot_lm_diagnostics(PPC2_lm_bd)
+#Assess diagnostics:
+# The Bd diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 95, 149, 167 as outliers.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show no outlier observation is making an impact on the slope.
+
+summary(PPC2_lm_bd)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Bd_SQ ~ PPC2, data = df_i_bd)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.8629 -0.9798 -0.1352  0.8380  2.8383 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  1.82830    0.08500  21.509   <2e-16 ***
+# PPC2        -0.07242    0.06630  -1.092    0.276    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.163 on 190 degrees of freedom
+# Multiple R-squared:  0.006241,	Adjusted R-squared:  0.001011 
+# F-statistic: 1.193 on 1 and 190 DF,  p-value: 0.276
+# NOT SIGNIFICANT
+```
+We see no significant correlation between infection intensity and PPC2.
+
+Bd external/combination only:
+```{r}
+# Null hypothesis: There is no significant correlation between PPC2 and infection intensity.
+PPC2_lm_bd_exto <- lm(Confirmed_Log10_Average_Bd_SQ~PPC2, data = Bd_exto_i)
+
+# diagnostic plots
+e_plot_lm_diagnostics(PPC2_lm_bd_exto)
+#Assess diagnostics:
+# The Bd diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 95, 149, 167 as outliers.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show no outlier observations having a strong impact on slope. 
+
+summary(PPC2_lm_bd_exto)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Bd_SQ ~ PPC2, data = Bd_exto_i)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.8589 -0.9621 -0.1541  0.8659  2.8049 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  1.89184    0.08842  21.396   <2e-16 ***
+# PPC2        -0.09537    0.06934  -1.375    0.171    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.164 on 178 degrees of freedom
+# Multiple R-squared:  0.01052,	Adjusted R-squared:  0.004958 
+# F-statistic: 1.892 on 1 and 178 DF,  p-value: 0.1707
+# NOT SIGNIFICANT
+```
+When we remove internal-only samples, we still see no significant correlation between infection intensity and PPC2.
+
+Rv:
+```{r}
+# Null hypothesis: There is no significant correlation between PPC2 and infection intensity.
+PPC2_lm_rv <- lm(Confirmed_Log10_Average_Rv_SQ~PPC2, data = df_i_rv)
+
+# diagnostic plots    
+e_plot_lm_diagnostics(PPC2_lm_rv)
+#Assess diagnostics:
+# The Rv diagnostic plots show a slight skew in the data even after log transforming, but it doesn't look major.
+# 
+# Cooks distance shows observation 14 as an outlier.
+# Cooks Distance v. Leverage shows moderate influence from above points.
+# 
+# No pattern in residuals and variance is unequal. 
+# Homoscedasticity shows not many low ASRs. 
+# Variable plots show observation 14 is exaggerating our slope.
+
+summary(PPC2_lm_rv)
+# Call:
+# lm(formula = Confirmed_Log10_Average_Rv_SQ ~ PPC2, data = df_i_rv)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -1.4338 -0.6955 -0.3556  0.7214  2.5683 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)   1.4978     0.2230   6.715 3.29e-07 ***
+# PPC2          0.1180     0.1751   0.674    0.506    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.14 on 27 degrees of freedom
+# Multiple R-squared:  0.01655,	Adjusted R-squared:  -0.01987 
+# F-statistic: 0.4544 on 1 and 27 DF,  p-value: 0.506
+# NOT SIGNIFICANT
+```
+We see no significant correlation between infection intensity and PPC2.
+
+#### Visualization
+```{r}
+Bd_PPC2_int_line <- ggplot(df_i_bd, aes(x = Confirmed_Log10_Average_Bd_SQ, y = PPC2)) + geom_point() + geom_smooth()
+Bd_PPC2_int_line
+
+Rv_PPC2_int_line <- ggplot(df_i_rv, aes(x = Confirmed_Log10_Average_Rv_SQ, y = PPC2)) + geom_point() + geom_smooth()
+Rv_PPC2_int_line
+```
+
+#----------------------------------------------------------
+#Co-infection comparisons
+
+```{r}
+#Overall prevalence dataset: contains all positive and negative individuals
+df_p_all <- read.csv("All_Pathogen_Dataset.csv")
+
+#Overall co-infection prevalence dataset: contains all positive individuals that tested positive for at least two pathogens
+df_p_co <- read.csv("All_Pathogen_Dataset.csv")
+df_p_co <- filter(df_p_co, df_p_co$Overall_Infection_Status == "coinfection") 
+
+Bd_pos_single <- dplyr::filter(df_i_bd, df_i_bd$Overall_Infection_Status == "single") #Filter to remove co-infections ("2")
+Pr_pos_single <- dplyr::filter(df_i_pr, df_i_pr$Overall_Infection_Status == "single") #Filter to remove co-infections ("2")
+Rv_pos_single <- dplyr::filter(df_i_rv, df_i_rv$Overall_Infection_Status == "single") #Filter to remove co-infections ("2")
+
+Bd_Rv_pos_co <- dplyr::filter(df_i_rv, df_i_rv$Overall_Infection_Status == "coinfection") #Rv has only co-infections with Bd
+Bd_Pr_pos_co <- dplyr::filter(df_i_pr, df_i_pr$Overall_Infection_Status == "coinfection") #Pr has only co-infections with Bd
+
+#Now we have our comparison sets. 
+#Single infection and Bd-Rv co-infected (11 counts) & Bd-Pr co-infected (7 counts)
+#EXTERNAL ONLY TISSUE VERSIONS BELOW:
+Bd_pos_single_exto <- subset(Bd_exto_i, 
+                             Bd_exto_i$Overall_Infection_Status == "single")
+Bd_Rv_pos_co_exto <- dplyr::filter(Rv_pos_df, Rv_pos_df$Overall_Infection_Status == "coinfection") #Rv has only co-infections with Bd
+Bd_Pr_pos_co_exto <- dplyr::filter(Pr_pos_df, Pr_pos_df$Overall_Infection_Status == "coinfection") #Pr has only co-infections with Bd
+```
+
+### Rv intensity between Bd-Rv coinfected individuals vs. single Rv infection individuals.
+```{r}
+Rv.Bd_co_i.t <- var.test(Rv_pos_single$Confirmed_Log10_Average_Rv_SQ, Bd_Rv_pos_co$Confirmed_Log10_Average_Rv_SQ, alternative = "two.sided") 
+Rv.Bd_co_i.t
+# 	F test to compare two variances
+# 
+# data:  Rv_pos_single$Confirmed_Log10_Average_Rv_SQ and Bd_Rv_pos_co$Confirmed_Log10_Average_Rv_SQ
+# F = 0.40628, num df = 17, denom df = 10, p-value = 0.09829
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.1169598 1.1872222
+# sample estimates:
+# ratio of variances 
+#          0.4062775
+# PASSED - EQUAL VARIANCE
+
+Rv.Bd_SQ_ttest.co <-t.test(Confirmed_Log10_Average_Rv_SQ ~ Overall_Infection_Status, data = Rv_pos_df, alternative = "two.sided", var.equal = TRUE)
+Rv.Bd_SQ_ttest.co
+# 	Two Sample t-test
+# 
+# data:  Confirmed_Log10_Average_Rv_SQ by Overall_Infection_Status
+# t = 0.087612, df = 27, p-value = 0.9308
+# alternative hypothesis: true difference in means between group coinfection and group single is not equal to 0
+# 95 percent confidence interval:
+#  -0.8639415  0.9410122
+# sample estimates:
+# mean in group coinfection      mean in group single 
+#                  1.569091                  1.530556 
+```
+Rv infection intensity is *not* significantly different between Bd-Rv co-infected individuals and just Rv infected individuals
+
+Bd external/combination tissues only:
+```{r}
+Rv.Bd_co_i.t_exto <- var.test(Rv_pos_single$Confirmed_Log10_Average_Rv_SQ, Bd_Rv_pos_co_exto$Confirmed_Log10_Average_Rv_SQ, alternative = "two.sided") 
+Rv.Bd_co_i.t_exto
+# 	F test to compare two variances
+# 
+# data:  Rv_pos_single$Confirmed_Log10_Average_Rv_SQ and Bd_Rv_pos_co$Confirmed_Log10_Average_Rv_SQ
+# F = 0.40628, num df = 17, denom df = 10, p-value = 0.09829
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.1169598 1.1872222
+# sample estimates:
+# ratio of variances 
+#          0.4062775
+
+Rv.Bd_co_i.t$estimate
+# ratio of variances 
+#          0.4062775 
+Rv.Bd_SQ_ttest.co <-t.test(Confirmed_Log10_Average_Rv_SQ ~ Overall_Infection_Status, data = Bd_po, alternative = "two.sided", var.equal = TRUE)
+Rv.Bd_SQ_ttest.co
+```
+
+###Bd intensity between Bd-Rv coinfected individuals vs. single Bd infection individuals.
+```{r}
+Bd.Rv_pos_df <- dplyr::filter(Bd_pos_df, Bd_pos_df$Status_Pr == "0") #Let's take out Pr co-infections
+#Now let's check Bd infection intensity between Bd-Rv co-infected indidivuals and individuals with just Bd infection.
+Bd.Rv_SQ_ttest.co <-t.test(Confirmed_Log10_Average_Bd_SQ ~ Overall_Infection_Status, data = Bd.Rv_pos_df, alternative = "two.sided", var.equal = TRUE)
+Bd.Rv_SQ_ttest.co
+
+# 	Two Sample t-test
+# 
+# data:  Confirmed_Log10_Average_Bd_SQ by Overall_Infection_Status
+# t = -0.5407, df = 181, p-value = 0.5894
+# alternative hypothesis: true difference in means between group coinfection and group single is not equal to 0
+# 95 percent confidence interval:
+#  -0.7907935  0.4506138
+# sample estimates:
+# mean in group coinfection      mean in group single 
+#                  1.631584                  1.801674 
+
+#------Rv infection intensity is *not* significantly different between Bd-Rv co-infected individuals and just Rv infected individuals---------#
+```
+###Pr intensity between Bd-Pr coinfected individuals vs. single Pr infection individuals.
+```{r}
+Pr.Bd_co_i.t <- var.test(Pr_pos_single$Confirmed_Log10_Average_Pr_SQ, Bd_Pr_pos_co$Confirmed_Log10_Average_Pr_SQ, alternative = "two.sided") 
+Pr.Bd_co_i.t
+# 	F test to compare two variances
+# 
+# data:  Pr_pos_single$Confirmed_Log10_Average_Pr_SQ and Bd_Pr_pos_co$Confirmed_Log10_Average_Pr_SQ
+# F = 1.202, num df = 2, denom df = 6, p-value = 0.7278
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#   0.1655718 47.2774921
+# sample estimates:
+# ratio of variances 
+#           1.202027 
+
+Pr.Bd_co_i.t$estimate
+# ratio of variances 
+#           1.202027 
+Pr.Bd_SQ_ttest.co <-t.test(Confirmed_Log10_Average_Pr_SQ ~ Overall_Infection_Status, data = Pr_pos_df, alternative = "two.sided", var.equal = TRUE)
+Pr.Bd_SQ_ttest.co
+# 	Two Sample t-test
+# 
+# data:  Confirmed_Log10_Average_Pr_SQ by Overall_Infection_Status
+# t = 1.5627, df = 8, p-value = 0.1568
+# alternative hypothesis: true difference in means between group coinfection and group single is not equal to 0
+# 95 percent confidence interval:
+#  -0.4047372  2.1065220
+# sample estimates:
+# mean in group coinfection      mean in group single 
+#                  2.399590                  1.548697 
+
+#------Pr infection intensity is *not* significantly different between Bd-Pr co-infected individuals and just Pr infected individuals---------#
+```
+###Bd intensity between Bd-Pr coinfected individuals vs. single Bd infection individuals.
+```{r}
+Bd.Pr_pos_df <- dplyr::filter(Bd_pos_df, Bd_pos_df$Status_Rv == "0") #Let's take out Rv co-infections
+Bd.Pr_co_i.t <- var.test(Bd_pos_single$Confirmed_Log10_Average_Bd_SQ, Bd_Pr_pos_co$Confirmed_Log10_Average_Bd_SQ, alternative = "two.sided") 
+Bd.Pr_co_i.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_single$Confirmed_Log10_Average_Bd_SQ and Bd_Pr_pos_co$Confirmed_Log10_Average_Bd_SQ
+# F = 1.1252, num df = 170, denom df = 5, p-value = 0.9799
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.1858711 2.9725661
+# sample estimates:
+# ratio of variances 
+#            1.12517
+
+table(Bd.Pr_pos_df$Overall_Infection_Status)
+
+Bd.Pr_co_i.t$estimate
+# ratio of variances 
+#            1.12517
+Bd.Pr_SQ_ttest.co <-t.test(Confirmed_Log10_Average_Bd_SQ ~ Overall_Infection_Status, data = Bd.Pr_pos_df, alternative = "two.sided", var.equal = TRUE)
+Bd.Pr_SQ_ttest.co
+# 	Two Sample t-test
+# 
+# data:  Confirmed_Log10_Average_Bd_SQ by Overall_Infection_Status
+# t = 0.59656, df = 171, p-value = 0.5516
+# alternative hypothesis: true difference in means between group coinfection and group single is not equal to 0
+# 95 percent confidence interval:
+#  -0.6729175  1.2558129
+# sample estimates:
+# mean in group coinfection      mean in group single 
+#                  2.101809                  1.810361 
+```
+#---------------------------------------------------------------------------
+
+# Tissue type v. intensity
+
+```{r}
+#Null hypothesis: There is no significant difference in the mean precipitation between tissue type and Bd LogSQ.
+
+#Bd external tissues -------------------------------
+#F-test to check for unequal variances between 
+Bd_exto_tiss_i$Fam  <- as.factor(Bd_exto_tiss_i$Fam)
+Bd_exto_i <- subset(Bd_exto_tiss_i
+                    , Bd_exto_tiss_i$Bd_Tissue == "Exto")
+Bd_inter_i <- subset(Bd_exto_tiss_i
+                     , Bd_exto_tiss_i$Bd_Tissue == "Internal_tissues")
+
+Bd_exto_i_var.t <- var.test(Bd_exto_i$Confirmed_Log10_Average_Bd_SQ, Bd_inter_i$Confirmed_Log10_Average_Bd_SQ, alternative = "two.sided")
+Bd_exto_i_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_exto_i$Confirmed_Log10_Average_Bd_SQ and Bd_inter_i$Confirmed_Log10_Average_Bd_SQ
+# F = 2.5571, num df = 183, denom df = 11, p-value = 0.08333
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.8747635 5.2777882
+# sample estimates:
+# ratio of variances 
+#           2.557105 
+#PASSED - EQUAL VARIANCES
+
+plotNormalHistogram(Bd_exto_tiss_i$Confirmed_Log10_Average_Bd_SQ) #NORMAL DISTRIBUTION
+qqPlot(Bd_exto_tiss_i$Confirmed_Log10_Average_Bd_SQ)
+
+BdExto_ttest.int <-t.test(Confirmed_Log10_Average_Bd_SQ ~ Fam, data = Bd_exto_tiss_i, alternative = "two.sided", var.equal = TRUE)
+BdExto_ttest.int
+# 	Two Sample t-test
+# 
+# data:  Confirmed_Log10_Average_Bd_SQ by Bd_Tissue
+# t = 2.3797, df = 194, p-value = 0.0183
+# alternative hypothesis: true difference in means between group Exto and group Internal_tissues is not equal to 0
+# 95 percent confidence interval:
+#  0.1424089 1.5212530
+# sample estimates:
+#             mean in group Exto mean in group Internal_tissues 
+#                      1.8226423                      0.9908113 
+#SIGNIFICANT
+```
+#------------------------------------------
+# Model selection for Bd intensity (with interaction)
+
+Bd intensity:
+```{r}
+### LOAD FULL DATA
+Bd_i_df <- read.csv("All_Pathogen_Dataset.csv")
+#Bd intensity dataset: contains all positive and negative individuals
+Bd_i_df <- filter(Bd_i_df, !is.na(Bd_i_df$Confirmed_Average_Bd_SQ))
+Bd_i_df <- subset(Bd_i_df, Bd_i_df$Confirmed_Log10_Average_Bd_SQ > 0)
+
+#Rename lonsubset()#Rename long variable (Elevation_30s,"Confirmed_Log10_Average_Bd[Pr,Rv]SQ")
+names(Bd_i_df)[57] <- paste("BdSQ")
+
+#Making sure our variables are correctly classified.
+Bd_i_df$Sp        <- as.factor(Bd_i_df$Sp)
+Bd_i_df$Fam       <- as.factor(Bd_i_df$Fam)
+Bd_i_df$Status_Bd <- as.factor(Bd_i_df$Status_Bd)
+Bd_i_df$Age       <- as.factor(Bd_i_df$Age)
+Bd_i_df$Sex       <- as.factor(Bd_i_df$Sex)
+Bd_i_df$Month     <- as.factor(Bd_i_df$Month)
+Bd_i_df$Year      <- as.factor(Bd_i_df$Year)
+Bd_i_df$BdSQ      <- as.numeric(Bd_i_df$BdSQ)
+
+Bd_i_df <- Bd_i_df[!is.na(Bd_i_df$BdSQ),]
+
+str(Bd_i_df)
+# Erik's multiple regression, stepwise selection starting at main effects model
+library(erikmisc)
+
+#LogSQ 
+fit_lm <-
+  lm(BdSQ ~ 
+            Fam +
+            elev.z.1 +
+            lat.z.1 +
+            #TPC1.z.1 +
+            TPC2.z.1 +
+            PPC1.z.1 +
+            PPC2.z.1 
+  , data = Bd_i_df
+  )
+
+fit_lm |> summary()
+# Call:
+# lm(formula = BdSQ ~ Fam + elev.z.1 + lat.z.1 + TPC2.z.1 + PPC1.z.1 + 
+#     PPC2.z.1, data = Bd_i_df)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -2.0885 -0.8250 -0.1835  0.7711  2.6666 
+# 
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  1.07877    0.27177   3.969 0.000103 ***
+# FamHylidae   0.65449    0.35545   1.841 0.067190 .  
+# FamRanidae   0.79387    0.28664   2.770 0.006188 ** 
+# elev.z.1    -0.10348    0.12744  -0.812 0.417865    
+# lat.z.1      0.16397    0.16654   0.985 0.326127    
+# TPC2.z.1    -0.06044    0.09328  -0.648 0.517795    
+# PPC1.z.1     0.14971    0.17918   0.836 0.404509    
+# PPC2.z.1    -0.05153    0.13277  -0.388 0.698363    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.144 on 184 degrees of freedom
+# Multiple R-squared:  0.06837,	Adjusted R-squared:  0.03293 
+# F-statistic: 1.929 on 7 and 184 DF,  p-value: 0.06724
+
+fit_lm |> car::Anova(type = 3)
+# Anova Table (Type III tests)
+# 
+# Response: BdSQ
+#              Sum Sq  Df F value    Pr(>F)    
+# (Intercept)  20.615   1 15.7564 0.0001032 ***
+# Fam          10.036   2  3.8354 0.0233398 *  
+# elev.z.1      0.863   1  0.6593 0.4178652    
+# lat.z.1       1.268   1  0.9694 0.3261267    
+# TPC2.z.1      0.549   1  0.4199 0.5177954    
+# PPC1.z.1      0.913   1  0.6981 0.4045087    
+# PPC2.z.1      0.197   1  0.1507 0.6983633    
+# Residuals   240.740 184                      
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+#plot diagnostics
+e_plot_lm_diagnostics(
+    fit_lm
+  , sw_plot_set = c(NA, "simple", "simpleAV", "all")[4]
+  )
+
+#Backward and forward selection WITH interaction
+fit_lm_red <-
+  step(
+    fit_lm
+  , scope = 
+      list(
+        lower = LogSQ ~ 1
+      , upper = LogSQ ~ 
+                  (Fam +
+                   elev.z.1 +
+                   lat.z.1 +
+                   #TPC1.z.1 +
+                   TPC2.z.1 +
+                   PPC1.z.1 +
+                   PPC2.z.1)^2 
+      )
+  , direction = c("both", "backward", "forward")[1]
+  , k = 2  # log(nrow(Bd_i_df))  # 2 = AIC, log(n) = BIC
+  , trace = 0  # 0 for no output for each step, 1 for output
+  )
+
+fit_lm_red |> summary()
+# Call:
+# lm(formula = BdSQ ~ Fam + elev.z.1 + lat.z.1 + TPC2.z.1 + PPC1.z.1 + 
+#     PPC2.z.1 + elev.z.1:PPC1.z.1 + TPC2.z.1:PPC2.z.1, data = Bd_i_df)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -2.3363 -0.7740 -0.1401  0.7608  2.6795 
+# 
+# Coefficients:
+#                   Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)        1.09978    0.27800   3.956 0.000109 ***
+# FamHylidae         0.70734    0.34951   2.024 0.044449 *  
+# FamRanidae         0.80811    0.28059   2.880 0.004454 ** 
+# elev.z.1           0.08333    0.14048   0.593 0.553805    
+# lat.z.1            0.23155    0.16555   1.399 0.163594    
+# TPC2.z.1          -0.02698    0.09169  -0.294 0.768896    
+# PPC1.z.1           0.01601    0.17953   0.089 0.929030    
+# PPC2.z.1          -0.18763    0.17379  -1.080 0.281743    
+# elev.z.1:PPC1.z.1  0.23965    0.10625   2.255 0.025297 *  
+# TPC2.z.1:PPC2.z.1  0.25922    0.12703   2.041 0.042740 *  
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# Residual standard error: 1.116 on 182 degrees of freedom
+# Multiple R-squared:  0.123,	Adjusted R-squared:  0.07959 
+# F-statistic: 2.835 on 9 and 182 DF,  p-value: 0.003808
+
+fit_lm_red |> car::Anova(type = 2)
+#Type 2: Sum of squares of one variable given another variable in pairwise and sequential manner.
+#Type 3: Sum of squares of one variable given the interaction of one variable and another - cannot use with interactions because it's part of the given information.
+#Not sequential.
+# Anova Table (Type II tests)
+# 
+# Response: BdSQ
+#                    Sum Sq  Df F value  Pr(>F)  
+# Fam                10.349   2  4.1553 0.01719 *
+# elev.z.1            0.270   1  0.2167 0.64213  
+# lat.z.1             2.436   1  1.9565 0.16359  
+# TPC2.z.1            0.342   1  0.2750 0.60065  
+# PPC1.z.1            0.139   1  0.1113 0.73906  
+# PPC2.z.1            4.649   1  3.7330 0.05490 .
+# elev.z.1:PPC1.z.1   6.334   1  5.0870 0.02530 *
+# TPC2.z.1:PPC2.z.1   5.185   1  4.1638 0.04274 *
+# Residuals         226.633 182                  
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+ e_plot_lm_diagnostics(
+    fit_lm_red
+  , sw_plot_set = c(NA, "simple", "simpleAV", "all")[4]
+  )
+
+ #plot our linear regression line and interactions.
+e_plot_model_contrasts(
+    fit = fit_lm_red
+  , dat_cont = Bd_i_df
+  , sw_glm_scale = c("link", "response")[2]
+  , sw_TWI_plots_keep = c("singles", "both", "all")[1]
+)
+```
+We see the main effect lies in our Families (with Ranidae have higher than Bufonidae infection intensities).
+There is an interaction between elevation, PPC1, TPC2 and PPC2 that is to be expected and is apparently significant in our model, however overall our model only explains 12.3% of the variation in the data. It's more efficient to use one-way linear analysis between intensity and continuous variables and simple comparisons of means between categorical variables.
+
+#-----------------------------------------------
+# Checking for interactions
+#### Age v. family v. intensity
+
+Bd:
+```{r, fig.height = 5, fig.width = 8, echo = FALSE}
+# Calculate the cell means for each (Age, Fam) combination
+# Group means
+bd_mean_af  <- ag_df_i_bd %>% group_by(Fam, Age) %>% summarise(m = mean(Confirmed_Log10_Average_Bd_SQ)) %>% ungroup()
+bd_mean_af
+# # A tibble: 5 × 3
+#   Fam       Age          m
+#   <fct>     <fct>    <dbl>
+# 1 Bufonidae adult    1.18 
+# 2 Bufonidae juvenile 0.577
+# 3 Hylidae   adult    1.69 
+# 4 Ranidae   adult    1.72 
+# 5 Ranidae   juvenile 2.61 
+# Interaction plots, ggplot
+library(ggplot2)
+p1 <- ggplot(ag_df_i_bd, aes(x = Fam, y = Confirmed_Log10_Average_Bd_SQ, colour = Age))
+p1 <- p1 + geom_hline(aes(yintercept = 0), colour = "black"
+                  , linetype = "solid", alpha = 0.3)
+#p1 <- p1 + scale_y_continuous(limits = c(90, 170), breaks = seq(90, 170, by=10))
+p1 <- p1 + geom_boxplot(alpha = 0.5, outlier.size=0.1)
+p1 <- p1 + geom_point(data = bd_mean_af, aes(y = m), size = 4)
+p1 <- p1 + geom_line(data = bd_mean_af, aes(y = m, group = Age), size = 1.5)
+p1 <- p1 + theme_bw()
+p1 <- p1 + labs(title = "Age by Fam")
+print(p1)
+
+p2 <- ggplot(ag_df_i_bd, aes(x = Age, y = Confirmed_Log10_Average_Bd_SQ, colour = Fam))
+p2 <- p2 + geom_hline(aes(yintercept = 0), colour = "black"
+                  , linetype = "solid", alpha = 0.3)
+#p2 <- p2 + scale_y_continuous(limits = c(90, 170), breaks = seq(90, 170, by=10))
+p2 <- p2 + geom_boxplot(alpha = 0.5, outlier.size=0.1)
+p2 <- p2 + geom_point(data = bd_mean_af, aes(y = m), size = 4)
+p2 <- p2 + geom_line(data = bd_mean_af, aes(y = m, group = Fam), size = 1.5)
+p2 <- p2 + theme_bw()
+p2 <- p2 + labs(title = "Fam by age")
+print(p2)
+
+library(gridExtra)
+grid.arrange(grobs = list(p1, p2), nrow=2, top="Bd Infection intensity interaction plots")
+```
+
+There *is* an interaction between Fam (Bufonidae v. Ranidae) and Age in respect to infection intensity.
+
+Rv:
+```{r, fig.height = 5, fig.width = 8, echo = FALSE}
+# Calculate the cell means for each (Age, Fam) combination
+# Group means
+rv_mean_af  <- ag_df_i_rv %>% group_by(Fam, Age) %>% summarise(m = mean(Confirmed_Log10_Average_Rv_SQ)) %>% ungroup()
+rv_mean_af
+# # A tibble: 5 × 3
+#   Fam       Age          m
+#   <fct>     <fct>    <dbl>
+# 1 Bufonidae adult     1.39
+# 2 Bufonidae juvenile  1.14
+# 3 Hylidae   adult     0.66
+# 4 Ranidae   adult     1.64
+# 5 Ranidae   juvenile  1.73
+# Interaction plots, ggplot
+library(ggplot2)
+p3 <- ggplot(ag_df_i_rv, aes(x = Fam, y = Confirmed_Log10_Average_Rv_SQ, colour = Age))
+p3 <- p3 + geom_hline(aes(yintercept = 0), colour = "black"
+                  , linetype = "solid", alpha = 0.3)
+#p3 <- p3 + scale_y_continuous(limits = c(90, 170), breaks = seq(90, 170, by=10))
+p3 <- p3 + geom_boxplot(alpha = 0.5, outlier.size=0.1)
+p3 <- p3 + geom_point(data = rv_mean_af, aes(y = m), size = 4)
+p3 <- p3 + geom_line(data = rv_mean_af, aes(y = m, group = Age), size = 1.5)
+p3 <- p3 + theme_bw()
+p31 <- p3 + labs(title = "Age by Fam")
+print(p3)
+
+p4 <- ggplot(ag_df_i_rv, aes(x = Age, y = Confirmed_Log10_Average_Rv_SQ, colour = Fam))
+p4 <- p4 + geom_hline(aes(yintercept = 0), colour = "black"
+                  , linetype = "solid", alpha = 0.3)
+#p4 <- p4 + scale_y_continuous(limits = c(90, 170), breaks = seq(90, 170, by=10))
+p4 <- p4 + geom_boxplot(alpha = 0.5, outlier.size=0.1)
+p4 <- p4 + geom_point(data = rv_mean_af, aes(y = m), size = 4)
+p4 <- p4 + geom_line(data = rv_mean_af, aes(y = m, group = Fam), size = 1.5)
+p4 <- p4 + theme_bw()
+p4 <- p4 + labs(title = "Fam by age")
+print(p4)
+
+library(gridExtra)
+grid.arrange(grobs = list(p3, p4), nrow=2, top="Rv Infection intensity interaction plots")
+
+```
+
+There *is* an interaction between Fam (Bufonidae v. Ranidae) and Age in respect to infection intensity, though there is class imbalance in points that will need to be considered when making inferences.

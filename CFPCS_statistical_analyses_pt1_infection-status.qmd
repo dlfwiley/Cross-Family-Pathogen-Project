@@ -1,0 +1,5042 @@
+---
+title: "Exploration and statistical analyses of infection status and potential predictor variables for model selection for all pathogens (Bd, Pr, Rv)"
+author: Dani Wiley
+date:   last-modified
+editor: visual
+description: |
+  Explores the data, summarizing singular relationships between independent and dependent variables and running simple hypothesis tests to understand patterns in the data. Contact dlfwiley@gmail.com with any questions or requests for more data.
+
+format:
+  html:
+    theme:            litera
+    highlight-style:  atom-one
+    page-layout:      full      # article, full   # https://quarto.org/docs/output-formats/page-layout.html
+    toc:              true
+    toc-location:     body  # body, left, right
+    number-sections:  false
+    self-contained:         false     # !!! this can cause a render error
+    code-overflow:          scroll    # scroll, wrap
+    code-block-bg:          true
+    code-block-border-left: "#30B0E0"
+    code-copy:              false     # true, false, hover a copy buttom in top-right of code block
+---
+
+#----------------------------------------------- 
+# Patterns in the data summary
+
+In pt 1 and pt 2 of the All_Pathogen_Statistical_Analyses.qmd, we explore the data in various ways, depending on the type of variables and relationships we are interested in testing. Overall summaries are listed here for convenience.
+
+This document covers analyses relating to infection status.
+
+1\) Chi-squared analysis (categorical independent and dependent variables)
+
+-   **Family v. infection status**
+
+    -   Bd - signif difference between observed and expected. Ranidae higher, Bufonidae & Hylidae lower than expected.
+
+    -   Pr - no signif difference between observed and expected, but low sample size.
+
+    -   Rv - signif difference between observed and expected. Ranidae higher, Bufonidae & Hylidae lower than expected.
+
+-   **Species v. infection status**
+
+    -   Bd - signif difference between observed and expected, Rana spp higher, all other non-Ranid spp lower than expected other than *P. crucifer* & *A. americanus*.
+
+    -   Pr - no signif difference between observed and expected, but low sample size.
+
+    -   Rv - signif difference between observed and expected. *R. catesbeiana* & *R. clamitans* higher, all but *R. sphenocephala* lower than expected.
+    
+-   **Age class vs. infection status**
+
+    -   Bd - No signif difference between observed and expected.
+    
+    -   Pr - No signif difference between observed and expected.
+
+    -   Rv - signif difference between observed and expected. Juveniles higher.
+
+-   **Sex vs. infection status**
+
+    -   Not signif for any pathogen.
+
+
+-   **Tissue type vs. infection status**
+
+    -   Bd - signif difference between observed and expected. External + combination tissue extracts are higher, while internal only are lower.
+    
+3\) Analysis of Variance (categorical independent variables with at least 3 or more categories and continuous dependent variable)
+
+-   **Family v. infection intensity**
+
+    -   Bd - signif difference in means. 
+
+        -   Post-hoc Tukey shows signif difference in means between Bufonidae and Ranidae.
+
+    -   Pr - no signif difference in means.
+
+    -   Rv - signif difference in means.
+
+        -   Post-hoc T-test w/ Bonferonni correction shows signif difference in means between Hylidae & Ranidae
+
+-   **Species v. infection intensity**
+
+    -   Bd - signif difference in means
+
+        -   Post-hoc Games Howell Test shows signif differences in means between *R. clamitans* vs. *A. americanus* & *R. catesbeiana*, & *R. pipiens*.
+
+    -   Pr - not enough data.
+
+    -   Rv - no signif difference in means.
+    
+-   **TPC1 v. infection status**
+
+    -   Signif difference in mean TPC1 between infected & uninfected individuals for all pathogens. 
+    
+-   **TPC2 v. infection status**
+
+    -   Bd signif difference in mean TPC2 between infected & uninfected individuals.
+    
+    -   Pr signif difference in mean TPC2 between infected & uninfected individuals.
+    
+    -   Rv no signif difference.
+    
+
+-   **PPC1 v. infection status**
+
+    -   No signif difference in means between infected and uninfected for any pathogen.
+    
+-   **PPC2 v. infection status**
+
+    -   Bd - Signif difference in mean PPC2 between infected and uninfected individuals. 
+    
+        -   Bd infected with higher average PPC2 values compared to uninfected.
+
+4\) Logistic regression (continuous independent variable and categorical dependent variables)
+
+-   **Latitude v. infection status**
+
+    -   Bd - signif correlation between latitude and odds ratio of Bd infection. Higher lat = higher probability of infection.
+
+    -   Pr - not enough data.
+
+    -   Rv - signif correlation between latitude and odds ratio of Rv infection. Higher lat = higher probability.
+
+-   **Elevation v. infection status**
+
+    -   Bd - No signif correlation between elevation and odds ratio of infection.
+    
+    -   Pr not enough data.
+    
+    -   Rv - No signif correlation between elevation and odds ratio of infection.
+    
+-   **TPC1 v. infection status**
+
+    -   Bd - Signif correlation between TPC1 and odds ratio of infection. 
+    
+        -   Lower TPC1 = higher probability of infection.
+  
+    -   Pr - Not enough data.
+    
+    -   Rv - Signif correlation between TPC1 and odds ratio of infection. 
+    
+        -   Lower TPC1 = higher probability of infection.
+        
+-   **TPC2 v. infection status**
+
+    -   Bd - Signif correlation between TPC2 and odds ratio of infection.
+      
+        -   Lower TPC2 = higher probability of infection.
+    
+    -   Pr - Signif correlation between TPC2 and odds ratio of infection.
+    
+        -   Lower TPC2 = higher probability of infection, but low sample sizes.
+    
+    -   Rv - No signif correlation between TPC2 and odds ratio of infection.
+    
+-   **PPC1 v. infection status**
+
+    -   No signif correlation between PPC1 and odds ratio of any pathogen.
+    
+-   **PPC2 v. infection status**
+
+    -   Bd -  Signif correlation between TPC2 and odds ratio of infection. 
+    
+        -   Higher PPC2 = higher probability of infection.
+    
+
+5\) Linear regression (continuous independent variable and continuous dependent variable)
+
+-   **Latitude v. infection intensity**
+
+    -   No signif correlation in infection intensity and latitude for all pathogens.
+
+-   **Elevation v. infection intensity**
+
+    -   No signif correlation in infection intensity and latitude for all pathogens.
+    
+-   **TPC1 v. infection intensity**
+
+    -   No signif correlation in infection intensity and latitude for all pathogens. 
+    
+-   **TPC2 v. infection intensity**
+
+    -   No signif correlation in infection intensity and latitude for all pathogens.
+    
+-   **PPC1 v. infection intensity**
+
+    -   No signif correlation in infection intensity and latitude for all pathogens.
+    
+-   **PPC2 v. infection intensity**
+
+    -   No signif correlation in infection intensity and latitude for all pathogens.
+
+#-----------------------------------------------
+
+# Load libraries
+
+```{r}
+library(dplyr)
+library(tidyverse)
+library(car)
+library(GGally)
+library(stats)
+library(gplots)
+library(ggplot2)
+library(arm) 
+library(ggfortify)
+library(erikmisc)
+library(rcompanion)
+library(binom)
+```
+
+# Load prevalence data
+Code last updated 8/22/2024
+```{r}
+# As of 29 April, 2024, these datasets are final. This version includes all 19 BioClim variables and 1 elevation variable.
+
+#Infection prevalence datasets:---------------------------------------------------
+
+#Bd prevalence dataset: contains all individuals screened for Bd
+df_p_bd <- read.csv("All_Pathogen_Dataset.csv")
+df_p_bd <- filter(df_p_bd, !is.na(df_p_bd$Status_Bd))
+
+#Pr prevalence dataset: contains all individuals screened for Pr
+df_p_pr <- read.csv("All_Pathogen_Dataset.csv") 
+df_p_pr <- filter(df_p_pr, !is.na(df_p_pr$Status_Pr))
+
+#Rv prevalence dataset: ontains all individuals screened for Rv
+df_p_rv <- read.csv("All_Pathogen_Dataset.csv") 
+df_p_rv <- filter(df_p_rv, !is.na(df_p_rv$Status_Rv)) 
+
+#MUTATION OF PREVALENCE (1) AND INCONSISTENT ("low") POINTS ------------------------
+#change all 'low' data points to '1' to count total infection status for corresponding pathogen.
+df_p_bd$Status_Bd  <- gsub('low', '1', df_p_bd$Status_Bd)
+df_p_pr$Status_Pr <- gsub('low', '1', df_p_pr$Status_Pr)
+df_p_rv$Status_Rv <- gsub('low', '1', df_p_rv$Status_Rv)
+
+df_p_bd$Fam  <- as.factor(df_p_bd$Fam)
+df_p_pr$Fam <- as.factor(df_p_pr$Fam)
+df_p_rv$Fam <- as.factor(df_p_rv$Fam)
+
+df_p_bd$Status_Bd  <- as.factor(df_p_bd$Status_Bd)
+df_p_pr$Status_Pr <- as.factor(df_p_pr$Status_Pr)
+df_p_rv$Status_Rv <- as.factor(df_p_rv$Status_Rv)
+
+#MUTATION OF TISSUE CHARACTERISTICS-----------------------------------------------
+#For simplicity, we are interested in external only vs. internal only vs combination of tissues used and its affects on infection Bd status. A more formalized experimental version of this study was completed by Torres A., Wiley D. et al., 2024 that showed significant detection differences between tissue types used in our established qPCR protocol. This is a challenge of repurposing data in our study.
+
+names(df_p_bd)[45] <- paste("Bd_Tissue")
+names(df_p_pr)[46] <- paste("Pr_Tissue")
+names(df_p_rv)[47] <- paste("Rv_Tissue")
+
+df_p_bd$Bd_Tissue[df_p_bd$Bd_Tissue=="Liver_included_no_skin"]  <-"Internal_tissues"
+df_p_bd$Bd_Tissue[df_p_bd$Bd_Tissue=="Liver_muscle"]            <-"Internal_tissues"
+df_p_bd$Bd_Tissue[df_p_bd$Bd_Tissue=="Liver_only"]              <-"Internal_tissues"
+df_p_bd$Bd_Tissue[df_p_bd$Bd_Tissue=="Muscle_only"]             <-"Internal_tissues"
+df_p_bd$Bd_Tissue[df_p_bd$Bd_Tissue=="Toe_only"]                <-"External_tissues"
+df_p_bd$Bd_Tissue[df_p_bd$Bd_Tissue=="Whole_organism"]          <-"External_tissues"
+df_p_bd$Bd_Tissue[df_p_bd$Bd_Tissue=="Liver_toe"]               <-"Combination"
+df_p_bd$Bd_Tissue[df_p_bd$Bd_Tissue=="Muscle_toe"]              <-"Combination"
+
+df_p_pr$Pr_Tissue[df_p_pr$Pr_Tissue=="Liver_included_no_skin"]  <-"Internal_tissues"
+df_p_pr$Pr_Tissue[df_p_pr$Pr_Tissue=="Liver_muscle"]            <-"Internal_tissues"
+df_p_pr$Pr_Tissue[df_p_pr$Pr_Tissue=="Liver_only"]              <-"Internal_tissues"
+df_p_pr$Pr_Tissue[df_p_pr$Pr_Tissue=="Muscle_only"]             <-"Internal_tissues"
+df_p_pr$Pr_Tissue[df_p_pr$Pr_Tissue=="Toe_only"]                <-"External_tissues"
+df_p_pr$Pr_Tissue[df_p_pr$Pr_Tissue=="Whole_organism"]          <-"External_tissues"
+df_p_pr$Pr_Tissue[df_p_pr$Pr_Tissue=="Liver_toe"]               <-"Combination"
+df_p_pr$Pr_Tissue[df_p_pr$Pr_Tissue=="Muscle_toe"]              <-"Combination"
+
+df_p_rv$Rv_Tissue[df_p_rv$Rv_Tissue=="Liver_included_no_skin"]  <-"Internal_tissues"
+df_p_rv$Rv_Tissue[df_p_rv$Rv_Tissue=="Liver_muscle"]            <-"Internal_tissues"
+df_p_rv$Rv_Tissue[df_p_rv$Rv_Tissue=="Liver_only"]              <-"Internal_tissues"
+df_p_rv$Rv_Tissue[df_p_rv$Rv_Tissue=="Muscle_only"]             <-"Internal_tissues"
+df_p_rv$Rv_Tissue[df_p_rv$Rv_Tissue=="Toe_only"]                <-"External_tissues"
+df_p_rv$Rv_Tissue[df_p_rv$Rv_Tissue=="Whole_organism"]          <-"External_tissues"
+df_p_rv$Rv_Tissue[df_p_rv$Rv_Tissue=="Liver_toe"]               <-"Combination"
+df_p_rv$Rv_Tissue[df_p_rv$Rv_Tissue=="Muscle_toe"]              <-"Combination"
+
+tiss_bd_df <- subset(df_p_bd
+                     , df_p_bd$Bd_Tissue == "Combination" |
+                       df_p_bd$Bd_Tissue == "External_tissues" | 
+                       df_p_bd$Bd_Tissue == "Internal_tissues" )
+tiss_pr_df <- subset(df_p_pr
+                     , df_p_pr$Pr_Tissue == "Combination" |
+                       df_p_pr$Pr_Tissue == "External_tissues" | 
+                       df_p_pr$Pr_Tissue == "Internal_tissues" )
+tiss_rv_df <- subset(df_p_rv
+                     , df_p_rv$Rv_Tissue == "Combination" |
+                       df_p_rv$Rv_Tissue == "External_tissues" | 
+                       df_p_rv$Rv_Tissue == "Internal_tissues" )
+
+Bd_exto_tiss <- subset(tiss_bd_df
+                       , tiss_bd_df$Bd_Tissue == "Combination" |
+                         tiss_bd_df$Bd_Tissue == "External_tissues" |
+                         tiss_bd_df$Bd_Tissue == "Internal_tissues")
+
+Bd_exto_tiss$Bd_Tissue[Bd_exto_tiss$Bd_Tissue=="Combination"]  <-"Exto"
+Bd_exto_tiss$Bd_Tissue[Bd_exto_tiss$Bd_Tissue=="External_tissues"]  <-"Exto"
+
+Pr_exto_tiss <- subset(tiss_pr_df
+                       , tiss_pr_df$Pr_Tissue == "Combination" |
+                         tiss_pr_df$Pr_Tissue == "External_tissues" |
+                         tiss_pr_df$Pr_Tissue == "Internal_tissues")
+
+Pr_exto_tiss$Pr_Tissue[Pr_exto_tiss$Pr_Tissue=="Combination"]  <-"Exto"
+Pr_exto_tiss$Pr_Tissue[Pr_exto_tiss$Pr_Tissue=="External_tissues"]  <-"Exto"
+
+
+Rv_exto_tiss <- subset(tiss_rv_df
+                       , tiss_rv_df$Rv_Tissue == "Combination" |
+                         tiss_rv_df$Rv_Tissue == "External_tissues" |
+                         tiss_rv_df$Rv_Tissue == "Internal_tissues")
+
+Rv_exto_tiss$Rv_Tissue[Rv_exto_tiss$Rv_Tissue=="Combination"]  <-"Exto"
+Rv_exto_tiss$Rv_Tissue[Rv_exto_tiss$Rv_Tissue=="External_tissues"]  <-"Exto"
+
+df_p_bd$Bd_Tissue <- as.factor(df_p_bd$Bd_Tissue)
+df_p_pr$Pr_Tissue <- as.factor(df_p_pr$Pr_Tissue)
+df_p_rv$Rv_Tissue <- as.factor(df_p_rv$Rv_Tissue)
+
+Bd_exto_tiss$Bd_Tissue <- as.factor(Bd_exto_tiss$Bd_Tissue)
+Pr_exto_tiss$Pr_Tissue <- as.factor(Pr_exto_tiss$Pr_Tissue)
+Rv_exto_tiss$Rv_Tissue <- as.factor(Rv_exto_tiss$Rv_Tissue)
+
+tiss_bd_df <- subset(df_p_bd
+                     , df_p_bd$Bd_Tissue == "Combination" |
+                       df_p_bd$Bd_Tissue == "External_tissues" | 
+                       df_p_bd$Bd_Tissue == "Internal_tissues" )
+tiss_pr_df <- subset(df_p_pr
+                     , df_p_pr$Pr_Tissue == "Combination" |
+                       df_p_pr$Pr_Tissue == "External_tissues" | 
+                       df_p_pr$Pr_Tissue == "Internal_tissues" )
+tiss_rv_df <- subset(df_p_rv
+                     , df_p_rv$Rv_Tissue == "Combination" |
+                       df_p_rv$Rv_Tissue == "External_tissues" | 
+                       df_p_rv$Rv_Tissue == "Internal_tissues" )
+
+class(tiss_bd_df$Bd_Tissue)
+
+Bd_exto <- subset(df_p_bd, 
+                      df_p_bd$Bd_Tissue == "Combination" |
+                      df_p_bd$Bd_Tissue == "External_tissues")
+
+#MUTATION OF SEX CHARACTERISTICS--------------------------------------------------
+#For simplicity, we are including female ? as female & male ? as male (n<15 individuals total), creating separate dataframes for female v. male only that exclude unknown sex rows.
+
+Sexconditions         <- c("female ?", "male ?")
+Sexreplacement_values <- c("female", "male")
+#Use replace() to replace the names in the 'Sex' column
+df_p_bd$Sex <- replace(df_p_bd$Sex, df_p_bd$Sex %in% Sexconditions, Sexreplacement_values)
+sx_df_p_bd  <- subset(df_p_bd,  
+                      df_p_bd$Sex == "female" | 
+                      df_p_bd$Sex == "male")
+
+
+
+df_p_pr$Sex <- replace(df_p_pr$Sex, df_p_pr$Sex %in% Sexconditions, Sexreplacement_values)
+sx_df_p_pr  <- subset(df_p_pr,  
+                       df_p_pr$Sex %in% c('female','male'))
+
+
+df_p_rv$Sex <- replace(df_p_rv$Sex, df_p_rv$Sex %in% Sexconditions, Sexreplacement_values)
+sx_df_p_rv  <- subset(df_p_rv,  
+                       df_p_rv$Sex %in% c('female','male'))
+
+df_p_bd$Sex <- as.factor(df_p_bd$Sex)
+df_p_pr$Sex <- as.factor(df_p_pr$Sex)
+df_p_rv$Sex <- as.factor(df_p_rv$Sex)
+
+#MUTATION OF AGE CLASS------------------------------------------------------------
+#Creating separate dataframes for adult v. juvenile - excluding unknown age class rows and excluding larva (n=8), as no infections were found in this group to avoid 0 values in chi-squared analysis.
+
+ag_df_p_bd  <- subset(df_p_bd, 
+                      df_p_bd$Age == "adult" | 
+                      df_p_bd$Age == "juvenile")
+ag_df_p_pr <- subset(df_p_pr,
+                      df_p_pr$Age == "adult" | 
+                      df_p_pr$Age == "juvenile")
+ag_df_p_rv <- subset(df_p_rv,
+                      df_p_rv$Age == "adult" | 
+                      df_p_rv$Age == "juvenile")
+
+df_p_bd$Age <- as.factor(df_p_bd$Age)
+df_p_pr$Age <- as.factor(df_p_pr$Age)
+df_p_rv$Age <- as.factor(df_p_rv$Age)
+
+
+#MUTATION OF SPECIES DATAFRAMES FOR ANALYSIS--------------------------------------
+#To compare species infection status, we need to create dataframes that include only species with at least 1 positive case.
+#Br---------------------------------------------------------------------
+table(df_p_bd$Sp, df_p_bd$Status_Bd)
+  #                                        0   1
+  # Anaxyrus americanus                   89  19
+  # Anaxyrus fowleri                      94   2
+  # Anaxyrus terrestris                   88   2
+  # Anaxyrus woodhousii                   26   0 ~~~~REMOVE~~~~~
+  # Hyla chrysoscelis-versicolor complex 134   6
+  # Hyla cinerea                         120   5
+  # Hyla squirella                        96   1
+  # Pseudacris crucifer                   74  20
+  # Rana catesbeiana                      66  38
+  # Rana clamitans                        61  48
+  # Rana pipiens                          63  17
+  # Rana sphenocephala                   154  58
+
+sp_df_p_bd  <- subset(df_p_bd, 
+                      df_p_bd$Sp != (
+                        "Anaxyrus woodhousii"))
+#Check - 11 species with at least one positive
+table(sp_df_p_bd$Sp, sp_df_p_bd$Status_Bd)
+  #                                        0   1
+  # Anaxyrus americanus                   89  19
+  # Anaxyrus fowleri                      94   2
+  # Anaxyrus terrestris                   88   2
+  # Hyla chrysoscelis-versicolor complex 134   6
+  # Hyla cinerea                         120   5
+  # Hyla squirella                        96   1
+  # Pseudacris crucifer                   74  20
+  # Rana catesbeiana                      66  38
+  # Rana clamitans                        61  48
+  # Rana pipiens                          63  17
+  # Rana sphenocephala                   154  58
+
+#Pr---------------------------------------------------------------------
+table(df_p_pr$Sp, df_p_pr$Status_Pr)
+  #                                        0   1
+  # Anaxyrus americanus                  103   2
+  # Anaxyrus fowleri                      87   0 ~~~~REMOVE~~~~~
+  # Anaxyrus terrestris                   90   0 ~~~~REMOVE~~~~~
+  # Anaxyrus woodhousii                   26   0 ~~~~REMOVE~~~~~
+  # Hyla chrysoscelis-versicolor complex 137   2
+  # Hyla cinerea                         121   1
+  # Hyla squirella                        94   1
+  # Pseudacris crucifer                   87   0 ~~~~REMOVE~~~~~
+  # Rana catesbeiana                      96   1
+  # Rana clamitans                        94   1
+  # Rana pipiens                          70   0 ~~~~REMOVE~~~~~
+  # Rana sphenocephala                   206   5
+
+sp_df_p_pr  <- subset(df_p_pr, 
+            df_p_pr$Sp == "Anaxyrus americanus" |
+            df_p_pr$Sp == "Hyla chrysoscelis-versicolor complex" | 
+            df_p_pr$Sp == "Hyla cinerea" |
+            df_p_pr$Sp == "Hyla squirella" |
+            df_p_pr$Sp == "Rana catesbeiana" |
+            df_p_pr$Sp == "Rana clamitans" |
+            df_p_pr$Sp == "Rana sphenocephala")
+
+#Check - 7 species with at least one positive
+table(sp_df_p_pr$Sp, sp_df_p_pr$Status_Pr)
+  #                                        0   1
+  # Anaxyrus americanus                  103   2
+  # Hyla chrysoscelis-versicolor complex 137   2
+  # Hyla cinerea                         121   1
+  # Hyla squirella                        94   1
+  # Rana catesbeiana                      96   1
+  # Rana clamitans                        94   1
+  # Rana sphenocephala                   206   5
+#Rv---------------------------------------------------------------------
+table(df_p_rv$Sp, df_p_rv$Status_Rv)
+  #                                        0   1
+  # Anaxyrus americanus                  103   2
+  # Anaxyrus fowleri                      83   1
+  # Anaxyrus terrestris                   86   0 ~~~~REMOVE~~~~~
+  # Anaxyrus woodhousii                   26   0 ~~~~REMOVE~~~~~
+  # Hyla chrysoscelis-versicolor complex 131   1
+  # Hyla cinerea                         111   4
+  # Hyla squirella                        88   1
+  # Pseudacris crucifer                   80   2
+  # Rana catesbeiana                      77  19
+  # Rana clamitans                        83  12
+  # Rana pipiens                          70   0 ~~~~REMOVE~~~~~
+  # Rana sphenocephala                   197  10
+sp_df_p_rv  <- subset(df_p_rv, 
+            df_p_rv$Sp == "Anaxyrus americanus" |
+            df_p_rv$Sp == "Anaxyrus fowleri" |
+            df_p_rv$Sp == "Hyla chrysoscelis-versicolor complex" | 
+            df_p_rv$Sp == "Hyla cinerea" |
+            df_p_rv$Sp == "Hyla squirella" |
+            df_p_rv$Sp == "Pseudacris crucifer" |
+            df_p_rv$Sp == "Rana catesbeiana" |
+            df_p_rv$Sp == "Rana clamitans" |
+            df_p_rv$Sp == "Rana sphenocephala")
+
+#Check - 9 species with at least one positive
+table(sp_df_p_rv$Sp, sp_df_p_rv$Status_Rv)
+#                                          0   1
+#   Anaxyrus americanus                  103   2
+#   Anaxyrus fowleri                      83   1
+#   Hyla chrysoscelis-versicolor complex 131   1
+#   Hyla cinerea                         111   4
+#   Hyla squirella                        88   1
+#   Pseudacris crucifer                   80   2
+#   Rana catesbeiana                      77  19
+#   Rana clamitans                        83  12
+#   Rana sphenocephala                   197  10
+
+df_p_bd$Sp  <- as.factor(df_p_bd$Sp)
+df_p_pr$Sp <- as.factor(df_p_pr$Sp)
+df_p_rv$Sp <- as.factor(df_p_rv$Sp)
+```
+
+#-----------------------------------------------
+#PT 1 START: Infection status analyses
+## Family v. pathogen status
+
+#### Bd: Significantly different
+
+#### Pr: Not significantly different
+
+#### Rv: Significantly different
+
+```{r}
+# Hypothesis (null): Observed and expected infection status counts do not differ across families.
+# Run chi-square test with the above calculated contingency table 
+##Bd-----------------------------------------
+Bd.fam.chi <- chisq.test(table(df_p_bd$Fam, df_p_bd$Status_Bd))
+Bd.fam.chi
+#Bufonidae v. Hylidae v. Ranidae:
+#	Pearson's Chi-squared test
+
+# 	Pearson's Chi-squared test
+# 
+# data:  table(df_p_bd$Fam, df_p_bd$Status_Bd)
+# X-squared = 134.15, df = 2, p-value < 2.2e-16
+
+#Pr-----------------------------------------
+Pr.fam.chi <- chisq.test(table(df_p_pr$Fam, df_p_pr$Status_Pr))
+Pr.fam.chi
+#Bufonidae v. Hylidae v. Ranidae:
+# 	Pearson's Chi-squared test
+# 
+# data:  table(df_p_pr$Fam, df_p_pr$Status_Pr)
+# X-squared = 1.3919, df = 2, p-value = 0.4986
+
+#Rv-----------------------------------------
+Rv.fam.chi <-chisq.test(table(df_p_rv$Fam, df_p_rv$Status_Rv))
+Rv.fam.chi
+#Bufonidae v. Hylidae v. Ranidae:
+# 	Pearson's Chi-squared test
+# 
+# data:  table(df_p_rv$Fam, df_p_rv$Status_Rv)
+# X-squared = 35.735, df = 2, p-value = 1.739e-08
+
+# NOTE: some of these results returns a warning message: "Chi-squared approximation may be incorrect"
+# This tutorial explains that these warnings can be ignored for our purposees: https://www.youtube.com/watch?v=LnaeG0MzQVw
+
+# The above line of code, appended with "$expected" returns a frequency table with expected values that would be 
+# true under the null hypothesis (Fam and infection status are not associated).
+
+##Bd-----------------------------------------
+fam.Bd.table <- chisq.test(table(df_p_bd$Fam, df_p_bd$Status_Bd))$expected 
+fam.Bd.table
+  #                    0                1
+# expected Bufonidae  266.0422          53.95785
+# expected Hylidae    379.1101          76.88993
+# expected Ranidae    419.8478          85.15222
+#  observed Bufonidae 297               23
+#  observed Hylidae   424               32
+#  observed Ranidae   344               161
+
+
+##Bd external-only tissues:-----------------------------------------
+fam.Bd.table_exto <- chisq.test(table(Bd_exto$Fam, Bd_exto$Status_Bd))
+fam.Bd.table_exto
+# 	Pearson's Chi-squared test
+# 
+# data:  table(Bd_exto$Fam, Bd_exto$Status_Bd)
+# X-squared = 122.87, df = 2, p-value < 2.2e-16
+
+fam.Bd.table_exto$expected
+#                  0        1
+# Bufonidae 192.1858 58.81420
+# Hylidae   184.5290 56.47101
+# Ranidae   270.2852 82.71479
+
+#Pr-----------------------------------------
+fam.Pr.table <- chisq.test(table(df_p_pr$Fam, df_p_pr$Status_Pr))$expected
+fam.Pr.table
+#                   0               1
+# Bufonidae         304.7288        3.271242
+# Hylidae           438.2949        4.705065
+# Ranidae           467.9763        5.023693
+#  observed Bufonidae 306             2
+#  observed Hylidae   439             4
+#  observed Ranidae   466             7
+
+#Rv-----------------------------------------
+fam.Rv.table <- chisq.test(table(df_p_rv$Fam, df_p_rv$Status_Rv))$expected
+fam.Rv.table
+#                    0            1
+# Bufonidae         287.8138      13.18618
+# Hylidae           399.6883      18.31171
+# Ranidae           447.4979      20.50211
+#  observed Bufonidae 298           3
+#  observed Hylidae   410           8
+#  observed Ranidae   427           41
+
+# NOTE: Bd & Rv Fam type show significant differences between groups. For more diagnostic understanding of which groups are contributing to our chi-squared statistic, we will use correlation plots below.
+```
+
+```{r fig.width = 5, fig.height= 8}
+library(corrplot)
+#Pearson's residuals of Chi-squared test
+Bd.fam.corr <- "Pearsons residual scores for Bd by Fam"
+corrplot(Bd.fam.chi$residuals, 
+         title = Bd.fam.corr,
+         is.cor = FALSE)
+
+#Comparing frequency of two groups between two categorical variables --- the Chi-square test of independence works by comparing the observed frequencies to the expected frequencies. Testing relationship between two variables.
+
+#Positive residuals are in blue. Positive values in cells specify an attraction (positive association) between the corresponding row and column variables. Negative residuals are in red. This implies a repulsion (negative association) between the corresponding row and column variables.
+```
+
+```{r fig.width = 5, fig.height= 6}
+#Pearson's residuals of Chi-squared test
+Rv.fam.corr <- "Pearsons residual scores for Rv by Fam"
+corrplot(Rv.fam.chi$residuals, 
+         title = Rv.fam.corr,
+         is.cor = FALSE)
+
+#Comparing frequency of two groups between two categorical variables --- the Chi-square test of independence works by comparing the observed frequencies to the expected frequencies. Testing relationship between two variables.
+
+#Positive residuals are in blue. Positive values in cells specify an attraction (positive association) between the corresponding row and column variables. Negative residuals are in red. This implies a repulsion (negative association) between the corresponding row and column variables.
+```
+
+#### Bimonial confidence intervals
+Explore binomial confidence intervals using {binom}, similar to Mario Alvarado‑Rybak et al., 2021.
+
+We estimated 95% binomial confidence interval (95% CI) with a logistic (logit) parameterization for each category using the binom.confint function (R package ‘binom’) in the statistical software R v.3.1.397.
+
+```{r}
+library(binom)
+#Uses eight different methods to obtain a confidence interval on the binomial probability.
+#x = number of infected in specific species
+#n = number of trails (total) in specific species
+
+Bufo_bd_x <- 23
+Bufo_bd_n <- 320
+Bufo_bd_bc <- binom.confint(
+  Bufo_bd_x, Bufo_bd_n, conf.level = 0.95, methods = "logit")
+Bufo_bd_bc 
+#   method  x   n     mean      lower     upper
+# 1  logit 23 320 0.071875 0.04822514 0.1058332
+Bufo_bd_x <- 23
+Bufo_bd_n <- 320
+Bufo_bd_bc <- binom.confint(
+  Bufo_bd_x, Bufo_bd_n, conf.level = 0.95, methods = "exact")
+Bufo_bd_bc 
+#   method  x   n     mean      lower     upper
+# 1  exact 23 320 0.071875 0.04610535 0.1058978
+
+Hyli_bd_x <- 32
+Hyli_bd_n <- 456
+Hyli_bd_bc <- binom.confint(
+  Hyli_bd_x, Hyli_bd_n, conf.level = 0.95, methods = "logit")
+Hyli_bd_bc
+#   method  x   n       mean      lower      upper
+# 1  logit 32 456 0.07017544 0.05005364 0.09755558
+Hyli_bd_x <- 32
+Hyli_bd_n <- 456
+Hyli_bd_bc <- binom.confint(
+  Hyli_bd_x, Hyli_bd_n, conf.level = 0.95, methods = "exact")
+Hyli_bd_bc
+#   method  x   n       mean      lower      upper
+# 1  exact 32 456 0.07017544 0.04849192 0.09762513
+
+Rani_bd_x <- 161
+Rani_bd_n <- 505
+Rani_bd_bc <- binom.confint(
+  Rani_bd_x, Rani_bd_n, conf.level = 0.95, methods = "logit")
+Rani_bd_bc
+#   method   x   n      mean     lower     upper
+# 1  logit 161 505 0.3188119 0.2796109 0.3607565
+
+Rani_bd_x <- 161
+Rani_bd_n <- 505
+Rani_bd_bc <- binom.confint(
+  Rani_bd_x, Rani_bd_n, conf.level = 0.95, methods = "exact")
+Rani_bd_bc
+#   method   x   n      mean     lower   upper
+# 1  exact 161 505 0.3188119 0.2783407 0.36142
+
+Bd_x <- sum(23,32,161)
+Bd_n <- sum(320,456,505)
+Bd_bc<- binom.confint(
+  Bd_x, Bd_n, conf.level = 0.95, methods = "logit")
+Bd_bc
+#   method   x    n      mean     lower     upper
+# 1  logit 216 1281 0.1686183 0.1490958 0.1901258
+
+Bd_x <- sum(23,32,161)
+Bd_n <- sum(320,456,505)
+Bd_bc<- binom.confint(
+  Bd_x, Bd_n, conf.level = 0.95, methods = "exact")
+Bd_bc
+#   method   x    n      mean     lower     upper
+# 1  exact 216 1281 0.1686183 0.1485032 0.1902664
+```
+
+```{r}
+#Uses eight different methods to obtain a confidence interval on the binomial probability.
+#x = number of infected in specific species
+#n = number of trails (total) in specific species
+
+Bufo_pr_x <- 2
+Bufo_pr_n <- 308
+Bufo_pr_bc <- binom.confint(
+  Bufo_pr_x, Bufo_pr_n, conf.level = 0.95, methods = "logit")
+Bufo_pr_bc 
+#   method x   n        mean       lower      upper
+# 1  logit 2 308 0.006493506 0.001624607 0.02558048
+
+Hyli_pr_x <- 4
+Hyli_pr_n <- 443
+Hyli_pr_bc <- binom.confint(
+  Hyli_pr_x, Hyli_pr_n, conf.level = 0.95, methods = "logit")
+Hyli_pr_bc
+#   method x   n        mean       lower      upper
+# 1  logit 4 443 0.009029345 0.003393002 0.02380496
+
+Rani_pr_x <- 7
+Rani_pr_n <- 473
+Rani_pr_bc <- binom.confint(
+  Rani_pr_x, Rani_pr_n, conf.level = 0.95, methods = "logit")
+Rani_pr_bc
+#   method x   n       mean       lower      upper
+# 1  logit 7 473 0.01479915 0.007071294 0.03071119
+
+pr_x <- sum(2,4,7)
+pr_n <- sum(308,443,473)
+Pr_bc<- binom.confint(
+  pr_x, pr_n, conf.level = 0.95, methods = "logit")
+Pr_bc
+#   method  x    n       mean       lower      upper
+# 1  logit 13 1224 0.01062092 0.006176803 0.01820393
+```
+
+```{r}
+Bufo_rv_x <- 3
+Bufo_rv_n <- 301
+Bufo_rv_bc <- binom.confint(
+  Bufo_rv_x, Bufo_rv_n, conf.level = 0.95, methods = "logit")
+Bufo_rv_bc 
+#   method x   n        mean       lower      upper
+# 1  logit 3 301 0.009966777 0.003218075 0.03043619
+
+Hyli_rv_x <- 8
+Hyli_rv_n <- 410
+Hyli_rv_bc <- binom.confint(
+  Hyli_rv_x, Hyli_rv_n, conf.level = 0.95, methods = "logit")
+Hyli_rv_bc
+#   method x   n      mean       lower      upper
+# 1  logit 8 410 0.0195122 0.009787403 0.03852365
+
+Rani_rv_x <- 41
+Rani_rv_n <- 468
+Rani_rv_bc <- binom.confint(
+  Rani_rv_x, Rani_rv_n, conf.level = 0.95, methods = "logit")
+Rani_rv_bc
+#   method  x   n       mean      lower     upper
+# 1  logit 41 468 0.08760684 0.06515172 0.1168341
+
+rv_x <- sum(4,8,43)
+rv_n <- sum(301,410,468)
+rv_bc<- binom.confint(
+  rv_x, rv_n, conf.level = 0.95, methods = "logit")
+rv_bc
+#   method  x    n      mean      lower      upper
+# 1  logit 55 1179 0.0466497 0.03598565 0.06027637
+```
+
+#-----------------------------------------------
+
+## Species v pathogen status
+
+#### Bd: Significantly different
+
+#### Pr: Not significantly different
+
+#### Rv: Significantly different
+
+```{r}
+# Hypothesis (null): Observed and expected infection status counts do not differ across species.
+# Run chi-square test with the above calculated contingency table 
+##Bd-----------------------------------------
+Bd.spp.chi <- chisq.test(table(sp_df_p_bd$Sp, sp_df_p_bd$Status_Bd))
+Bd.spp.chi
+#A.americanus v. A.fowleri v. A.terrestris v. H.chrys/vers v. H.cinerea v. H.squirella v. P.crucier v. R.catesbeiana v. R.clamitans v. R.pipiens v. R.sphenocephala:
+
+# 	Pearson's Chi-squared test
+# 
+# data:  table(sp_df_p_bd$Sp, sp_df_p_bd$Status_Bd)
+# X-squared = 178.81, df = 10, p-value < 2.2e-16
+
+
+##Bd of external-including tissues only:
+sp_df_exto <- subset(sp_df_p_bd, 
+                     sp_df_p_bd$Bd_Tissue == "External_tissues" |
+                     sp_df_p_bd$Bd_Tissue == "Combination")
+
+Bd.spp.chi_exto <- chisq.test(table(sp_df_exto$Sp, sp_df_exto$Status_Bd))
+Bd.spp.chi_exto
+# 	Pearson's Chi-squared test
+# 
+# data:  table(sp_df_exto$Sp, sp_df_exto$Status_Bd)
+# X-squared = 152.8, df = 10, p-value < 2.2e-16
+#Pr-----------------------------------------
+Pr.spp.chi <- chisq.test(table(sp_df_p_pr$Sp, sp_df_p_pr$Status_Pr))
+Pr.spp.chi
+# A.americanus v. H.chrys/vers v. H.cinerea v. H.squirella v. Rcatesbeiana v. R.clamitans v. R.sphenocephala:
+
+# 	Pearson's Chi-squared test
+# 
+# data:  spp.Pr.table
+# X-squared = 1.9779, df = 6, p-value = 0.9217
+
+#Rv-----------------------------------------
+Rv.spp.chi <-chisq.test(table(sp_df_p_rv$Sp, sp_df_p_rv$Status_Rv))
+Rv.spp.chi
+# A.americans v. A.fowleri v. H.chrys/vers v. H.cinerea v. H.squirella v. P.crucifer v. R.catesbeiana v. R.clamitans v. R.sphenocephala:
+
+# 	Pearson's Chi-squared test
+# 
+# data:  spp.Rv.table
+# X-squared = 67.778, df = 8, p-value = 1.359e-11
+
+##Bd-----------------------------------------
+Bd.spp.chi$expected 
+#                                       expect 0    expect 1 |  obser 0 observ 1
+#  Anaxyrus americanus                   89.41195 18.58805   |       89       19
+#  Anaxyrus fowleri                      79.47729 16.52271   |       94        2
+#  Anaxyrus terrestris                   74.50996 15.49004   |       88        2
+#  Hyla chrysoscelis-versicolor complex 115.90438 24.09562   |      134        6
+#  Hyla cinerea                         103.48606 21.51394   |      120        5
+#  Hyla squirella                        80.30518 16.69482   |      96         1
+#  Pseudacris crucifer                    77.82151 16.17849  |      74        20
+#  Rana catesbeiana                      86.10040 17.89960   |      66        38
+#  Rana clamitans                       90.23984 18.76016    |      61        48
+#  Rana pipiens                          66.23108 13.76892   |      63        17
+#  Rana sphenocephala                   175.51235 36.48765   |     154        58
+
+#Pr-----------------------------------------
+Pr.spp.chi$expected 
+#                                        expect 0   expect 1 |  obser 0 observ 1
+#  Anaxyrus americanus                  103.42014 1.579861   |      103        2
+#  Hyla chrysoscelis-versicolor complex 136.90856 2.091435   |      137        2  
+#  Hyla cinerea                         120.16435 1.835648   |      121        1
+#  Hyla squirella                         93.57060 1.429398  |       94        1
+#  Rana catesbeiana                      95.54051 1.459491   |       96        1
+#  Rana clamitans                       93.57060 1.429398    |       94        1
+#  Rana sphenocephala                   207.82523 3.174769   |      206        5
+
+#Rv-----------------------------------------
+Rv.spp.chi$expected 
+
+#                                        expect 0  expect 1 |  obser 0  observ 1
+#  Anaxyrus americanus                   99.56716  5.432836 |      103         2
+#  Anaxyrus fowleri                      79.65373  4.346269 |       83         1
+#  Hyla chrysoscelis-versicolor complex 125.17015  6.829851 |      131         1
+#  Hyla cinerea                         109.04975  5.950249 |      111         4
+#  Hyla squirella                        84.39502  4.604975 |       88         1
+#  Pseudacris crucifer                   77.75721  4.242786 |       80         2
+#  Rana catesbeiana                      91.03284  4.967164 |       77        19
+#  Rana clamitans                       90.08458  4.915423  |       83        12
+#  Rana sphenocephala                   196.28955 10.710448 |      197        10
+
+# NOTE: Bd & Rv species binomial types show significant differences between groups. For more diagnostic understanding of which groups are contributing to our chi-squared statistic, we will use correlation plots below.
+```
+
+```{r fig.width = 5, fig.height= 8}
+#Pearson's residuals of Chi-squared test
+Bd.spp.corr <- "Pearsons residual scores for Bd by species"
+corrplot(Bd.spp.chi$residuals, 
+         title = Bd.spp.corr,
+         is.cor = FALSE)
+
+#Comparing frequency of two groups between two categorical variables --- the Chi-square test of independence works by comparing the observed frequencies to the expected frequencies. Testing relationship between two variables.
+
+#Positive residuals are in blue. Positive values in cells specify an attraction (positive association) between the corresponding row and column variables. Negative residuals are in red. This implies a repulsion (negative association) between the corresponding row and column variables.
+```
+
+```{r fig.width = 5, fig.height= 8}
+#Pearson's residuals of Chi-squared test
+Rv.spp.corr <- "Pearsons residual scores for Rv by species"
+corrplot(Rv.spp.chi$residuals, 
+         title = Rv.spp.corr,
+         is.cor = FALSE)
+
+#Comparing frequency of two groups between two categorical variables --- the Chi-square test of independence works by comparing the observed frequencies to the expected frequencies. Testing relationship between two variables.
+
+#Positive residuals are in blue. Positive values in cells specify an attraction (positive association) between the corresponding row and column variables. Negative residuals are in red. This implies a repulsion (negative association) between the corresponding row and column variables.
+```
+#### Bimonial confidence intervals
+```{r}
+library(binom)
+#                                       expect 0    expect 1 |  obser 0 observ 1
+#  Anaxyrus americanus                   89.41195 18.58805   |       89       19
+#  Anaxyrus fowleri                      79.47729 16.52271   |       94        2
+#  Anaxyrus terrestris                   74.50996 15.49004   |       88        2
+#  Hyla chrysoscelis-versicolor complex 115.90438 24.09562   |      134        6
+#  Hyla cinerea                         103.48606 21.51394   |      120        5
+#  Hyla squirella                        80.30518 16.69482   |      96         1
+#  Pseudacris crucifer                    77.82151 16.17849  |      74        20
+#  Rana catesbeiana                      86.10040 17.89960   |      66        38
+#  Rana clamitans                       90.23984 18.76016    |      61        48
+#  Rana pipiens                          66.23108 13.76892   |      63        17
+#  Rana sphenocephala                   175.51235 36.48765   |     154        58
+
+#Uses eight different methods to obtain a confidence interval on the binomial probability.
+#x = number of infected in specific species
+#n = number of trails (total) in specific species
+#Bufonidae-------------------------------------------------------------------------
+Aame_bd_x <- 19
+Aame_bd_n <- 108
+Aame_bd_bc <- binom.confint(
+  Aame_bd_x, Aame_bd_n, conf.level = 0.95, methods = "logit")
+Aame_bd_bc 
+#   method  x   n      mean     lower     upper
+# 1  logit 19 108 0.1759259 0.1151156 0.2594412
+
+Afow_bd_x <- 2
+Afow_bd_n <- 96
+Afow_bd_bc <- binom.confint(
+  Afow_bd_x, Afow_bd_n, conf.level = 0.95, methods = "logit")
+Afow_bd_bc
+#   method x  n       mean       lower      upper
+# 1  logit 2 96 0.02083333 0.005216401 0.07946944
+
+Ater_bd_x <- 2
+Ater_bd_n <- 90
+Ater_bd_bc <- binom.confint(
+  Ater_bd_x, Ater_bd_n, conf.level = 0.95, methods = "logit")
+Ater_bd_bc
+#   method x  n       mean       lower      upper
+# 1  logit 2 90 0.02222222 0.005564579 0.08450723
+
+Awoo_bd_x <- 0
+Awoo_bd_n <- 26
+Awoo_bd_bc<- binom.confint(
+  Awoo_bd_x, Awoo_bd_n, conf.level = 0.95, methods = "logit")
+Awoo_bd_bc
+#   method x  n mean lower     upper
+# 1  logit 0 26    0     0 0.1322746
+#Hylidae------------------------------------------------------------------------
+Hchr_bd_x <- 6
+Hchr_bd_n <- 140
+Hchr_bd_bc <- binom.confint(
+  Hchr_bd_x, Hchr_bd_n, conf.level = 0.95, methods = "logit")
+Hchr_bd_bc 
+#   method x   n       mean      lower      upper
+# 1  logit 6 140 0.04285714 0.01937988 0.09210406
+
+Hcin_bd_x <- 5
+Hcin_bd_n <- 125
+Hcin_bd_bc <- binom.confint(
+  Hcin_bd_x, Hcin_bd_n, conf.level = 0.95, methods = "logit")
+Hcin_bd_bc
+#   method x   n mean      lower      upper
+# 1  logit 5 125 0.04 0.01674694 0.09250236
+
+Hsqu_bd_x <- 1
+Hsqu_bd_n <- 97
+Hsqu_bd_bc <- binom.confint(
+  Hsqu_bd_x, Hsqu_bd_n, conf.level = 0.95, methods = "logit")
+Hsqu_bd_bc
+#   method x  n       mean       lower      upper
+# 1  logit 1 97 0.01030928 0.001450357 0.06951247
+
+Pcru_bd_x <- 20
+Pcru_bd_n <- 94
+Pcru_bd_bc<- binom.confint(
+  Pcru_bd_x, Pcru_bd_n, conf.level = 0.95, methods = "logit")
+Pcru_bd_bc
+#   method  x  n     mean     lower     upper
+# 1  logit 20 94 0.212766 0.1415737 0.3069569
+#Ranidae-------------------------------------------------------------------------
+Rcat_bd_x <- 38
+Rcat_bd_n <- 104
+Rcat_bd_bc <- binom.confint(
+  Rcat_bd_x, Rcat_bd_n, conf.level = 0.95, methods = "logit")
+Rcat_bd_bc 
+#   method  x   n      mean     lower     upper
+# 1  logit 38 104 0.3653846 0.2786463 0.4618367
+
+Rcla_bd_x <- 48
+Rcla_bd_n <- 109
+Rcla_bd_bc <- binom.confint(
+  Rcla_bd_x, Rcla_bd_n, conf.level = 0.95, methods = "logit")
+Rcla_bd_bc
+#   method  x   n     mean     lower     upper
+# 1  logit 48 109 0.440367 0.3502745 0.5345666
+
+Rpip_bd_x <- 17
+Rpip_bd_n <- 80
+Rpip_bd_bc <- binom.confint(
+  Rpip_bd_x, Rpip_bd_n, conf.level = 0.95, methods = "logit")
+Rpip_bd_bc
+#   method  x  n   mean     lower     upper
+# 1  logit 17 80 0.2125 0.1363912 0.3155604
+
+Rsph_bd_x <- 58
+Rsph_bd_n <- 212
+Rsph_bd_bc<- binom.confint(
+  Rsph_bd_x, Rsph_bd_n, conf.level = 0.95, methods = "logit")
+Rsph_bd_bc
+#   method  x   n      mean     lower     upper
+# 1  logit 58 212 0.2735849 0.2178118 0.3374777
+```
+
+```{r}
+#Uses eight different methods to obtain a confidence interval on the binomial probability.
+#x = number of infected in specific species
+#n = number of trails (total) in specific species
+#Bufonidae-------------------------------------------------------------------------
+Aame_pr_x <- 2
+Aame_pr_n <- 105
+Aame_pr_bc <- binom.confint(
+  Aame_pr_x, Aame_pr_n, conf.level = 0.95, methods = "logit")
+Aame_pr_bc 
+#   method x   n       mean       lower      upper
+# 1  logit 2 105 0.01904762 0.004768819 0.07294634
+
+Afow_pr_x <- 0
+Afow_pr_n <- 87
+Afow_pr_bc <- binom.confint(
+  Afow_pr_x, Afow_pr_n, conf.level = 0.95, methods = "logit")
+Afow_pr_bc
+#   method x  n mean lower      upper
+# 1  logit 0 87    0     0 0.04151457
+
+Ater_pr_x <- 0
+Ater_pr_n <- 90
+Ater_pr_bc <- binom.confint(
+  Ater_pr_x, Ater_pr_n, conf.level = 0.95, methods = "logit")
+Ater_pr_bc
+#   method x  n mean lower      upper
+# 1  logit 0 90    0     0 0.04015892
+
+Awoo_pr_x <- 0
+Awoo_pr_n <- 26
+Awoo_pr_bc<- binom.confint(
+  Awoo_pr_x, Awoo_pr_n, conf.level = 0.95, methods = "logit")
+Awoo_pr_bc
+#   method x  n mean lower     upper
+# 1  logit 0 26    0     0 0.1322746
+#Hylidae------------------------------------------------------------------------
+Hchr_pr_x <- 2
+Hchr_pr_n <- 139
+Hchr_pr_bc <- binom.confint(
+  Hchr_pr_x, Hchr_pr_n, conf.level = 0.95, methods = "logit")
+Hchr_pr_bc 
+#   method x   n       mean       lower      upper
+# 1  logit 2 139 0.01438849 0.003601428 0.05567966
+
+Hcin_pr_x <- 1
+Hcin_pr_n <- 122
+Hcin_pr_bc <- binom.confint(
+  Hcin_pr_x, Hcin_pr_n, conf.level = 0.95, methods = "logit")
+Hcin_pr_bc
+#   method x   n        mean       lower      upper
+# 1  logit 1 122 0.008196721 0.001153458 0.05584322
+
+Hsqu_pr_x <- 1
+Hsqu_pr_n <- 95
+Hsqu_pr_bc <- binom.confint(
+  Hsqu_pr_x, Hsqu_pr_n, conf.level = 0.95, methods = "logit")
+Hsqu_pr_bc
+#   method x  n       mean       lower      upper
+# 1  logit 1 95 0.01052632 0.001480851 0.07090085
+
+Pcru_pr_x <- 0
+Pcru_pr_n <- 87
+Pcru_pr_bc<- binom.confint(
+  Pcru_pr_x, Pcru_pr_n, conf.level = 0.95, methods = "logit")
+Pcru_pr_bc
+#   method x  n mean lower      upper
+# 1  logit 0 87    0     0 0.04151457
+#Ranidae-------------------------------------------------------------------------
+Rcat_pr_x <- 1
+Rcat_pr_n <- 97
+Rcat_pr_bc <- binom.confint(
+  Rcat_pr_x, Rcat_pr_n, conf.level = 0.95, methods = "logit")
+Rcat_pr_bc 
+#   method x  n       mean       lower      upper
+# 1  logit 1 97 0.01030928 0.001450357 0.06951247
+
+Rcla_pr_x <- 1
+Rcla_pr_n <- 95
+Rcla_pr_bc <- binom.confint(
+  Rcla_pr_x, Rcla_pr_n, conf.level = 0.95, methods = "logit")
+Rcla_pr_bc
+#   method x  n       mean       lower      upper
+# 1  logit 1 95 0.01052632 0.001480851 0.07090085
+
+Rpip_pr_x <- 0
+Rpip_pr_n <- 70
+Rpip_pr_bc <- binom.confint(
+  Rpip_pr_x, Rpip_pr_n, conf.level = 0.95, methods = "logit")
+Rpip_pr_bc
+#   method x  n mean lower     upper
+# 1  logit 0 70    0     0 0.0513338
+
+Rsph_pr_x <- 5
+Rsph_pr_n <- 211
+Rsph_pr_bc<- binom.confint(
+  Rsph_pr_x, Rsph_pr_n, conf.level = 0.95, methods = "logit")
+Rsph_pr_bc
+#   method x   n       mean      lower      upper
+# 1  logit 5 211 0.02369668 0.00989742 0.05565382
+
+Pr_x <- 13
+Pr_n <- 1224
+Pr_bc<- binom.confint(
+  Pr_x, Pr_n, conf.level = 0.95, methods = "logit")
+Pr_bc
+#   method  x    n       mean       lower      upper
+# 1  logit 13 1224 0.01062092 0.006176803 0.01820393
+```
+
+```{r}
+#Uses eight different methods to obtain a confidence interval on the binomial probability.
+#x = number of infected in specific species
+#n = number of trails (total) in specific species
+#Bufonidae-------------------------------------------------------------------------
+Aame_rv_x <- 2
+Aame_rv_n <- 105
+Aame_rv_bc <- binom.confint(
+  Aame_rv_x, Aame_rv_n, conf.level = 0.95, methods = "logit")
+Aame_rv_bc 
+#   method x   n       mean       lower      upper
+# 1  logit 2 105 0.01904762 0.004768819 0.07294634
+
+Afow_rv_x <- 1
+Afow_rv_n <- 84
+Afow_rv_bc <- binom.confint(
+  Afow_rv_x, Afow_rv_n, conf.level = 0.95, methods = "logit")
+Afow_rv_bc
+#   method x  n       mean       lower      upper
+# 1  logit 1 84 0.01190476 0.001674481 0.07965052
+
+Ater_rv_x <- 0
+Ater_rv_n <- 86
+Ater_rv_bc <- binom.confint(
+  Ater_rv_x, Ater_rv_n, conf.level = 0.95, methods = "logit")
+Ater_rv_bc
+#   method x  n mean lower      upper
+# 1  logit 0 86    0     0 0.04198702
+
+Awoo_rv_x <- 0
+Awoo_rv_n <- 26
+Awoo_rv_bc<- binom.confint(
+  Awoo_rv_x, Awoo_rv_n, conf.level = 0.95, methods = "logit")
+Awoo_rv_bc
+#   method x  n mean lower     upper
+# 1  logit 0 26    0     0 0.1322746
+#Hylidae------------------------------------------------------------------------
+Hchr_rv_x <- 1
+Hchr_rv_n <- 132
+Hchr_rv_bc <- binom.confint(
+  Hchr_rv_x, Hchr_rv_n, conf.level = 0.95, methods = "logit")
+Hchr_rv_bc 
+#   method x   n        mean       lower      upper
+# 1  logit 1 132 0.007575758 0.001066157 0.05177096
+
+Hcin_rv_x <- 4
+Hcin_rv_n <- 115
+Hcin_rv_bc <- binom.confint(
+  Hcin_rv_x, Hcin_rv_n, conf.level = 0.95, methods = "logit")
+Hcin_rv_bc
+#   method x   n       mean      lower      upper
+# 1  logit 4 115 0.03478261 0.01311601 0.08901247
+
+Hsqu_rv_x <- 1
+Hsqu_rv_n <- 89
+Hsqu_rv_bc <- binom.confint(
+  Hsqu_rv_x, Hsqu_rv_n, conf.level = 0.95, methods = "logit")
+Hsqu_rv_bc
+#   method x  n       mean       lower      upper
+# 1  logit 1 89 0.01123596 0.001580542 0.07541993
+
+Pcru_rv_x <- 2
+Pcru_rv_n <- 82
+Pcru_rv_bc<- binom.confint(
+  Pcru_rv_x, Pcru_rv_n, conf.level = 0.95, methods = "logit")
+Pcru_rv_bc
+#   method x  n       mean       lower     upper
+# 1  logit 2 82 0.02439024 0.006108176 0.0923093
+#Ranidae-------------------------------------------------------------------------
+Rcat_rv_x <- 19
+Rcat_rv_n <- 96
+Rcat_rv_bc <- binom.confint(
+  Rcat_rv_x, Rcat_rv_n, conf.level = 0.95, methods = "logit")
+Rcat_rv_bc 
+#   method  x  n      mean     lower     upper
+# 1  logit 19 96 0.1979167 0.1299463 0.2896057
+
+Rcla_rv_x <- 12
+Rcla_rv_n <- 114
+Rcla_rv_bc <- binom.confint(
+  Rcla_rv_x, Rcla_rv_n, conf.level = 0.95, methods = "logit")
+Rcla_rv_bc
+#   method  x   n      mean      lower     upper
+# 1  logit 12 114 0.1052632 0.06075564 0.1762568
+
+Rpip_rv_x <- 0
+Rpip_rv_n <- 70
+Rpip_rv_bc <- binom.confint(
+  Rpip_rv_x, Rpip_rv_n, conf.level = 0.95, methods = "logit")
+Rpip_rv_bc
+#   method x  n mean lower     upper
+# 1  logit 0 70    0     0 0.0513338
+
+Rsph_rv_x <- 10
+Rsph_rv_n <- 207
+Rsph_rv_bc<- binom.confint(
+  Rsph_rv_x, Rsph_rv_n, conf.level = 0.95, methods = "logit")
+Rsph_rv_bc
+#   method  x   n       mean      lower      upper
+# 1  logit 10 207 0.04830918 0.02618716 0.08744108
+
+Rv_x <- 52
+Rv_n <- 1187
+Rv_bc<- binom.confint(
+  Rv_x, Rv_n, conf.level = 0.95, methods = "logit")
+Rv_bc
+#   method  x    n       mean      lower      upper
+# 1  logit 52 1187 0.04380792 0.03353359 0.05704438
+```
+
+#-----------------------------------------------
+## Sex v. pathogen status
+
+#### Bd: Not significantly different
+
+#### Pr: Not significantly different
+
+#### Rv: Not significantly different
+
+```{r}
+# Hypothesis (null): Observed and expected infection status counts do not differ across sex.
+
+##Bd-----------------------------------------
+chisq.test(table(sx_df_p_bd$Sex, sx_df_p_bd$Status_Bd))
+#female v. male only:
+# 	Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  sex.Bd.table
+# X-squared = 0.010685, df = 1, p-value = 0.9177
+
+sx_df_p_bd_exto <- subset(sx_df_p_bd,
+                          sx_df_p_bd$Bd_Tissue == "Combination" |
+                          sx_df_p_bd$Bd_Tissue == "External_tissues" )
+
+sex.Bd.table_exto <- table(sx_df_p_bd_exto$Sex, sx_df_p_bd_exto$Status_Bd)
+
+chisq.test(table(sx_df_p_bd_exto$Sex, sx_df_p_bd_exto$Status_Bd))
+# 	Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  table(sx_df_p_bd_exto$Sex, sx_df_p_bd_exto$Status_Bd)
+# X-squared = 7.4469e-30, df = 1, p-value = 1
+
+#female v. male v. unknown:
+# 	Pearson's Chi-squared test
+# 
+# data:  table(df_p_bd$Sex, df_p_bd$Status_Bd)
+# X-squared = 0.31325, df = 2, p-value = 0.855
+
+#Pr-----------------------------------------
+chisq.test(table(sx_df_p_pr$Sex, sx_df_p_pr$Status_Pr))
+#female v. male only:
+# 	Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  sex.Pr.table
+# X-squared = 0.30753, df = 1, p-value = 0.5792
+
+#female v. male v. unknown:
+# 	Pearson's Chi-squared test
+# 
+# data:  table(df_p_pr$Sex, df_p_pr$Status_Pr)
+# X-squared = 0.91774, df = 2, p-value = 0.632
+
+#Rv-----------------------------------------
+chisq.test(table(sx_df_p_rv$Sex, sx_df_p_rv$Status_Rv))
+#female v. male only:
+# 	Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  sex.Rv.table
+# X-squared = 0.27711, df = 1, p-value = 0.5986
+
+#female v. male v. unknown:
+# 	Pearson's Chi-squared test
+# 
+# data:  table(df_p_rv$Sex, df_p_rv$Status_Rv)
+# X-squared = 13.193, df = 2, p-value = 0.001365
+
+# NOTE: some of these results returns a warning message: "Chi-squared approximation may be incorrect"
+# The Youtube tutorial I watched said to ignore the warning message 
+# This tutorial is really good and simple: https://www.youtube.com/watch?v=LnaeG0MzQVw
+
+# The above line of code, appended with "$expected" returns a frequency table with expected values that would be 
+# true under the null hypothesis (sex and frogs have associated pathogens are not associated).
+
+##Bd-----------------------------------------
+chisq.test(table(sx_df_p_bd$Sex, sx_df_p_bd$Status_Bd))$expected
+#                     0        1
+#  expected female 254.9866 50.01344
+#  expected male   367.0134 71.98656
+#  observed female 256      49
+#  observed male   366      73
+
+chisq.test(table(df_p_bd$Sex, df_p_bd$Status_Bd))$expected 
+  #                0        1
+  # female  253.5714 51.42857
+  # male    364.9766 74.02342
+  # unknown 446.4520 90.54801
+
+#Pr-----------------------------------------
+chisq.test(table(sx_df_p_pr$Sex, sx_df_p_pr$Status_Pr))$expected
+#                     0        1
+#  expected female 290.7333 3.266667
+#  expected male   421.2667 4.733333
+#  observed female 292      2
+#  observed male   420      6
+
+chisq.test(table(df_p_pr$Sex, df_p_pr$Status_Pr))$expected
+  #                0        1
+  # female  290.8775 3.122549
+  # male    421.4755 4.524510
+  # unknown 498.6471 5.352941
+
+#Rv-----------------------------------------
+chisq.test(table(sx_df_p_rv$Sex, sx_df_p_rv$Status_Rv))$expected
+#                     0        1
+#  expected female 285.4115  7.588489
+#  expected male   391.5885  10.411511
+#  observed female  287      6
+#  observed male   390       12
+
+chisq.test(table(df_p_rv$Sex, df_p_rv$Status_Rv))$expected
+  #                0        1
+  # female  280.1643 12.83572
+  # male    384.3892 17.61078
+  # unknown 470.4465 21.55350
+
+# NOTE: Rv female vs. male vs. unknown shows a significant difference between groups whereas female vs. male chi-squared shows no significant difference. The difference therefore lies in the unknown data, which doesn't actually tell us much.
+```
+#### Bimonial confidence intervals
+```{r}
+library(binom)
+#Uses eight different methods to obtain a confidence interval on the binomial probability.
+#x = number of infected in specific sexe
+#n = number of trails (total) in specific species
+
+f_bd_x <- 49
+f_bd_n <- (49+256)
+f_bd_bc <- binom.confint(
+  f_bd_x, f_bd_n, conf.level = 0.95, methods = "logit")
+f_bd_bc
+#   method  x   n      mean     lower     upper
+# 1  logit 49 305 0.1606557 0.1235779 0.2062404
+
+m_bd_x <- 73
+m_bd_n <- (73+366)
+m_bd_bc <- binom.confint(
+  m_bd_x, m_bd_n, conf.level = 0.95, methods = "logit")
+m_bd_bc
+#   method  x   n     mean     lower     upper
+# 1  logit 73 439 0.166287 0.1343063 0.2040876
+```
+
+```{r}
+#Uses eight different methods to obtain a confidence interval on the binomial probability.
+#x = number of infected in specific species
+#n = number of trails (total) in specific species
+f_pr_x <- 2
+f_pr_n <- (2+292)
+f_pr_bc <- binom.confint(
+  f_pr_x, f_pr_n, conf.level = 0.95, methods = "logit")
+f_pr_bc 
+#   method x   n        mean       lower      upper
+# 1  logit 2 294 0.006802721 0.001701999 0.02677974
+
+m_pr_x <- 6
+m_pr_n <- (6+420)
+m_pr_bc <- binom.confint(
+  m_pr_x, m_pr_n, conf.level = 0.95, methods = "logit")
+m_pr_bc
+#   method x   n       mean       lower      upper
+# 1  logit 6 426 0.01408451 0.006341096 0.03098886
+```
+
+```{r}
+f_rv_x <- 6
+f_rv_n <- (6+287)
+f_rv_bc <- binom.confint(
+  f_rv_x, f_rv_n, conf.level = 0.95, methods = "logit")
+f_rv_bc 
+#   method x   n       mean       lower     upper
+# 1  logit 6 293 0.02047782 0.009228427 0.0448198
+
+m_rv_x <- 12
+m_rv_n <- (12+390)
+m_rv_bc <- binom.confint(
+  m_rv_x, m_rv_n, conf.level = 0.95, methods = "logit")
+m_rv_bc
+#   method  x   n       mean      lower      upper
+# 1  logit 12 402 0.02985075 0.01702884 0.05181801
+```
+
+#-----------------------------------------------
+## Age class v. pathogen status
+
+#### Bd: Not significantly different
+
+#### Pr: Not significantly different
+
+#### Rv: Significantly different
+
+
+```{r}
+# Hypothesis (null): Observed and expected infection status counts do not differ across age classes.
+ 
+#Steps to running chi-square in R: 
+# Begin by making a contingency table, assign to a variable for easier manipulation
+
+# Run chi-square test with the above calculated contingency table 
+##Bd-----------------------------------------
+chisq.test(table(ag_df_p_bd$Age, ag_df_p_bd$Status_Bd))
+#adult v. juvenile:
+# 	Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  age.Bd.table
+# X-squared = 2.2454, df = 1, p-value = 0.134
+
+ag_df_p_bd_exto <- subset(ag_df_p_bd,
+                          ag_df_p_bd$Bd_Tissue == "Combination" |
+                          ag_df_p_bd$Bd_Tissue == "External_tissues"  )
+
+age.Bd.table_exto <- table(ag_df_p_bd_exto$Age, ag_df_p_bd_exto$Status_Bd)
+chisq.test(age.Bd.table_exto)
+# 	Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  age.Bd.table_exto
+# X-squared = 0.79955, df = 1, p-value = 0.3712
+
+ggplot(ag_df_p_bd, aes(x= Status_Bd, fill = Age)) + geom_bar()
+
+#Pr-----------------------------------------
+chisq.test(table(ag_df_p_pr$Age, ag_df_p_pr$Status_Pr))
+
+#adult v. juvenile:
+# 	Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  age.Pr.table
+# X-squared = 3.9878e-30, df = 1, p-value = 1
+
+#Rv-----------------------------------------
+Rv.age.chi <- chisq.test(table(ag_df_p_rv$Age, ag_df_p_rv$Status_Rv))
+Rv.age.chi
+#adult v. juvenile:
+# 	Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  age.Rv.table
+# X-squared = 14.258, df = 1, p-value = 0.0001594
+
+# NOTE: some of these results returns a warning message: "Chi-squared approximation may be incorrect"
+# The Youtube tutorial I watched said to ignore the warning message 
+# This tutorial is really good and simple: https://www.youtube.com/watch?v=LnaeG0MzQVw
+
+# The above line of code, appended with "$expected" returns a frequency table with expected values that would be 
+# true under the null hypothesis (sex and frogs have associated pathogens are not associated).
+
+##Bd-----------------------------------------
+chisq.test(table(ag_df_p_bd$Age, ag_df_p_bd$Status_Bd))$expected 
+#                        0         1
+#  expected adult    710.0832 151.91683
+#  expected juvenile 121.9168  26.08317
+#  observed adult    717      145
+#  observed juvenile 115      33
+#Pr-----------------------------------------
+chisq.test(table(ag_df_p_pr$Age, ag_df_p_pr$Status_Pr))$expected
+#                        0        1
+#  expected adult    818.2643   7.735692
+#  expected juvenile 133.7357   1.264308
+#  observed adult     818       8
+#  observed juvenile 134        1
+#Rv-----------------------------------------
+chisq.test(table(ag_df_p_rv$Age, ag_df_p_rv$Status_Rv))$expected
+#                        0         1
+#  expected adult    767.4866   32.513369
+#  expected juvenile 129.5134   5.486631
+#  observed adult    776        24
+#  observed juvenile 121        14
+
+# NOTE: Rv adult v. juvenile shows a significant difference between groups. We will keep age class in the models.
+```
+#### Bimonial confidence intervals
+```{r}
+#Bd-------------------------------------------------------------------------------
+adult_bd_x <- 145
+adult_bd_n <- (145+717)
+Adult_bd_bc <- binom.confint(
+  adult_bd_x, adult_bd_n, conf.level = 0.95, methods = "logit")
+Adult_bd_bc 
+#   method   x   n      mean     lower     upper
+# 1  logit 145 862 0.1682135 0.1446976 0.1946812
+
+juv_bd_x <- 33
+juv_bd_n <- (33+115)
+Juv_bd_bc <- binom.confint(
+  juv_bd_x, juv_bd_n, conf.level = 0.95, methods = "logit")
+Juv_bd_bc 
+#   method  x   n     mean     lower     upper
+# 1  logit 33 148 0.222973 0.1630811 0.2970534
+
+larv_bd_x <- 0
+larv_bd_n <- 8
+Larv_bd_bc <- binom.confint(
+  larv_bd_x, larv_bd_n, conf.level = 0.95, methods = "logit")
+Larv_bd_bc 
+#   method x n mean lower     upper
+# 1  logit 0 8    0     0 0.3694166
+#Pr-------------------------------------------------------------------------------
+adult_pr_x <- 8
+adult_pr_n <- (8+818)
+Adult_pr_bc <- binom.confint(
+  adult_pr_x, adult_pr_n, conf.level = 0.95, methods = "logit")
+Adult_pr_bc 
+#   method x   n       mean       lower      upper
+# 1  logit 8 826 0.00968523 0.004850781 0.01924468
+
+juv_pr_x <- 1
+juv_pr_n <- (1+134)
+Juv_pr_bc <- binom.confint(
+  juv_pr_x, juv_pr_n, conf.level = 0.95, methods = "logit")
+Juv_pr_bc 
+#   method x   n        mean       lower      upper
+# 1  logit 1 135 0.007407407 0.001042487 0.05066261
+
+larv_pr_x <- 0
+larv_pr_n <- 8
+Larv_pr_bc <- binom.confint(
+  larv_pr_x, larv_pr_n, conf.level = 0.95, methods = "logit")
+Larv_pr_bc 
+#   method x n mean lower     upper
+# 1  logit 0 8    0     0 0.3694166
+#Pr-------------------------------------------------------------------------------
+adult_rv_x <- 24
+adult_rv_n <- (24+776)
+Adult_rv_bc <- binom.confint(
+  adult_rv_x, adult_rv_n, conf.level = 0.95, methods = "logit")
+Adult_rv_bc 
+#   method  x   n mean      lower      upper
+# 1  logit 24 800 0.03 0.02018717 0.04436678
+
+juv_rv_x <- 14
+juv_rv_n <- (14+121)
+Juv_rv_bc <- binom.confint(
+  juv_rv_x, juv_rv_n, conf.level = 0.95, methods = "logit")
+Juv_rv_bc 
+#   method  x   n      mean      lower     upper
+# 1  logit 14 135 0.1037037 0.06238409 0.1675019
+
+larv_rv_x <- 0
+larv_rv_n <- 8
+Larv_rv_bc <- binom.confint(
+  larv_rv_x, larv_rv_n, conf.level = 0.95, methods = "logit")
+Larv_rv_bc 
+#   method x n mean lower     upper
+# 1  logit 0 8    0     0 0.3694166
+```
+
+```{r fig.width = 5, fig.height= 5}
+#Pearson's residuals of Chi-squared test
+Rv.age.corr <- "Pearsons residual scores for Rv by age class"
+corrplot(Rv.age.chi$residuals, 
+         title = Rv.age.corr,
+         is.cor = FALSE)
+
+#Comparing frequency of two groups between two categorical variables --- the Chi-square test of independence works by comparing the observed frequencies to the expected frequencies. Testing relationship between two variables.
+
+#Positive residuals are in blue. Positive values in cells specify an attraction (positive association) between the corresponding row and column variables. Negative residuals are in red. This implies a repulsion (negative association) between the corresponding row and column variables.
+```
+
+Rv infection status is significantly different between juveniles and adults, however, majority of our juvenile points reside in species with high Rv prevalence (*R. catesbeiana* & *R. clamitans*) and therefore interaction should be checked in later models between family & age.
+
+#-----------------------------------------------
+## Tissue type v. pathogen status
+
+#### Bd: Significantly different
+
+#### Pr: Not significantly different
+
+#### Rv: Significantly different
+
+```{r}
+# Hypothesis (null): Observed and expected infection status counts do not differ across tissue types.
+
+#Steps to running chi-square in R: 
+# Begin by making a contingency table, assign to a variable for easier manipulation
+# Remove unknowns
+table(Bd_exto_tiss$Bd_Tissue)
+
+#Bd-----------------------------------------
+tiss.Bd.table <- table(Bd_exto_tiss$Bd_Tissue, Bd_exto_tiss$Status_Bd)
+tiss.Bd.table
+  #                    0   1
+  # External_tissues 647 198
+  # Internal_tissues 346  17
+#Pr-----------------------------------------
+tiss.Pr.table <- table(Pr_exto_tiss$Pr_Tissue, Pr_exto_tiss$Status_Pr)
+tiss.Pr.table
+  #                    0   1
+  # Exto             796   8
+  # Internal_tissues 342   5
+
+#Rv-----------------------------------------
+tiss.Rv.table <- table(Rv_exto_tiss$Rv_Tissue, Rv_exto_tiss$Status_Rv)
+tiss.Rv.table
+  #                   0   1
+  # Exto             750  37
+  # Internal_tissues 314  14
+
+
+# Run chi-square test with the above calculated contingency table 
+##Bd-----------------------------------------
+Bd.tiss.chi <- chisq.test(tiss.Bd.table)
+Bd.tiss.chi
+#Internal tissues v. External tissues
+# 	Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  tiss.Bd.table
+# X-squared = 59.733, df = 1, p-value = 1.086e-14
+
+#Pr-----------------------------------------
+Pr.tiss.chi <- chisq.test(tiss.Pr.table)
+Pr.tiss.chi
+#Internal tissues v. External tissues
+# 	Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  tiss.Pr.table
+# X-squared = 0.12463, df = 1, p-value = 0.7241
+
+#Rv-----------------------------------------
+Rv.tiss.chi <- chisq.test(tiss.Rv.table)
+Rv.tiss.chi
+# 	Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  tiss.Rv.table
+# X-squared = 0.025007, df = 1, p-value = 0.8743
+
+# NOTE: some of these results returns a warning message: "Chi-squared approximation may be incorrect"
+# The Youtube tutorial I watched said to ignore the warning message 
+# This tutorial is really good and simple: https://www.youtube.com/watch?v=LnaeG0MzQVw
+
+# The above line of code, appended with "$expected" returns a frequency table with expected values that would be 
+# true under the null hypothesis (sex and frogs have associated pathogens are not associated).
+
+##Bd-----------------------------------------
+chisq.test(table(Bd_exto_tiss$Bd_Tissue, Bd_exto_tiss$Status_Bd))$expected 
+  #                         0         1
+  # External_tissues 694.6068 150.39321
+  # Internal_tissues 298.3932  64.60679
+#Bd-------------------------------------------------------------------------------
+```
+
+####Binomial confidence intervals
+```{r}
+ext_bd_x <- 198
+ext_bd_n <- (198+647)
+ext_bd_bc <- binom.confint(
+  ext_bd_x, ext_bd_n, conf.level = 0.95, methods = "logit")
+ext_bd_bc 
+#   method   x   n      mean     lower     upper
+# 1  logit 198 845 0.2343195 0.2069744 0.2640744
+
+int_bd_x <- 17
+int_bd_n <- (17+346)
+int_bd_bc <- binom.confint(
+  int_bd_x, int_bd_n, conf.level = 0.95, methods = "logit")
+int_bd_bc 
+#   method  x   n       mean      lower      upper
+# 1  logit 17 363 0.04683196 0.02930869 0.07403308
+
+#Pr-------------------------------------------------------------------------------
+ext_pr_x <- 8
+ext_pr_n <- (8+796)
+ext_pr_bc <- binom.confint(
+  ext_pr_x, ext_pr_n, conf.level = 0.95, methods = "logit")
+ext_pr_bc 
+#   method x   n        mean       lower      upper
+# 1  logit 8 804 0.009950249 0.004983717 0.01976786
+
+int_pr_x <- 5
+int_pr_n <- (5+342)
+int_pr_bc <- binom.confint(
+  int_pr_x, int_pr_n, conf.level = 0.95, methods = "logit")
+int_pr_bc 
+#   method x   n       mean       lower      upper
+# 1  logit 5 347 0.01440922 0.006010137 0.03414274
+
+#Rv-------------------------------------------------------------------------------
+ext_rv_x <- 37
+ext_rv_n <- (37+750)
+ext_rv_bc <- binom.confint(
+  ext_rv_x, ext_rv_n, conf.level = 0.95, methods = "logit")
+ext_rv_bc 
+#   method  x   n       mean      lower      upper
+# 1  logit 37 787 0.04701398 0.03424983 0.06421873
+
+int_rv_x <- 14
+int_rv_n <- (14+314)
+int_rv_bc <- binom.confint(
+  int_rv_x, int_rv_n, conf.level = 0.95, methods = "logit")
+int_rv_bc 
+#   method  x   n       mean      lower      upper
+# 1  logit 14 328 0.04268293 0.02543889 0.07076724
+```
+
+```{r fig.width = 5, fig.height= 5}
+#Bd-----------------------------------------------
+#Pearson's residuals of Chi-squared test
+library(corrplot)
+Bd.tiss.corr <- "Pearson's Residual Score"
+corrplot(Bd.tiss.chi$residuals, 
+         title = Bd.tiss.corr,
+         is.cor = FALSE)
+
+
+#Pr------------------------------------------------
+#Pearson's residuals of Chi-squared test
+library(corrplot)
+Pr.tiss.corr <- "Pearson's Residual Score"
+corrplot(Pr.tiss.chi$residuals, 
+         title = Pr.tiss.corr,
+         is.cor = FALSE)
+
+#Rv------------------------------------------------
+#Pearson's residuals of Chi-squared test
+library(corrplot)
+Rv.tiss.corr <- "Pearson's Residual Score"
+corrplot(Rv.tiss.chi$residuals, 
+         title = Pr.tiss.corr,
+         is.cor = FALSE)
+```
+We see that there is a clear difference in infection prevalence between internal only and exto (combination/external tissues) where internal only is not detecting Bd in our samples. 
+Next, we need to understand how this is distributed in our sampling to potentially connect areas of bias in our analyses and models.
+```{r}
+Fam_c <- c("#C00000","#009900","#0066CC")
+
+#Comparison by family
+table(df_p_bd$Bd_Tissue, df_p_bd$Fam)
+  #                     Bufonidae Hylidae Ranidae
+  # Combination_tissues       203     168     226 Evenly spread across
+  # External_tissues           48      73     127 Lower Bufo/Hyli, higher Rani
+  # Internal_tissues           52     167     144 Lower Bufo, higher Hyli and Rani
+  # Unknown_tissue             17      48       8 
+bd_tiss_fam_hist <- ggplot(data = df_p_bd, mapping = aes(x = Fam, fill = Fam, na.rm = TRUE)) + geom_histogram(stat = "count") + facet_wrap(~Bd_Tissue) + scale_fill_manual(values = Fam_c)
+bd_tiss_fam_hist
+#Comparison by species (so we can double check counts, specifically regional differences & species prevalences)
+#Bd-----------------------------------------
+#Is our Family groups unevenly distributed across tissue types?
+tiss.Fam.table <- table(Bd_exto_tiss$Bd_Tissue, Bd_exto_tiss$Fam)
+Bd.Fam.tiss.chi <- chisq.test(tiss.Fam.table)
+Bd.Fam.tiss.chi
+# 	Pearson's Chi-squared test
+# 
+# data:  tiss.Fam.table
+# X-squared = 47.201, df = 2, p-value = 5.63e-11
+#YES, there is a difference in the expected vs observed counts of tissues samples across families. In what way?
+chisq.test(table(Bd_exto_tiss$Bd_Tissue, Bd_exto_tiss$Fam))$expected 
+  #                     Bufonidae   Hylidae  Ranidae      Obs:Bufo   Obs:Hyli   Obs:Rani
+  # Exto                  211.9495 285.3974 347.653       203         168       226
+  # Internal_tissues      91.0505 122.6026 149.3469       48          73        127
+  # Internal_tissues      91.0505 122.60265 149.3469      52          167       144
+
+library(corrplot)
+Bd.Fam.corr <- "Pearson's Residual Score"
+corrplot(Bd.Fam.tiss.chi$residuals, 
+         title = Bd.Fam.corr,
+         is.cor = FALSE)
+```
+We see that we sampled more than expected internal only tissues in the family Hylidae, which *could* explain the low prevalence that we see within that family. 
+
+Let's see how this breaks down over the families.
+```{r}
+#Comparison by family
+tiss.Sp.table <- table(Bd_exto_tiss$Sp,Bd_exto_tiss$Bd_Tissue)
+tiss.Sp.table
+  #                                      Exto Internal_tissues
+  # Anaxyrus americanus                   106                2
+  # Anaxyrus fowleri                       88                8
+  # Anaxyrus terrestris                    32               41
+  # Anaxyrus woodhousii                    25                1
+  # Hyla chrysoscelis-versicolor complex  117               15
+  # Hyla cinerea                           50               54
+  # Hyla squirella                         15               64
+  # Pseudacris crucifer                    59               34
+  # Rana catesbeiana                       83               21
+  # Rana clamitans                         92               17
+  # Rana pipiens                           73                7
+  # Rana sphenocephala                    105               99
+
+Sp_c <- c("#660000","#990000","#CC0000","#FF0000","#003300","#006600","#33CC33","#66FF33","#000099","blue","#0033FF","#3366CC")
+
+bd_tiss_sp_hist <- ggplot(data = Bd_exto_tiss, mapping = aes(x = Sp, fill = Sp, na.rm = TRUE)) bd_tiss_sp_hist +geom_histogram(stat = "count") + facet_wrap(~Bd_Tissue) + scale_fill_manual(values = Sp_c)
+
+Bd.Sp.tiss.chi <- chisq.test(tiss.Sp.table)
+Bd.Sp.tiss.chi
+# 	Pearson's Chi-squared test
+# 
+# data:  tiss.Sp.table
+# X-squared = 305.71, df = 11, p-value < 2.2e-16
+
+library(corrplot)
+Bd.Sp.corr <- "Pearson's Residual Score"
+corrplot(Bd.Sp.tiss.chi$residuals, 
+         title = Bd.Sp.corr,
+         is.cor = FALSE)
+```
+
+#-----------------------------------------------
+# One way tests for environmental variables + response variables
+#-----------------------------------------------
+## Latitude v Status
+
+#### Bd: *Significantly different
+- There is a significant difference in mean latitude between Bd infected and uninfected groups. 
+- The probability of infection increases with increasing latitude. *See tissue interaction note at end of latitude sub-section*
+
+#### Pr: Significantly different
+- There is a significant difference in mean latitude between Pr infected and uninfected groups. 
+- The probability of infection cannot be determined with our data (low sample sizes).
+
+#### Rv: Significantly different
+- There is a significant difference in mean latitude between Rv infected and uninfected groups. 
+- The probability of infection increases with increasing latitude.
+
+####T-test: Latitude
+
+```{r}
+# Null hypothesis: There is no significant difference in the mean latitude between infection status and latitude.
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED LATITUDE VALUES.
+Bd_pos <- filter(df_p_bd, df_p_bd$Status_Bd == "1") #216
+Bd_neg <- filter(df_p_bd, df_p_bd$Status_Bd == "0") #1065
+Bd_lat_prev_var.t <- var.test(Bd_pos$Latitude, Bd_neg$Latitude, alternative = "two.sided")
+Bd_lat_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos$Latitude and Bd_neg$Latitude
+# F = 1.2522, num df = 215, denom df = 1064, p-value = 0.02768
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  1.024737 1.552431
+# sample estimates:
+# ratio of variances 
+#           1.252176 
+#FAILED - UNEQUAL VARIANCE
+
+Bd_lat_prev_var.t$estimate
+plotNormalHistogram(df_p_bd$Latitude) #NORMAL ENOUGH DISTRIBUTION
+qqPlot(df_p_bd$Latitude) #Fat tails, but within range.
+
+BdLat_ttest.prev <-t.test(Latitude ~ Status_Bd, data = df_p_bd, alternative = "two.sided", var.equal = FALSE)
+BdLat_ttest.prev
+# 	Welch Two Sample t-test
+# 
+# data:  Latitude by Status_Bd
+# t = -4.7667, df = 288.76, p-value = 2.973e-06
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -2.983456 -1.239672
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        35.20521        37.31678 
+```
+
+```{r}
+# Null: There are no differences in mean latitude between uninfected and infected individuals in the family [Bufonidae],[Hylidae],[Ranidae].
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED LATITUDE VALUES within families
+#Bufonidae----------------------------------------
+Bufo_df <- subset(df_p_bd,
+                  df_p_bd$Fam == "Bufonidae")
+Bd_pos_Bufo <- filter(Bd_pos, Bd_pos$Fam == "Bufonidae")
+Bd_neg_Bufo <- filter(Bd_neg, Bd_neg$Fam == "Bufonidae")
+Bd_lat_pBufo_var.t <- var.test(Bd_pos_Bufo$Latitude, Bd_neg_Bufo$Latitude, alternative = "two.sided")
+Bd_lat_pBufo_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_Bufo$Latitude and Bd_neg_Bufo$Latitude
+# F = 1.1584, num df = 22, denom df = 296, p-value = 0.5695
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.6736988 2.3553150
+# sample estimates:
+# ratio of variances 
+#           1.158364 
+#PASSED - EQUAL VARIANCE
+
+BdLat_Bufo_ttest.prev <-t.test(Latitude ~ Status_Bd, data = Bufo_df, alternative = "two.sided", var.equal = TRUE)
+BdLat_Bufo_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  Latitude by Status_Bd
+# t = -2.7193, df = 318, p-value = 0.006901
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -4.9720903 -0.7976372
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        36.14401        39.02887 
+#SIGNIFICANT
+
+#Hylidae----------------------------------------------
+Hyli_df <- subset(df_p_bd,
+                  df_p_bd$Fam == "Hylidae")
+Bd_pos_Hyli <- filter(Bd_pos, Bd_pos$Fam == "Hylidae")
+Bd_neg_Hyli <- filter(Bd_neg, Bd_neg$Fam == "Hylidae")
+Bd_lat_pHyli_var.t <- var.test(Bd_pos_Hyli$Latitude, Bd_neg_Hyli$Latitude, alternative = "two.sided")
+Bd_lat_pHyli_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_Hyli$Latitude and Bd_neg_Hyli$Latitude
+# F = 1.1912, num df = 31, denom df = 423, p-value = 0.4497
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.7485904 2.1335315
+# sample estimates:
+# ratio of variances 
+#            1.19117 
+#PASSED - EQUAL VARIANCE
+
+BdLat_Hyli_ttest.prev <-t.test(Latitude ~ Status_Bd, data = Hyli_df, alternative = "two.sided", var.equal = TRUE)
+BdLat_Hyli_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  Latitude by Status_Bd
+# t = -0.91079, df = 454, p-value = 0.3629
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -2.6022819  0.9540601
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        34.01166        34.83577 
+#NOT SIGNIFICANT
+#Ranidae----------------------------------------------
+Rani_df <- subset(df_p_bd,
+                  df_p_bd$Fam == "Ranidae")
+Bd_pos_Rani <- filter(Bd_pos, Bd_pos$Fam == "Ranidae")
+Bd_neg_Rani <- filter(Bd_neg, Bd_neg$Fam == "Ranidae")
+Bd_lat_pRani_var.t <- var.test(Bd_pos_Rani$Latitude, Bd_neg_Rani$Latitude, alternative = "two.sided")
+Bd_lat_pRani_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_Rani$Latitude and Bd_neg_Rani$Latitude
+# F = 1.0195, num df = 160, denom df = 343, p-value = 0.8739
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.7863636 1.3389853
+# sample estimates:
+# ratio of variances 
+#           1.019453 
+#PASSED - EQUAL VARIANCE
+
+BdLat_Rani_ttest.prev <-t.test(Latitude ~ Status_Bd, data = Rani_df, alternative = "two.sided", var.equal = TRUE)
+BdLat_Rani_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  Latitude by Status_Bd
+# t = -2.9074, df = 503, p-value = 0.003806
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -2.8479684 -0.5510383
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        35.86581        37.56531 
+#SIGNIFICANT
+```
+
+Understand the influence of internal only and external-including samples (external + combination).
+
+```{r}
+#External-including samples:
+Bd_pos_exto <- subset(Bd_pos, 
+                      Bd_pos$Bd_Tissue == "Combination" |
+                      Bd_pos$Bd_Tissue == "External_tissues")
+Bd_neg_exto <- subset(Bd_neg, 
+                      Bd_neg$Bd_Tissue == "Combination" |
+                      Bd_neg$Bd_Tissue == "External_tissues")
+
+Bd_exto_lat_prev_var.t <- var.test(Bd_pos_exto$Latitude, Bd_neg_exto$Latitude, alternative = "two.sided")
+Bd_exto_lat_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_exto$Latitude and Bd_neg_exto$Latitude
+# F = 1.1908, num df = 197, denom df = 646, p-value = 0.1189
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.9563632 1.5032043
+# sample estimates:
+# ratio of variances 
+#           1.190768 
+#PASSED- EQUAL VARIANCE
+
+Bd_exto_Lat_ttest.prev <-t.test(Latitude ~ Status_Bd, data = Bd_exto, alternative = "two.sided", var.equal = TRUE)
+Bd_exto_Lat_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  Latitude by Status_Bd
+# t = -1.2256, df = 843, p-value = 0.2207
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -1.4273479  0.3300218
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        37.41906        37.96772
+# NOT SIGNIFICANT
+
+#Internal only samples:
+Bd_into <- subset(df_p_bd, 
+                      df_p_bd$Bd_Tissue == "Internal_tissues")
+
+Bd_pos_into <- subset(Bd_pos, 
+                      Bd_pos$Bd_Tissue == "Internal_tissues")
+Bd_neg_into <- subset(Bd_neg, 
+                      Bd_neg$Bd_Tissue == "Internal_tissues")
+
+Bd_into_lat_prev_var.t <- var.test(Bd_pos_into$Latitude, Bd_neg_into$Latitude, alternative = "two.sided")
+Bd_into_lat_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_into$Latitude and Bd_neg_into$Latitude
+# F = 0.072246, num df = 16, denom df = 345, p-value = 4.245e-07
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.03922525 0.16904663
+# sample estimates:
+# ratio of variances 
+#         0.07224602 
+# FAILED - UNEQUAL VARIANCES
+
+Bd_into_Lat_ttest.prev <-t.test(Latitude ~ Status_Bd, data = Bd_into, alternative = "two.sided", var.equal = FALSE)
+Bd_into_Lat_ttest.prev
+# Welch Two Sample t-test
+
+# data:  Latitude by Status_Bd
+# t = 5.8556, df = 44.214, p-value = 5.412e-07
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  1.087002 2.227676
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        31.80837        30.15103 
+# SIGNIFICANT
+#Let's visualize this with facetted boxplots
+
+ggplot(df_p_bd, aes(x=Latitude, y = Status_Bd)) + geom_boxplot() + facet_wrap(~Bd_Tissue)
+```
+
+Bd is not expected to be detectable in liver/internal only tissues, as it primarily infects the skin. 
+We see that internal tissues are potentially interacting with our latitude results.
+There are significantly lower than expected Bd infections in our internal only tissues (see section below) *and* variable significance changes when excluding internal-only tissues (see section above).
+
+Latitude within families ONLY USING EXTERNAL-ONLY SAMPLES:
+```{r}
+# Null: There are no differences in mean latitude between uninfected and infected individuals in the family [Bufonidae],[Hylidae],[Ranidae] WHEN ONLY USING EXTERNAL-ONLY TISSUE SAMPLES.
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED LATITUDE VALUES within families (External tissues only)
+#Bufonidae----------------------------------------
+Bufo_df <- subset(Bd_exto,
+                  Bd_exto$Fam == "Bufonidae")
+Bd_pos_Bufo <- filter(Bd_pos_exto, Bd_pos_exto$Fam == "Bufonidae")
+Bd_neg_Bufo <- filter(Bd_neg_exto, Bd_neg_exto$Fam == "Bufonidae")
+Bd_lat_pBufo_var.t <- var.test(Bd_pos_Bufo$Latitude, Bd_neg_Bufo$Latitude, alternative = "two.sided")
+Bd_lat_pBufo_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_Bufo$Latitude and Bd_neg_Bufo$Latitude
+# F = 1.2233, num df = 22, denom df = 227, p-value = 0.459
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.7054882 2.4982875
+# sample estimates:
+# ratio of variances 
+#           1.223273
+#PASSED - EQUAL VARIANCE
+
+BdLat_Bufo_ttest.prev <-t.test(Latitude ~ Status_Bd, data = Bufo_df, alternative = "two.sided", var.equal = TRUE)
+BdLat_Bufo_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  Latitude by Status_Bd
+# t = -1.5992, df = 249, p-value = 0.111
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -3.7401964  0.3880813
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        37.35282        39.02887 
+#NOT SIGNIFICANT
+#Hylidae----------------------------------------------
+Hyli_df <- subset(Bd_exto,
+                  Bd_exto$Fam == "Hylidae")
+Bd_pos_Hyli <- filter(Bd_pos_exto, Bd_pos_exto$Fam == "Hylidae")
+Bd_neg_Hyli <- filter(Bd_neg_exto, Bd_neg_exto$Fam == "Hylidae")
+Bd_lat_pHyli_var.t <- var.test(Bd_pos_Hyli$Latitude, Bd_neg_Hyli$Latitude, alternative = "two.sided")
+Bd_lat_pHyli_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_Hyli$Latitude and Bd_neg_Hyli$Latitude
+# F = 1.0672, num df = 24, denom df = 215, p-value = 0.7672
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.6253183 2.1105146
+# sample estimates:
+# ratio of variances 
+#           1.067203 
+#PASSED - EQUAL VARIANCE
+
+BdLat_Hyli_ttest.prev <-t.test(Latitude ~ Status_Bd, data = Hyli_df, alternative = "two.sided", var.equal = TRUE)
+BdLat_Hyli_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  Latitude by Status_Bd
+# t = 0.35918, df = 239, p-value = 0.7198
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -1.797327  2.598897
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        36.45361        36.05282 
+# STILL NOT SIGNIFICANT
+#Ranidae----------------------------------------------
+Rani_df <- subset(Bd_exto,
+                  Bd_exto$Fam == "Ranidae")
+Bd_pos_Rani <- filter(Bd_pos_exto, Bd_pos_exto$Fam == "Ranidae")
+Bd_neg_Rani <- filter(Bd_neg_exto, Bd_neg_exto$Fam == "Ranidae")
+Bd_lat_pRani_var.t <- var.test(Bd_pos_Rani$Latitude, Bd_neg_Rani$Latitude, alternative = "two.sided")
+Bd_lat_pRani_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_Rani$Latitude and Bd_neg_Rani$Latitude
+# F = 1.0038, num df = 149, denom df = 202, p-value = 0.9742
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.7459351 1.3601129
+# sample estimates:
+# ratio of variances 
+#           1.003784 
+
+#PASSED - EQUAL VARIANCE
+
+BdLat_Rani_ttest.prev <-t.test(Latitude ~ Status_Bd, data = Rani_df, alternative = "two.sided", var.equal = TRUE)
+BdLat_Rani_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  Latitude by Status_Bd
+# t = 0.61325, df = 351, p-value = 0.5401
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -0.8752669  1.6684150
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        38.52073        38.12416 
+#NOT SIGNIFICANT
+```
+Bufonidae - no longer significant.
+Hylidae - still not significant.
+Ranidae - no longer significant.
+
+Pr:
+```{r}
+# Null hypothesis: There is no significant difference in the mean latitude between infection status and latitude.
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED LATITUDE VALUES.
+Pr_pos <- filter(df_p_pr, df_p_pr$Status_Pr == "1")
+Pr_neg <- filter(df_p_pr, df_p_pr$Status_Pr == "0")
+Pr_lat_prev_var.t <- var.test(Pr_pos$Latitude, Pr_neg$Latitude, alternative = "two.sided")
+Pr_lat_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Pr_pos$Latitude and Pr_neg$Latitude
+# F = 0.21744, num df = 12, denom df = 1210, p-value = 0.004609
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.1111982 0.5938855
+# sample estimates:
+# ratio of variances 
+#          0.2174436 
+#FAILED - UNEQUAL VARIANCE
+
+Pr_lat_prev_var.t$estimate
+plotNormalHistogram(df_p_pr$Latitude) #NORMAL ENOUGH DISTRIBUTION
+qqPlot(df_p_pr$Latitude) #FAT TAILS
+
+PrLat_ttest.prev <-t.test(Latitude ~ Status_Pr, data = df_p_pr, alternative = "two.sided", var.equal = FALSE)
+PrLat_ttest.prev
+# 	Welch Two Sample t-test
+# 
+# data:  Latitude by Status_Pr
+# t = 3.3447, df = 13.214, p-value = 0.005168
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  0.8831285 4.0901341
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        35.54772        33.06109  
+```
+
+Rv:
+```{r}
+# Null hypothesis: There is no significant difference in the mean latitude between infection status and latitude.
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED LATITUDE VALUES.
+Rv_pos <- filter(df_p_rv, df_p_rv$Status_Rv == "1")
+Rv_neg <- filter(df_p_rv, df_p_rv$Status_Rv == "0")
+Rv_lat_prev_var.t <- var.test(Rv_pos$Latitude, Rv_neg$Latitude, alternative = "two.sided")
+Rv_lat_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Rv_pos$Latitude and Rv_neg$Latitude
+# F = 1.2963, num df = 51, denom df = 1134, p-value = 0.1632
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.9010841 2.0074237
+# sample estimates:
+# ratio of variances 
+#            1.29632 
+#PASSED - EQUAL VARIANCES
+
+plotNormalHistogram(df_p_rv$Latitude) #NORMAL ENOUGH DISTRIBUTION
+qqPlot(df_p_rv$Latitude) #FAT TAILS
+
+RvLat_ttest.prev <-t.test(Latitude ~ Status_Rv, data = df_p_rv, alternative = "two.sided", var.equal = TRUE)
+RvLat_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  Latitude by Status_Rv
+# t = -3.1485, df = 1185, p-value = 0.001682
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -4.0536096 -0.9411657
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        35.53490        38.03229
+#SIGNIFICANT
+```
+
+####Logistic Regression: Latitude
+
+Bd:
+```{r}
+#Null hypothesis: There is no significant correlation between latitude and infection status.
+lm.lat.bd <- glm(Status_Bd ~ Latitude, family = binomial, data = df_p_bd)
+summary(lm.lat.bd)
+# glm(formula = Status_Bd ~ Latitude, family = binomial, data = df_p_bd)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept) -3.97688    0.48887  -8.135 4.12e-16 ***
+# Latitude     0.06572    0.01309   5.022 5.12e-07 ***
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 1162.3  on 1280  degrees of freedom
+# Residual deviance: 1137.2  on 1279  degrees of freedom
+# AIC: 1141.2
+# 
+# Number of Fisher Scoring iterations: 4
+
+exp(coef(lm.lat.bd))
+# (Intercept)    Latitude 
+#  0.01874394  1.06792466
+```
+
+Not considering anything else in the data, there is a significant relationship between latitude and Bd status where with unit increase in latitude, the log odds of Bd positive increase by $e^{0.06572}$ or the odds of being infected with Bd increase by a factor $1.068$.\
+
+Pr:
+```{r}
+# Null hypothesis: There is no significant correlation between latitude and infection status.
+lm.lat.pr <- glm(Status_Pr ~ Latitude, family = binomial, data = df_p_pr)
+summary(lm.lat.pr)
+# Call:
+# glm(formula = Status_Pr ~ Latitude, family = binomial, data = df_p_pr)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)
+# (Intercept) -1.27807    2.04504  -0.625    0.532
+# Latitude    -0.09516    0.06124  -1.554    0.120
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 144.03  on 1223  degrees of freedom
+# Residual deviance: 141.19  on 1222  degrees of freedom
+# AIC: 145.19
+# 
+# Number of Fisher Scoring iterations: 8
+
+exp(coef(lm.lat.pr))
+# (Intercept)    Latitude 
+#   0.2780185   0.9092824 
+```
+
+Not considering anything else in the data, there is NOT a significant relationship between latitude and Pr status.
+
+Rv:
+```{r}
+lm.lat.rv <- glm(Status_Rv ~ Latitude, family = binomial, data = df_p_rv)
+summary(lm.lat.rv)
+# Call:
+# glm(formula = Status_Rv ~ Latitude, family = binomial, data = df_p_rv)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept) -5.83452    0.93275  -6.255 3.97e-10 ***
+# Latitude     0.07484    0.02432   3.077  0.00209 ** 
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 426.99  on 1186  degrees of freedom
+# Residual deviance: 417.58  on 1185  degrees of freedom
+# AIC: 421.58
+# 
+# Number of Fisher Scoring iterations: 6
+
+exp(coef(lm.lat.rv))
+# (Intercept)    Latitude 
+# 0.002924815 1.077713458 
+```
+
+Not considering anything else in the data, there is a significant relationship between latitude and Rv status where with unit increase in latitude, the Odds ratio of Rv increases by $e^{0.07484$ or the odds of being infected with Rv increase by a factor $1.078$.
+
+####Visualization
+Distribution of latitude values by infection status.
+```{r}
+#Visualize dataset
+#Set colors for pathogen comparisons
+Bd_c <- c("darkgrey","#40B0A6")
+Pr_c <- c("darkgrey","#E1BE6A")
+Rv_c <- c("darkgrey","#9966FF")
+
+Bd_lat_prev_bar <- ggplot(
+  df_p_bd, aes(x = Status_Bd, y = Latitude, color = Status_Bd, fill = Status_Bd)) + 
+  geom_boxplot(
+    width = .15, fill = Bd_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Bd_c, guide = "none") +
+  # theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + 
+  scale_y_continuous(limits=c(25,50)) + 
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+  facet_grid(cols = vars(Status_Bd), scales = "free_x", space = "free_x") +
+  theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none")
+
+
+Pr_lat_prev_bar <- ggplot(
+  df_p_pr, aes(x = Status_Pr, y = Latitude, color = Status_Pr, fill = Status_Pr)) + 
+  geom_boxplot(
+    width = .15, fill = Pr_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Pr_c, guide = "none") +
+  # theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + 
+  scale_y_continuous(limits=c(25,50)) + 
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+  facet_grid(cols = vars(Status_Pr), scales = "free_x", space = "free_x") +
+  theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none")
+
+Rv_lat_prev_bar <- ggplot(
+  df_p_rv, aes(x = Status_Rv, y = Latitude, color = Status_Rv, fill = Status_Rv)) + 
+  geom_boxplot(
+    width = .15, fill = Rv_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Rv_c, guide = "none") +
+  # theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + 
+  scale_y_continuous(limits=c(25,50)) + 
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+  facet_grid(cols = vars(Status_Rv), scales = "free_x", space = "free_x") +
+  theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none") 
+```
+
+Figure 4a-c: Latitude vs. infection status.
+
+```{r}
+library(patchwork)
+(Bd_lat_prev_bar | Pr_lat_prev_bar | Rv_lat_prev_bar) 
+```
+
+#-----------------------------------------------
+
+## Longitude v Status
+
+#### Bd: Significantly different 
+- There is a significant difference in mean longitude between infected and uninfected groups. 
+- The probability of infection increases with increasing longitude. *See tissue interaction note at end of Longitude sub-section*
+
+#### Pr: Significantly different
+- There is a significant difference in mean longitude between infected and uninfected groups.
+- The probability of infection cannot be determined with our data due to low sample sizes.
+
+#### Rv: Significantly different
+- There is a significant difference in mean longitude between infected and uninfected groups. 
+- The probability of infection increases with increasing longitude.
+
+#### T-test: Longitude
+Bd:
+```{r}
+# Null hypothesis: There is no significant difference in the mean longitude between infection statuses.
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED LONGITUDE VALUES.
+Bd_pos <- filter(df_p_bd, df_p_bd$Status_Bd == "1")
+Bd_neg <- filter(df_p_bd, df_p_bd$Status_Bd == "0")
+Bd_long_prev_var.t <- var.test(Bd_pos$Longitude, Bd_neg$Longitude, alternative = "two.sided")
+Bd_long_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos$Longitude and Bd_neg$Longitude
+# F = 1.4812, num df = 215, denom df = 1064, p-value = 9.719e-05
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  1.212186 1.836407
+# sample estimates:
+# ratio of variances 
+#           1.481229 
+#FAILED - UNEQUAL VARIANCE
+
+Bd_long_prev_var.t$estimate
+plotNormalHistogram(df_p_bd$Longitude) #NORMAL ENOUGH DISTRIBUTION
+qqPlot(df_p_bd$Longitude) 
+
+Bdlong_ttest.prev <-t.test(Longitude ~ Status_Bd, data = df_p_bd, alternative = "two.sided", var.equal = FALSE)
+Bdlong_ttest.prev
+# 	Welch Two Sample t-test
+# 
+# data:  Longitude by Status_Bd
+# t = -3.0777, df = 276.86, p-value = 0.002295
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -3.1192279 -0.6855773
+# sample estimates:
+# mean in group 0 mean in group 1 
+#       -85.64972       -83.74731 
+#SIGNIFICANT
+```
+
+To understand the influence of external vs. samples with toe/skin in these Bd patterns, we will also run the analyses below excluding samples extracted with internal only tissues.
+
+```{r}
+Bd_pos_exto <- subset(Bd_pos, 
+                      Bd_pos$Bd_Tissue == "Combination" |
+                      Bd_pos$Bd_Tissue == "External_tissues")
+Bd_neg_exto <- subset(Bd_neg, 
+                      Bd_neg$Bd_Tissue == "Combination" |
+                      Bd_neg$Bd_Tissue == "External_tissues")
+
+Bd_exto_long_prev_var.t <- var.test(Bd_pos_exto$Longitude, Bd_neg_exto$Longitude, alternative = "two.sided")
+Bd_exto_long_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_exto$Longitude and Bd_neg_exto$Longitude
+# F = 1.1595, num df = 197, denom df = 646, p-value = 0.1863
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.9312211 1.4636860
+# sample estimates:
+# ratio of variances 
+#           1.159464 
+#PASSED- EQUAL VARIANCE
+
+Bd_exto_long_ttest.prev <-t.test(Longitude ~ Status_Bd, data = Bd_exto, alternative = "two.sided", var.equal = TRUE)
+Bd_exto_long_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  Longitude by Status_Bd
+# t = -3.7588, df = 843, p-value = 0.0001825
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -3.824155 -1.200429
+# sample estimates:
+# mean in group 0 mean in group 1 
+#       -85.87044       -83.35815 
+#SIGNIFICANT
+
+#How about internal only tissues?
+Bd_into <- subset(df_p_bd, 
+                      df_p_bd$Bd_Tissue == "Internal_tissues")
+
+Bd_pos_into <- subset(Bd_pos, 
+                      Bd_pos$Bd_Tissue == "Internal_tissues")
+Bd_neg_into <- subset(Bd_neg, 
+                      Bd_neg$Bd_Tissue == "Internal_tissues")
+
+Bd_into_long_prev_var.t <- var.test(Bd_pos_into$Longitude, Bd_neg_into$Longitude, alternative = "two.sided")
+Bd_into_long_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_into$Longitude and Bd_neg_into$Longitude
+# F = 0.80673, num df = 16, denom df = 345, p-value = 0.6439
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.4380052 1.8876437
+# sample estimates:
+# ratio of variances 
+#          0.8067285 
+# FAILED - UNEQUAL VARIANCES
+
+Bd_into_long_ttest.prev <-t.test(Longitude ~ Status_Bd, data = Bd_into, alternative = "two.sided", var.equal = FALSE)
+Bd_into_long_ttest.prev
+# 	Welch Two Sample t-test
+# 
+# data:  Longitude by Status_Bd
+# t = 2.062, df = 18.005, p-value = 0.05394
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -0.04408165  4.72248839
+# sample estimates:
+# mean in group 0 mean in group 1 
+#       -85.58092       -87.92013 
+# NEAR SIGNIFICANT
+#Let's visualize this with facetted boxplots
+ggplot(df_p_bd, aes(x=Longitude, y = Status_Bd)) + geom_boxplot() + facet_wrap(~Bd_Tissue)
+```
+
+We believe that results pertaining to longitude are heavily influenced by *A. woodhousii* (western-most species), which has no infections.
+
+Pr:
+```{r}
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED Longitude VALUES.
+Pr_pos <- filter(df_p_pr, df_p_pr$Status_Pr == "1")
+Pr_neg <- filter(df_p_pr, df_p_pr$Status_Pr == "0")
+Pr_long_prev_var.t <- var.test(Pr_pos$Longitude, Pr_neg$Longitude, alternative = "two.sided")
+Pr_long_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Pr_pos$Longitude and Pr_neg$Longitude
+# F = 0.60659, num df = 12, denom df = 1210, p-value = 0.3239
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.3102025 1.6567241
+# sample estimates:
+# ratio of variances 
+#          0.6065883 
+#PASSED - EQUAL VARIANCE
+
+Pr_long_prev_var.t$estimate
+plotNormalHistogram(df_p_pr$Longitude) 
+
+PrLong_ttest.prev <-t.test(Longitude ~ Status_Pr, data = df_p_pr, alternative = "two.sided", var.equal = TRUE)
+PrLong_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  Longitude by Status_Pr
+# t = 2.354, df = 1222, p-value = 0.01873
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  0.7987136 8.7912523
+# sample estimates:
+# mean in group 0 mean in group 1 
+#       -85.31429       -90.10927 
+#SIGNIFICANT
+```
+Rv:
+```{r}
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED Longitude VALUES.
+Rv_pos <- filter(df_p_rv, df_p_rv$Status_Rv == "1")
+Rv_neg <- filter(df_p_rv, df_p_rv$Status_Rv == "0")
+Rv_Long_prev_var.t <- var.test(Rv_pos$Longitude, Rv_neg$Longitude, alternative = "two.sided")
+Rv_Long_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Rv_pos$Longitude and Rv_neg$Longitude
+# F = 1.479, num df = 51, denom df = 1134, p-value = 0.03457
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  1.028059 2.290297
+# sample estimates:
+# ratio of variances 
+#           1.478989 
+#PASSED - EQUAL VARIANCES
+
+RvLong_ttest.prev <-t.test(Longitude ~ Status_Rv, data = df_p_rv, alternative = "two.sided", var.equal = FALSE)
+RvLong_ttest.prev
+# 	Welch Two Sample t-test
+# 
+# data:  Longitude by Status_Rv
+# t = -3.9624, df = 54.206, p-value = 0.0002186
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -7.413775 -2.432288
+# sample estimates:
+# mean in group 0 mean in group 1 
+#       -85.60983       -80.68680
+#SIGNIFICANT
+```
+
+#### Logistic Regression: Longitude
+
+Bd:
+```{r}
+# Null hypothesis: There is no significant correlation between longitude and infection status.
+lm.lat.bd <- glm(Status_Bd ~ Longitude, family = binomial, data = df_p_bd)
+
+summary(lm.lat.bd)
+# glm(formula = Status_Bd ~ Longitude, family = binomial, data = df_p_bd)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept)  1.44916    0.87404   1.658 0.097318 .  
+# Longitude    0.03595    0.01036   3.471 0.000519 ***
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 1162.3  on 1280  degrees of freedom
+# Residual deviance: 1150.1  on 1279  degrees of freedom
+# AIC: 1154.1
+# 
+# Number of Fisher Scoring iterations: 4
+
+exp(coef(lm.lat.bd))
+# (Intercept)   Longitude 
+#    4.259515    1.036600 
+```
+
+Not considering anything else in the data, there is a significant relationship between longitude and Bd status where with every unit increase in longitude, the log odds of Bd positive increase by $e^{0.03595}$ or the odds of being infected with Bd increase by a factor $1.04$.\
+
+Pr:
+```{r}
+# Null hypothesis: There is no significant correlation between longitude and infection status.
+lm.lat.pr <- glm(Status_Pr ~ Longitude, family = binomial, data = df_p_pr)
+summary(lm.lat.pr)
+# Call:
+# glm(formula = Status_Pr ~ Longitude, family = binomial, data = df_p_pr)
+# 
+# Coefficients:
+#              Estimate Std. Error z value Pr(>|z|)    
+# (Intercept) -12.63335    3.61553  -3.494 0.000476 ***
+# Longitude    -0.09230    0.04003  -2.306 0.021125 *  
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 144.03  on 1223  degrees of freedom
+# Residual deviance: 138.43  on 1222  degrees of freedom
+# AIC: 142.43
+# 
+# Number of Fisher Scoring iterations: 8
+
+exp(coef(lm.lat.pr))
+#  (Intercept)    Longitude 
+# 3.261398e-06 9.118301e-01 
+```
+
+Not considering anything else in the data, there is NOT a significant relationship between longitude and Pr status.
+
+Rv:
+
+```{r}
+# Null hypothesis: There is no significant correlation between longitude and infection status.
+lm.lat.rv <- glm(Status_Rv ~ Longitude, family = binomial, data = df_p_rv)
+summary(lm.lat.rv)
+# Call:
+# glm(formula = Status_Rv ~ Longitude, family = binomial, data = df_p_rv)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept)  4.67916    1.64729   2.841   0.0045 ** 
+# Longitude    0.09338    0.02027   4.607 4.08e-06 ***
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 426.99  on 1186  degrees of freedom
+# Residual deviance: 404.55  on 1185  degrees of freedom
+# AIC: 408.55
+# 
+# Number of Fisher Scoring iterations: 6
+
+exp(coef(lm.lat.rv))
+# (Intercept)   Longitude 
+#  107.679463    1.097882 
+```
+
+Not considering anything else in the data, there is a significant relationship between longitude and Rv status where with unit increase in longitude, the Odds ratio of Rv increases by $e^{0.09338$ or the odds of being infected with Rv increase by a factor $1.098$.
+
+####Visualization
+Distribution of longitude values by infection status.
+```{r}
+#Visualize dataset
+#Set colors for pathogen comparisons
+Bd_c <- c("darkgrey","#40B0A6")
+Pr_c <- c("darkgrey","#E1BE6A")
+Rv_c <- c("darkgrey","#9966FF")
+
+
+Bd_long_prev_bar <- ggplot(
+  df_p_bd, aes(x = Status_Bd, y = Longitude, color = Status_Bd, fill = Status_Bd)) + 
+  geom_boxplot(
+    width = .15, fill = Bd_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Bd_c, guide = "none") +
+  # theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + 
+ # scale_y_continuous(limits=c(25,50)) + 
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+  facet_grid(cols = vars(Status_Bd), scales = "free_x", space = "free_x") +
+  theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none")
+
+
+Pr_long_prev_bar <- ggplot(
+  df_p_pr, aes(x = Status_Pr, y = Longitude, color = Status_Pr, fill = Status_Pr)) + 
+  geom_boxplot(
+    width = .15, fill = Pr_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Pr_c, guide = "none") +
+  # theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + 
+ # scale_y_continuous(limits=c(25,50)) + 
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+  facet_grid(cols = vars(Status_Pr), scales = "free_x", space = "free_x") +
+  theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none")
+
+Rv_long_prev_bar <- ggplot(
+  df_p_rv, aes(x = Status_Rv, y = Longitude, color = Status_Rv, fill = Status_Rv)) + 
+  geom_boxplot(
+    width = .15, fill = Rv_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Rv_c, guide = "none") +
+  # theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + 
+ # scale_y_continuous(limits=c(25,50)) + 
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+  facet_grid(cols = vars(Status_Rv), scales = "free_x", space = "free_x") +
+  theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none") 
+```
+
+Not used in any figure, but for our records.
+
+```{r fig.height=10, fig.width=8}
+library(patchwork)
+(Bd_long_prev_bar | Pr_long_prev_bar | Rv_long_prev_bar) 
+```
+
+#-----------------------------------------------
+
+## Elevation v Status
+
+#### Bd: Not significantly different 
+- No difference in mean elevation between Bd infected and uninfected samples. 
+- No correlation between elevation and infection status.
+
+#### Pr: Not significantly different 
+- No difference in mean elevation between Pr infected and uninfected samples. 
+- No correlation between elevation and infection status.
+
+#### Rv: Not significantly different 
+- No difference in mean elevation between Rv infected and uninfected samples. 
+- No significant correlation between elevation and infection status.
+
+####T-test: Elevation
+Bd:
+```{r}
+#Null hypothesis: There is no significant difference in the mean elevation between infection statuses.
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED ELEVATION VALUES.
+Bd_pos <- filter(df_p_bd, df_p_bd$Status_Bd == "1")
+Bd_neg <- filter(df_p_bd, df_p_bd$Status_Bd == "0")
+Bd_ele_prev_var.t <- var.test(Bd_pos$Elevation_30s, Bd_neg$Elevation_30s, alternative = "two.sided")
+Bd_ele_prev_var.t
+
+# 	F test to compare two variances
+# 
+# data:  Bd_pos$Elevation_30s and Bd_neg$Elevation_30s
+# F = 0.85896, num df = 215, denom df = 1064, p-value = 0.1647
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.702946 1.064932
+# sample estimates:
+# ratio of variances 
+#          0.8589639 
+# PASSED - EQUAL VARIANCE
+
+Bd_ele_prev_var.t$estimate
+plotNormalHistogram(df_p_bd$Elevation_30s) #NOT NORMAL - USE LOG
+qqPlot(df_p_bd$Elevation_30s) 
+
+#Transform elevation to log10 elevation
+df_p_bd$Log10Elev <- log(df_p_bd$Elevation_30s)
+
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED ELEVATION VALUES.
+Bd_pos <- filter(df_p_bd, df_p_bd$Status_Bd == "1")
+Bd_neg <- filter(df_p_bd, df_p_bd$Status_Bd == "0")
+Bd_ele_prev_var.t <- var.test(Bd_pos$Log10_Elev, Bd_neg$Log10_Elev, alternative = "two.sided")
+Bd_ele_prev_var.t
+
+# 	F test to compare two variances
+# 
+# data:  Bd_pos$Elevation_30s and Bd_neg$Elevation_30s
+# F = 0.85896, num df = 215, denom df = 1064, p-value = 0.1647
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.702946 1.064932
+# sample estimates:
+# ratio of variances 
+#          0.8589639  
+#PASSED - EQUAL VARIANCE
+
+plotNormalHistogram(df_p_bd$Log10Elev) #NORMAL DISTRIBUTION NOW
+
+BdEle_ttest.prev <-t.test(Log10Elev ~ Status_Bd, data = df_p_bd, alternative = "two.sided", var.equal = TRUE)
+BdEle_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  Log10Elev by Status_Bd
+# t = -1.0569, df = 1279, p-value = 0.2907
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -0.32947066  0.09875987
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        4.227270        4.342626 
+#NOT SIGNIFICANT
+```
+No significant difference in elevation means between Bd infected vs. uninfected frogs.
+```{r}
+Bd_pos_exto <- subset(Bd_pos, 
+                      Bd_pos$Bd_Tissue == "Combination" |
+                      Bd_pos$Bd_Tissue == "External_tissues")
+Bd_pos_exto$Log10Elev <- log(Bd_pos_exto$Elevation_30s)
+
+Bd_neg_exto <- subset(Bd_neg, 
+                      Bd_neg$Bd_Tissue == "Combination" |
+                      Bd_neg$Bd_Tissue == "External_tissues")
+Bd_neg_exto$Log10Elev <- log(Bd_neg_exto$Elevation_30s)
+
+Bd_exto_elev_prev_var.t <- var.test(Bd_pos_exto$Log10Elev, Bd_neg_exto$Log10Elev, alternative = "two.sided")
+Bd_exto_elev_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_exto$Log10Elev and Bd_neg_exto$Log10Elev
+# F = 1.2566, num df = 197, denom df = 646, p-value = 0.04108
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  1.009224 1.586291
+# sample estimates:
+# ratio of variances 
+#           1.256586  
+#FAILED -UNEQUAL VARIANCE
+
+Bd_exto <- subset(df_p_bd, 
+                      df_p_bd$Bd_Tissue == "Combination" |
+                      df_p_bd$Bd_Tissue == "External_tissues")
+Bd_exto$Log10Elev <- log(Bd_exto$Elevation_30s)
+
+Bd_exto_elev_ttest.prev <-t.test(Log10Elev ~ Status_Bd, data = Bd_exto, alternative = "two.sided", var.equal = FALSE)
+ Bd_exto_elev_ttest.prev
+
+# 	Welch Two Sample t-test
+# 
+# data:  Log10Elev by Status_Bd
+# t = 1.9009, df = 299.23, p-value = 0.05827
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -0.008137567  0.470030066
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        4.723404        4.492458 
+# NEAR SIGNIFICANT
+
+#How about internal only tissues?
+Bd_into <- subset(df_p_bd, 
+                      df_p_bd$Bd_Tissue == "Internal_tissues")
+Bd_into$Log10Elev <- log(Bd_into$Elevation_30s)
+
+Bd_pos_into <- subset(Bd_pos, 
+                      Bd_pos$Bd_Tissue == "Internal_tissues")
+Bd_pos_into$Log10Elev <- log(Bd_pos_into$Elevation_30s)
+
+Bd_neg_into <- subset(Bd_neg, 
+                      Bd_neg$Bd_Tissue == "Internal_tissues")
+Bd_neg_into$Log10Elev <- log(Bd_neg_into$Elevation_30s)
+
+Bd_into_elev_prev_var.t <- var.test(Bd_pos_into$Log10Elev, Bd_neg_into$Log10Elev, alternative = "two.sided")
+Bd_into_elev_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_into$Log10Elev and Bd_neg_into$Log10Elev
+# F = 0.83871, num df = 16, denom df = 345, p-value = 0.7178
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.4553713 1.9624851
+# sample estimates:
+# ratio of variances 
+#          0.8387137 
+# PASSED - EQUAL VARIANCES
+
+Bd_into_elev_ttest.prev <-t.test(Log10Elev ~ Status_Bd, data = Bd_into, alternative = "two.sided", var.equal = TRUE)
+Bd_into_elev_ttest.prev
+
+# 	Two Sample t-test
+# 
+# data:  Log10Elev by Status_Bd
+# t = 1.8753, df = 361, p-value = 0.06156
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -0.02816818  1.18598417
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        3.431878        2.852970 
+# NOT SIGNIFICANT
+
+#Let's visualize this with facetted boxplots
+ggplot(df_p_bd, aes(x=Log10Elev, y = Status_Bd)) + geom_boxplot() + facet_wrap(~Bd_Tissue)
+```
+
+Pr:
+```{r}
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED ELEVATION VALUES.
+Pr_pos <- filter(df_p_pr, df_p_pr$Status_Pr == "1")
+Pr_neg <- filter(df_p_pr, df_p_pr$Status_Pr == "0")
+Pr_ele_prev_var.t <- var.test(Pr_pos$Elevation_30s, Pr_neg$Elevation_30s, alternative = "two.sided")
+Pr_ele_prev_var.t
+
+Pr_ele_prev_var.t$estimate
+plotNormalHistogram(df_p_pr$Elevation_30s) #NOT NORMAL. LOG TRANSFORM.
+qqPlot(df_p_pr$Elevation_30s) 
+
+#Transform elevation to log10 elevation
+df_p_pr$Log10Elev <- log10(df_p_pr$Elevation_30s)
+
+Pr_pos <- filter(df_p_pr, df_p_pr$Status_Pr == "1")
+Pr_neg <- filter(df_p_pr, df_p_pr$Status_Pr == "0")
+Pr_ele_prev_var.t <- var.test(Pr_pos$Log10Elev, Pr_neg$Log10Elev, alternative = "two.sided")
+Pr_ele_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Pr_pos$Log10Elev and Pr_neg$Log10Elev
+# F = 0.55108, num df = 12, denom df = 1210, p-value = 0.2369
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.2818181 1.5051292
+# sample estimates:
+# ratio of variances 
+#          0.5510838 
+#PASSED - EQUAL VARIANCES
+
+PrEle_ttest.prev <-t.test(Log10Elev ~ Status_Pr, data = df_p_pr, alternative = "two.sided", var.equal = TRUE)
+PrEle_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  Log10Elev by Status_Pr
+# t = -0.4035, df = 1222, p-value = 0.6867
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -0.4226887  0.2784809
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        1.834148        1.906252 
+# NOT SIGNIFICANT
+```
+No significant difference in elevation means between Pr infected vs. uninfected frogs.
+Rv:
+```{r}
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED ELEVATION VALUES.
+Rv_pos <- filter(df_p_rv, df_p_rv$Status_Rv == "1")
+Rv_neg <- filter(df_p_rv, df_p_rv$Status_Rv == "0")
+Rv_ele_prev_var.t <- var.test(Rv_pos$Elevation_30s, Rv_neg$Elevation_30s, alternative = "two.sided")
+Rv_ele_prev_var.t
+
+Rv_ele_prev_var.t$estimate
+plotNormalHistogram(df_p_rv$Elevation_30s) #NOT NORMAL. LOG TRANSFORM.
+qqPlot(df_p_rv$Elevation_30s) 
+
+#Transform elevation to log10 elevation
+df_p_rv$Log10Elev <- log10(df_p_rv$Elevation_30s)
+
+Rv_pos <- filter(df_p_rv, df_p_rv$Status_Rv == "1")
+Rv_neg <- filter(df_p_rv, df_p_rv$Status_Rv == "0")
+Rv_ele_prev_var.t <- var.test(Rv_pos$Log10Elev, Rv_neg$Log10Elev, alternative = "two.sided")
+Rv_ele_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Rv_pos$Log10Elev and Rv_neg$Log10Elev
+# F = 0.76816, num df = 51, denom df = 1134, p-value = 0.2345
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.5339557 1.1895397
+# sample estimates:
+# ratio of variances 
+#          0.7681607
+#PASSED - EQUAL VARIANCES
+
+RvEle_ttest.prev <-t.test(Log10Elev ~ Status_Rv, data = df_p_rv, alternative = "two.sided", var.equal = TRUE)
+RvEle_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  Log10Elev by Status_Rv
+# t = -1.2967, df = 1185, p-value = 0.195
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -0.29624474  0.06047897
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        1.841597        1.959480 
+# NOT SIGNIFICANT
+```
+No significant difference in elevation means between Rv infected vs. uninfected frogs.
+
+####Logistic Regression: Elevation
+Bd:
+```{r}
+#Null hypothesis: There is no significant correlation between infection status and elevation.
+df_p_bd$Log10Elev <- log(df_p_bd$Elevation_30s)
+lm.elev.bd <- glm(Status_Bd ~ Log10Elev, family = binomial, data = df_p_bd) 
+summary(lm.elev.bd)  
+# Call:
+# glm(formula = Status_Bd ~ Log10Elev, family = binomial, data = df_p_bd)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept) -1.82931    0.23544  -7.770 7.87e-15 ***
+# Log10Elev    0.05457    0.05164   1.057    0.291    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 1162.3  on 1280  degrees of freedom
+# Residual deviance: 1161.2  on 1279  degrees of freedom
+# AIC: 1165.2
+# 
+# Number of Fisher Scoring iterations: 4
+```
+
+Not considering anything else in the data, there is not a significant relationship between elevation and Bd status.
+
+Pr:
+```{r}
+lm.elev.pr <- glm(Status_Pr ~ Log10Elev, family = binomial, data = df_p_pr) 
+summary(lm.elev.pr) 
+# Call:
+# glm(formula = Status_Pr ~ Log10Elev, family = binomial, data = df_p_pr)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept)  -4.8703     0.8934  -5.451 4.99e-08 ***
+# Log10Elev     0.1797     0.4454   0.403    0.687    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 144.03  on 1223  degrees of freedom
+# Residual deviance: 143.86  on 1222  degrees of freedom
+# AIC: 147.86
+# 
+# Number of Fisher Scoring iterations: 7
+```
+
+Not considering anything else in the data, there is not a significant relationship between elevation and Pr status.
+
+Rv:
+```{r}
+lm.elev.rv <- glm(Status_Rv ~ Log10Elev, family = binomial, data = df_p_rv) 
+summary(lm.elev.rv) 
+# Call:
+# glm(formula = Status_Rv ~ Log10Elev, family = binomial, data = df_p_rv)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept)  -3.6498     0.4723  -7.727  1.1e-14 ***
+# Log10Elev     0.2980     0.2305   1.293    0.196    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 426.99  on 1186  degrees of freedom
+# Residual deviance: 425.27  on 1185  degrees of freedom
+# AIC: 429.27
+# 
+# Number of Fisher Scoring iterations: 6
+```
+
+Not considering anything else in the data, there is not a significant relationship between elevation and Rv status.
+
+####Visualization
+Distribution of elevation values by infection status.
+
+```{r}
+#Visualize dataset
+#Set colors for pathogen comparisons
+Bd_c <- c("darkgrey","#40B0A6")
+Pr_c <- c("darkgrey","#E1BE6A")
+Rv_c <- c("darkgrey","#9966FF")
+#Transform elevation to log10 elevation.
+df_p_bd$Log10Elev <- log10(df_p_bd$Elevation_30s)
+
+Bd_elev_prev_bar <- ggplot(df_p_bd, aes(x = Status_Bd, y = Log10Elev)) +
+  geom_boxplot(outlier.color="black", fill= Bd_c) +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    legend.background = element_rect(fill='transparent'), #transparent legend bg
+    legend.box.background = element_rect(fill='transparent') #trt legend panel
+    )+
+    scale_y_continuous(limits=c(0.5,3.5)) + 
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank())
+
+#Transform elevation to log10 elevation.
+df_p_pr$Log10Elev <- log10(df_p_pr$Elevation_30s)
+
+Pr_elev_prev_bar <- ggplot(df_p_pr, aes(x = Status_Pr, y = Log10Elev)) + 
+  geom_boxplot(outlier.color="black", fill= Pr_c) +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    legend.background = element_rect(fill='transparent'), #transparent legend bg
+    legend.box.background = element_rect(fill='transparent') #trt legend panel
+    )+
+    scale_y_continuous(limits=c(0.5,3.5)) + 
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank())
+
+#Transform elevation to log10 elevation.
+df_p_rv$Log10Elev <- log10(df_p_rv$Elevation_30s)
+
+Rv_elev_prev_bar <- ggplot(df_p_rv, aes(x = Status_Rv, y = Log10Elev)) + 
+  geom_boxplot(outlier.color="black", fill= Rv_c) +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    legend.background = element_rect(fill='transparent'), #transparent legend bg
+    legend.box.background = element_rect(fill='transparent') #trt legend panel
+    )+
+    scale_y_continuous(limits=c(0.5,3.5)) + 
+  theme(axis.title.x=element_blank(), axis.title.y=element_blank())
+```
+
+Not used in any figure, but for our records.
+```{r fig.height=10, fig.width=8}
+library(patchwork)
+(Bd_elev_prev_bar | Pr_elev_prev_bar | Rv_elev_prev_bar) 
+```
+
+#-----------------------------------------------
+
+# TPC1 v. Status
+
+#### Bd: *Significantly different
+- There is a significant difference in means TPC1 between infected and uninfected groups.
+- The probability of infection increases with decreasing TPC1. *See tissue conflict notes below*
+
+#### Pr: Significantly different
+- There is a significant difference in means TPC1 between infected and uninfected groups.
+- The probability of infection cannot be determined with our data (low sample size).
+
+#### Rv: Significantly different
+- There is a significant difference in mean TPC1 between infected and uninfected groups.
+- The probability of infection increases with decreasing TPC1.
+
+####T-test: TPC1
+Bd:
+```{r}
+#Null hypothesis: There is no significant difference in the mean temperature between infection status and temperature TPC1
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED TPC1 VALUES.
+Bd_pos <- filter(df_p_bd, df_p_bd$Status_Bd == "1")
+Bd_neg <- filter(df_p_bd, df_p_bd$Status_Bd == "0")
+Bd_tpc1_prev_var.t <- var.test(Bd_pos$TPC1, Bd_neg$TPC1, alternative = "two.sided")
+Bd_tpc1_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos$TPC1 and Bd_neg$TPC1
+# F = 1.2518, num df = 215, denom df = 1064, p-value = 0.02792
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  1.024390 1.551904
+# sample estimates:
+# ratio of variances 
+#           1.251752 
+#FAILED - UNEQUAL VARIANCES (but just slightly)
+
+Bd_tpc1_prev_var.t$estimate
+plotNormalHistogram(df_p_bd$TPC1) #Somewhat normal
+qqPlot(df_p_bd$TPC1) #FAT TAILS
+
+Bdtpc1_ttest.prev <-t.test(TPC1 ~ Status_Bd, data = df_p_bd, alternative = "two.sided", var.equal = FALSE)
+Bdtpc1_ttest.prev
+# 	Welch Two Sample t-test
+# 
+# data:  TPC1 by Status_Bd
+# t = 5.2877, df = 288.78, p-value = 2.448e-07
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  0.7552466 1.6508518
+# sample estimates:
+# mean in group 0 mean in group 1 
+#       0.2448557      -0.9581935 
+# SIGNIFICANT
+```
+
+```{r}
+Bd_pos_exto <- subset(Bd_pos, 
+                      Bd_pos$Bd_Tissue == "Combination" |
+                      Bd_pos$Bd_Tissue == "External_tissues")
+Bd_neg_exto <- subset(Bd_neg, 
+                      Bd_neg$Bd_Tissue == "Combination" |
+                      Bd_neg$Bd_Tissue == "External_tissues")
+
+Bd_exto_tpc1_prev_var.t <- var.test(Bd_pos_exto$TPC1, Bd_neg_exto$TPC1, alternative = "two.sided")
+Bd_exto_tpc1_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_exto$TPC1 and Bd_neg_exto$TPC1
+# F = 1.1899, num df = 197, denom df = 646, p-value = 0.1204
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.9556866 1.5021408
+# sample estimates:
+# ratio of variances 
+#           1.189926  
+#PASSED- EQUAL VARIANCE
+
+Bd_exto <- subset(df_p_bd, 
+                      df_p_bd$Bd_Tissue == "Combination" |
+                      df_p_bd$Bd_Tissue == "External_tissues")
+
+Bd_exto_tpc1_ttest.prev <-t.test(TPC1 ~ Status_Bd, data = Bd_exto, alternative = "two.sided", var.equal = TRUE)
+Bd_exto_tpc1_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  TPC1 by Status_Bd
+# t = 1.7091, df = 843, p-value = 0.0878
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -0.05853639  0.84732224
+# sample estimates:
+# mean in group 0 mean in group 1 
+#      -0.8885974      -1.2829903 
+# NOT SIGNIFICANT
+
+#How about internal only tissues?
+Bd_into <- subset(df_p_bd, 
+                      df_p_bd$Bd_Tissue == "Internal_tissues")
+
+Bd_pos_into <- subset(Bd_pos, 
+                      Bd_pos$Bd_Tissue == "Internal_tissues")
+Bd_neg_into <- subset(Bd_neg, 
+                      Bd_neg$Bd_Tissue == "Internal_tissues")
+
+Bd_into_tpc1_prev_var.t <- var.test(Bd_pos_into$TPC1, Bd_neg_into$TPC1, alternative = "two.sided")
+Bd_into_tpc1_prev_var.t
+
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_into$TPC1 and Bd_neg_into$TPC1
+# F = 0.12953, num df = 16, denom df = 345, p-value = 2.977e-05
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.07032612 0.30308011
+# sample estimates:
+# ratio of variances 
+#          0.1295283 
+# FAILED - UNEQUAL VARIANCES
+
+Bd_into_TPC1_ttest.prev <-t.test(TPC1 ~ Status_Bd, data = Bd_into, alternative = "two.sided", var.equal = FALSE)
+Bd_into_TPC1_ttest.prev
+
+# 	Welch Two Sample t-test
+# 
+# data:  TPC1 by Status_Bd
+# t = -3.6991, df = 30.239, p-value = 0.0008592
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -1.008832 -0.291281
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        1.959693        2.609750 
+# SIGNIFICANT
+
+#Let's visualize this with facetted boxplots
+ggplot(df_p_bd, aes(x=TPC1, y = Status_Bd)) + geom_boxplot() + facet_wrap(~Bd_Tissue)
+```
+
+Pr:
+```{r}
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED TPC1 VALUES.
+Pr_pos <- filter(df_p_pr, df_p_pr$Status_Pr == "1")
+Pr_neg <- filter(df_p_pr, df_p_pr$Status_Pr == "0")
+Pr_tpc1_prev_var.t <- var.test(Pr_pos$TPC1, Pr_neg$TPC1, alternative = "two.sided")
+Pr_tpc1_prev_var.t
+# 	F test to compare two variances
+# data:  Pr_pos$TPC1 and Pr_neg$TPC1
+# F = 0.30276, num df = 12, denom df = 1210, p-value = 0.02189
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.1548278 0.8269016
+# sample estimates:
+# ratio of variances 
+#          0.3027594  
+#FAILED - UNEQUAL VARIANCE
+
+Pr_tpc1_prev_var.t$estimate
+plotNormalHistogram(df_p_pr$TPC1) #NORMAL ENOUGH DISTRIBUTION
+qqPlot(df_p_pr$TPC1) #FAT TAILS
+
+PrTPC1_ttest.prev <-t.test(TPC1 ~ Status_Pr, data = df_p_pr, alternative = "two.sided", var.equal = FALSE)
+PrTPC1_ttest.prev
+# 	Welch Two Sample t-test
+# data:  TPC1 by Status_Pr
+# t = -2.3205, df = 12.866, p-value = 0.0374
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -2.00991157 -0.07076407
+# sample estimates:
+# mean in group 0 mean in group 1 
+#      0.05227572      1.09261354
+# SIGNIFICANT
+```
+Rv:
+```{r}
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED TPC1 VALUES.
+Rv_pos <- filter(df_p_rv, df_p_rv$Status_Rv == "1")
+Rv_neg <- filter(df_p_rv, df_p_rv$Status_Rv == "0")
+Rv_tpc1_prev_var.t <- var.test(Rv_pos$TPC1, Rv_neg$TPC1, alternative = "two.sided")
+Rv_tpc1_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Rv_pos$TPC1 and Rv_neg$TPC1
+# F = 1.3878, num df = 51, denom df = 1134, p-value = 0.07797
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.9646762 2.1490935
+# sample estimates:
+# ratio of variances 
+#           1.387805 
+#PASSED - EQUAL VARIANCES
+
+Rv_tpc1_prev_var.t$estimate
+plotNormalHistogram(df_p_rv$TPC1) #NORMAL ENOUGH DISTRIBUTION
+qqPlot(df_p_rv$TPC1) #FAT TAILS
+
+RvTPC1_ttest.prev <-t.test(TPC1 ~ Status_Rv, data = df_p_rv, alternative = "two.sided", var.equal = TRUE)
+RvTPC1_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  TPC1 by Status_Rv
+# t = 3.2766, df = 1185, p-value = 0.001081
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  0.5358088 2.1350614
+# sample estimates:
+# mean in group 0 mean in group 1 
+#      0.05529992     -1.28013520  
+# SIGNIFICANT
+```
+
+####Logistic Regression: TPC1
+
+Bd:
+```{r}
+#Null hypothesis: There is no significant correlation between TPC1 and infection status.
+lm.tpc1.bd <- glm(Status_Bd ~ TPC1, family = binomial, data = df_p_bd)
+summary(lm.tpc1.bd)
+# Call:
+# glm(formula = Status_Bd ~ TPC1, family = binomial, data = df_p_bd)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept) -1.64306    0.07772 -21.140  < 2e-16 ***
+# TPC1        -0.14005    0.02528  -5.541 3.01e-08 ***
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 1162.3  on 1280  degrees of freedom
+# Residual deviance: 1131.8  on 1279  degrees of freedom
+# AIC: 1135.8
+# 
+# Number of Fisher Scoring iterations: 4
+
+exp(coef(lm.tpc1.bd))
+# (Intercept)        TPC1 
+#   0.1933864   0.8693118 
+```
+
+Not considering anything else in the data, there is a significant relationship between TPC1 and Bd status where with each unit increase in TPC1, the log odds of Bd positive decrease by $e^{0.14005}$ or the odds of being infected with Bd decrease by a factor $0.869$.\
+
+Pr:
+```{r}
+lm.tpc1.pr <- glm(Status_Pr ~ TPC1, family = binomial, data = df_p_pr)
+summary(lm.tpc1.pr)
+# Call:
+# glm(formula = Status_Pr ~ TPC1, family = binomial, data = df_p_pr)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept)  -4.6215     0.3050 -15.151   <2e-16 ***
+# TPC1          0.1451     0.1138   1.276    0.202    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 144.03  on 1223  degrees of freedom
+# Residual deviance: 142.19  on 1222  degrees of freedom
+# AIC: 146.19
+# 
+# Number of Fisher Scoring iterations: 7
+
+exp(coef(lm.tpc1.pr))
+# (Intercept)        TPC1 
+# 0.009838464 1.156171573 
+```
+Not considering anything else in the data, there is NOT a significant relationship between TPC1 and Pr status, but sample sizes are low.
+
+Rv:
+```{r}
+lm.tpc1.rv <- glm(Status_Rv ~ TPC1, family = binomial, data = df_p_rv)
+summary(lm.tpc1.rv)
+# Call:
+# glm(formula = Status_Rv ~ TPC1, family = binomial, data = df_p_rv)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept)  -3.1724     0.1533 -20.699  < 2e-16 ***
+# TPC1         -0.1493     0.0467  -3.198  0.00138 ** 
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 426.99  on 1186  degrees of freedom
+# Residual deviance: 416.91  on 1185  degrees of freedom
+# AIC: 420.91
+# 
+# Number of Fisher Scoring iterations: 6
+
+exp(coef(lm.tpc1.rv))
+# (Intercept)        TPC1 
+#  0.04190202  0.86127361 
+```
+
+Not considering anything else in the data, there is a significant relationship between TPC1 and Rv status where with unit increase in TPC1, the Odds ratio of Rv decrease by $e^{0.1493}$ or the odds of being infected with Rv decrease by a factor $0.861$.
+
+####Visualization
+Distribution of TPC1 values by infection status.
+
+```{r}
+#Visualize dataset
+#Set colors for pathogen comparisons
+Bd_c <- c("darkgrey","#40B0A6")
+Pr_c <- c("darkgrey","#E1BE6A")
+Rv_c <- c("darkgrey","#9966FF")
+
+
+Bd_TPC1_prev_bar <- ggplot(
+  df_p_bd, aes(x = Status_Bd, y = TPC1, color = Status_Bd, fill = Status_Bd)) + 
+  geom_boxplot(
+    width = .15, fill = Bd_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Bd_c, guide = "none") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + scale_y_continuous(limits=c(-6.5,6.5)) + 
+   theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+   facet_grid(cols = vars(Status_Bd), scales = "free_x", space = "free_x") +
+   theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none")
+
+Pr_TPC1_prev_bar <- ggplot(
+  df_p_pr, aes(x = Status_Pr, y = TPC1, color = Status_Pr, fill = Status_Pr)) + 
+  geom_boxplot(
+    width = .15, fill = Pr_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Pr_c, guide = "none") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + scale_y_continuous(limits=c(-6.5,6.5)) + 
+   theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+   facet_grid(cols = vars(Status_Pr), scales = "free_x", space = "free_x") +
+   theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none")
+
+Rv_TPC1_prev_bar <- ggplot(
+  df_p_rv, aes(x = Status_Rv, y = TPC1, color = Status_Rv, fill = Status_Rv)) + 
+  geom_boxplot(
+    width = .15, fill = Rv_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Rv_c, guide = "none") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + scale_y_continuous(limits=c(-6.5,6.5)) + 
+   theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+   facet_grid(cols = vars(Status_Rv), scales = "free_x", space = "free_x") +
+   theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none")
+```
+
+Figure 4bd-f: TPC1 vs. infection status.
+```{r fig.height=10, fig.width=8}
+library(patchwork)
+(Bd_TPC1_prev_bar | Pr_TPC1_prev_bar | Rv_TPC1_prev_bar) 
+```
+
+#----------------------------------------------------------------------------------------------------------------
+# TPC2 v. Status
+
+#### Bd: Significantly different
+- There is a significant difference in mean TPC2 between infected and uninfected groups. 
+- The probability of infection increases with decreasing TPC2.
+
+#### Pr: Significantly different
+- There is a significant difference in mean TPC2 between infected and uninfected groups.
+- The probability of infection cannot be determined with our data.
+
+#### Rv: Not significantly different
+- There is NO significant difference in mean TPC2 between infected and uninfected groups.
+
+####T-test: TPC2
+Bd:
+```{r}
+#Null hypothesis: There is no significant difference in the mean temperature between infection status and TPC2
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED TPC2 VALUES.
+Bd_pos <- filter(df_p_bd, df_p_bd$Status_Bd == "1")
+Bd_neg <- filter(df_p_bd, df_p_bd$Status_Bd == "0")
+Bd_TPC2_prev_var.t <- var.test(Bd_pos$TPC2, Bd_neg$TPC2, alternative = "two.sided")
+Bd_TPC2_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos$TPC2 and Bd_neg$TPC2
+# F = 1.2425, num df = 215, denom df = 1064, p-value = 0.0336
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  1.016816 1.540431
+# sample estimates:
+# ratio of variances 
+#           1.242497 
+#FAILED - UNEQUAL VARIANCES (but just slightly)
+
+Bd_TPC2_prev_var.t$estimate
+plotNormalHistogram(df_p_bd$TPC2) #NORMAL DISTRIBUTION
+qqPlot(df_p_bd$TPC2) #FAT TAILS
+
+BdTPC2_ttest.prev <-t.test(TPC2 ~ Status_Bd, data = df_p_bd, alternative = "two.sided", var.equal = FALSE)
+BdTPC2_ttest.prev
+# 	Welch Two Sample t-test
+# 
+# data:  TPC2 by Status_Bd
+# t = 4.7881, df = 289.36, p-value = 2.69e-06
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  0.2764198 0.6622771
+# sample estimates:
+# mean in group 0 mean in group 1 
+#      0.08198296     -0.38736548 
+# SIGNIFICANT
+```
+
+```{r}
+Bd_pos_exto <- subset(Bd_pos, 
+                      Bd_pos$Bd_Tissue == "Combination" |
+                      Bd_pos$Bd_Tissue == "External_tissues")
+Bd_neg_exto <- subset(Bd_neg, 
+                      Bd_neg$Bd_Tissue == "Combination" |
+                      Bd_neg$Bd_Tissue == "External_tissues")
+
+Bd_exto_tpc2_prev_var.t <- var.test(Bd_pos_exto$TPC2, Bd_neg_exto$TPC2, alternative = "two.sided")
+Bd_exto_tpc2_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_exto$TPC2 and Bd_neg_exto$TPC2
+# F = 1.3271, num df = 197, denom df = 646, p-value = 0.01116
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  1.065894 1.675364
+# sample estimates:
+# ratio of variances 
+#           1.327146
+#FAILED - UNEQUAL VARIANCE
+
+Bd_exto <- subset(df_p_bd, 
+                      df_p_bd$Bd_Tissue == "Combination" |
+                      df_p_bd$Bd_Tissue == "External_tissues")
+
+Bd_exto_tpc2_ttest.prev <-t.test(TPC2 ~ Status_Bd, data = Bd_exto, alternative = "two.sided", var.equal = FALSE)
+Bd_exto_tpc2_ttest.prev
+# 	Welch Two Sample t-test
+# 
+# data:  TPC2 by Status_Bd
+# t = 4.4062, df = 293.57, p-value = 1.476e-05
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  0.2571145 0.6722060
+# sample estimates:
+# mean in group 0 mean in group 1 
+#       0.1057629      -0.3588974  
+# SIGNIFICANT
+
+#How about internal only tissues?
+Bd_into <- subset(df_p_bd, 
+                      df_p_bd$Bd_Tissue == "Internal_tissues")
+
+Bd_pos_into <- subset(Bd_pos, 
+                      Bd_pos$Bd_Tissue == "Internal_tissues")
+Bd_neg_into <- subset(Bd_neg, 
+                      Bd_neg$Bd_Tissue == "Internal_tissues")
+
+Bd_into_tpc2_prev_var.t <- var.test(Bd_pos_into$TPC2, Bd_neg_into$TPC2, alternative = "two.sided")
+Bd_into_tpc2_prev_var.t
+
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_into$TPC2 and Bd_neg_into$TPC2
+# F = 1.1126, num df = 16, denom df = 345, p-value = 0.6827
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.6040696 2.6033211
+# sample estimates:
+# ratio of variances 
+#            1.11259 
+# PASSED - EQUAL VARIANCES
+
+Bd_into_TPC2_ttest.prev <-t.test(TPC2 ~ Status_Bd, data = Bd_into, alternative = "two.sided", var.equal = TRUE)
+Bd_into_TPC2_ttest.prev
+
+# 	Two Sample t-test
+# 
+# data:  TPC2 by Status_Bd
+# t = 1.9855, df = 361, p-value = 0.04784
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  0.006043167 1.259591645
+# sample estimates:
+# mean in group 0 mean in group 1 
+#     -0.05952005     -0.69233746 
+# SIGNIFICANT
+
+#Let's visualize this with facetted boxplots
+ggplot(df_p_bd, aes(x=TPC2, y = Status_Bd)) + geom_boxplot() + facet_wrap(~Bd_Tissue)
+```
+
+```{r}
+#BIO-8 SPECIFICALLY, MEAN TEMP OF WETTEST QUARTER:----------------------
+Bd_exto_BIO8_prev_var.t <- var.test(Bd_pos_exto$BIO8_Mean_Temperature_of_Wettest_Quarter_30s, Bd_neg_exto$BIO8_Mean_Temperature_of_Wettest_Quarter_30s, alternative = "two.sided")
+Bd_exto_BIO8_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_exto$BIO8_Mean_Temperature_of_Wettest_Quarter_30s and Bd_neg_exto$BIO8_Mean_Temperature_of_Wettest_Quarter_30s
+# F = 1.5294, num df = 197, denom df = 646, p-value = 0.0001219
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  1.228339 1.930694
+# sample estimates:
+# ratio of variances 
+#           1.529406 
+#FAILED - UNEQUAL VARIANCE
+
+Bd_exto_BOI8_ttest.prev <-t.test(BIO8_Mean_Temperature_of_Wettest_Quarter_30s ~ Status_Bd, data = Bd_exto, alternative = "two.sided", var.equal = FALSE)
+Bd_exto_BOI8_ttest.prev
+# 	Welch Two Sample t-test
+# 
+# data:  BIO8_Mean_Temperature_of_Wettest_Quarter_30s by Status_Bd
+# t = 2.3692, df = 280.3, p-value = 0.0185
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  0.2044498 2.2130085
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        19.59619        18.38746 
+# SIGNIFICANT
+
+Bd_c <- c("darkgrey","#40B0A6")
+Bd_BIO8_prev_bar <- ggplot(
+  df_p_bd, aes(x = Status_Bd, y = BIO8_Mean_Temperature_of_Wettest_Quarter_30s, color = Status_Bd, fill = Status_Bd)) + 
+  geom_boxplot(
+    width = .15, fill = Bd_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Bd_c, guide = "none") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + #scale_y_continuous(limits=c(-6.5,6.5)) + 
+   theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+   facet_grid(cols = vars(Status_Bd), scales = "free_x", space = "free_x") +
+   theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none")
+Bd_BIO8_prev_bar
+#SPECIFICALLY - INFECTED SHOW LOWER AVERAGE MEAN TEMPERATURE OF THE WETTEST QUARTER
+```
+
+```{r}
+#BIO4: TEMPERATURE SEASONALITY:
+Bd_exto_BIO4_prev_var.t <- var.test(Bd_pos_exto$BIO4_Temperature_Seasonality_30s, Bd_neg_exto$BIO4_Temperature_Seasonality_30s, alternative = "two.sided")
+Bd_exto_BIO4_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_exto$BIO4_Temperature_Seasonality_30s and Bd_neg_exto$BIO4_Temperature_Seasonality_30s
+# F = 0.99029, num df = 197, denom df = 646, p-value = 0.9488
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.7953471 1.2501204
+# sample estimates:
+# ratio of variances 
+#          0.9902871
+#PASSED - EQUAL VARIANCE
+
+Bd_exto_BOI4_ttest.prev <-t.test(BIO4_Temperature_Seasonality_30s ~ Status_Bd, data = Bd_exto, alternative = "two.sided", var.equal = TRUE)
+Bd_exto_BOI4_ttest.prev
+
+# 	Two Sample t-test
+# 
+# data:  BIO4_Temperature_Seasonality_30s by Status_Bd
+# t = -0.23283, df = 843, p-value = 0.816
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -32.43362  25.55491
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        863.2639        866.7033 
+# NOT SIGNIFICANT
+```
+
+```{r}
+#BIO2 NOW: MEAN DIURNAL RANGE
+Bd_exto_BIO2_prev_var.t <- var.test(Bd_pos_exto$BIO2_Mean_Diurnal_Range_30s, Bd_neg_exto$BIO2_Mean_Diurnal_Range_30s, alternative = "two.sided")
+Bd_exto_BIO2_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_exto$BIO2_Mean_Diurnal_Range_30s and Bd_neg_exto$BIO2_Mean_Diurnal_Range_30s
+# F = 1.3124, num df = 197, denom df = 646, p-value = 0.01484
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  1.054060 1.656763
+# sample estimates:
+# ratio of variances 
+#            1.31241  
+#FAILED- UNEQUAL VARIANCE
+
+Bd_exto_BOI2_ttest.prev <-t.test(BIO2_Mean_Diurnal_Range_30s ~ Status_Bd, data = Bd_exto, alternative = "two.sided", var.equal = FALSE)
+Bd_exto_BOI2_ttest.prev
+
+# 	Welch Two Sample t-test
+# 
+# data:  BIO2_Mean_Diurnal_Range_30s by Status_Bd
+# t = 5.2259, df = 294.7, p-value = 3.286e-07
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  0.3584590 0.7915462
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        12.22875        11.65375 
+# SIGNIFICANT
+
+Bd_c <- c("darkgrey","#40B0A6")
+Bd_BIO2_prev_bar <- ggplot(
+  df_p_bd, aes(x = Status_Bd, y = BIO2_Mean_Diurnal_Range_30s, color = Status_Bd, fill = Status_Bd)) + 
+  geom_boxplot(
+    width = .15, fill = Bd_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Bd_c, guide = "none") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + #scale_y_continuous(limits=c(-6.5,6.5)) + 
+   theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+   facet_grid(cols = vars(Status_Bd), scales = "free_x", space = "free_x") +
+   theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none")
+Bd_BIO2_prev_bar
+```
+
+Pr:
+```{r}
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED TPC2 VALUES.
+Pr_pos <- filter(df_p_pr, df_p_pr$Status_Pr == "1")
+Pr_neg <- filter(df_p_pr, df_p_pr$Status_Pr == "0")
+Pr_TPC2_prev_var.t <- var.test(Pr_pos$TPC2, Pr_neg$TPC2, alternative = "two.sided")
+Pr_TPC2_prev_var.t
+
+# 	F test to compare two variances
+# 
+# data:  Pr_pos$TPC2 and Pr_neg$TPC2
+# F = 0.26855, num df = 12, denom df = 1210, p-value = 0.01265
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.1373335 0.7334685
+# sample estimates:
+# ratio of variances 
+#          0.2685501   
+#FAILED - UNEQUAL VARIANCE
+
+Pr_TPC2_prev_var.t$estimate
+plotNormalHistogram(df_p_pr$TPC2) #NORMAL ENOUGH DISTRIBUTION
+qqPlot(df_p_pr$TPC2) 
+
+PrTPC2_ttest.prev <-t.test(TPC2 ~ Status_Pr, data = df_p_pr, alternative = "two.sided", var.equal = FALSE)
+PrTPC2_ttest.prev
+
+# 	Welch Two Sample t-test
+# 
+# data:  TPC2 by Status_Pr
+# t = -6.2877, df = 12.978, p-value = 2.82e-05
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -1.5287486 -0.7467796
+# sample estimates:
+# mean in group 0 mean in group 1 
+#     -0.02188424      1.11587988 
+# SIGNIFICANT
+```
+Rv:
+```{r}
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED TPC2 VALUES.
+Rv_pos <- filter(df_p_rv, df_p_rv$Status_Rv == "1")
+Rv_neg <- filter(df_p_rv, df_p_rv$Status_Rv == "0")
+Rv_TPC2_prev_var.t <- var.test(Rv_pos$TPC2, Rv_neg$TPC2, alternative = "two.sided")
+Rv_TPC2_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Rv_pos$TPC2 and Rv_neg$TPC2
+# F = 0.97742, num df = 51, denom df = 1134, p-value = 0.9597
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.6794161 1.5135945
+# sample estimates:
+# ratio of variances 
+#          0.9774233 
+#PASSED - EQUAL VARIANCES
+
+Rv_TPC2_prev_var.t$estimate
+plotNormalHistogram(df_p_rv$TPC2) #NORMAL ENOUGH DISTRIBUTION
+qqPlot(df_p_rv$TPC2) 
+
+RvTPC2_ttest.prev <-t.test(TPC2 ~ Status_Rv, data = df_p_rv, alternative = "two.sided", var.equal = TRUE)
+RvTPC2_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  TPC2 by Status_Rv
+# t = 0.92786, df = 1185, p-value = 0.3537
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -0.1830159  0.5114380
+# sample estimates:
+# mean in group 0 mean in group 1 
+#    -0.005247568    -0.169458607  
+# NOT SIGNIFICANT
+```
+
+#### Logistic Regression: TPC2
+Bd:
+```{r}
+#Null hypothesis: There is no significant correlation between TPC2 and infection status.
+lm.TPC2.bd <- glm(Status_Bd ~ TPC2, family = binomial, data = df_p_bd)
+summary(lm.TPC2.bd)
+# Call:
+# glm(formula = Status_Bd ~ TPC2, family = binomial, data = df_p_bd)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept) -1.63964    0.07742 -21.179  < 2e-16 ***
+# TPC2        -0.29940    0.05950  -5.032 4.86e-07 ***
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 1162.3  on 1280  degrees of freedom
+# Residual deviance: 1137.0  on 1279  degrees of freedom
+# AIC: 1141
+# 
+# Number of Fisher Scoring iterations: 4
+
+exp(coef(lm.TPC2.bd))
+# (Intercept)        TPC2 
+#   0.1940495   0.7412624
+```
+
+Not considering anything else in the data, there is a significant relationship between TPC2 and Bd status where with unit increase in TPC2, the log odds of Bd positive decrease by $e^{0.29959}$ or the odds of being infected with Bd decrease by a factor $0.741$.\
+
+```{r}
+lm.BIO8.bd <- glm(Status_Bd ~ BIO8_Mean_Temperature_of_Wettest_Quarter_30s, family = binomial, data = df_p_bd)
+summary(lm.BIO8.bd)
+# Call:
+# glm(formula = Status_Bd ~ BIO8_Mean_Temperature_of_Wettest_Quarter_30s, 
+#     family = binomial, data = df_p_bd)
+# 
+# Coefficients:
+#                                              Estimate Std. Error z value Pr(>|z|)    
+# (Intercept)                                  -0.64342    0.23768  -2.707  0.00679 ** 
+# BIO8_Mean_Temperature_of_Wettest_Quarter_30s -0.04816    0.01176  -4.095 4.21e-05 ***
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 1162.3  on 1280  degrees of freedom
+# Residual deviance: 1145.8  on 1279  degrees of freedom
+# AIC: 1149.8
+# 
+# Number of Fisher Scoring iterations: 4
+exp(coef(lm.BIO8.bd))
+                                 # (Intercept) BIO8_Mean_Temperature_of_Wettest_Quarter_30s 
+                                 #   0.5254924                                    0.9529818 
+```
+Not considering anything else in the data, there is a significant relationship between BIO8 and Bd status where with unit increase in BIO8, the log odds of Bd positive decrease by $e^{0.4816}$ or the odds of being infected with Bd decrease by a factor $0.953$.\
+
+In other words, the warmer the wet quarter, the less likely to find Bd infection in our data.
+
+```{r}
+lm.BIO2.bd <- glm(Status_Bd ~ BIO2_Mean_Diurnal_Range_30s, family = binomial, data = df_p_bd)
+summary(lm.BIO2.bd)
+# Call:
+# glm(formula = Status_Bd ~ BIO2_Mean_Diurnal_Range_30s, family = binomial, 
+#     data = df_p_bd)
+# 
+# Coefficients:
+#                             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept)                  1.96252    0.62920   3.119  0.00181 ** 
+# BIO2_Mean_Diurnal_Range_30s -0.29888    0.05321  -5.617 1.95e-08 ***
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 1162.3  on 1280  degrees of freedom
+# Residual deviance: 1131.4  on 1279  degrees of freedom
+# AIC: 1135.4
+# 
+# Number of Fisher Scoring iterations: 4
+
+exp(coef(lm.BIO2.bd))
+# (Intercept) BIO2_Mean_Diurnal_Range_30s 
+#   7.1172733                   0.7416517 
+```
+Not considering anything else in the data, there is a significant relationship between BIO2 and Bd status where with unit increase in BIO2, the log odds of Bd positive decrease by $e^{0.299}$ or the odds of being infected with Bd decrease by a factor $0.742$.\
+
+In other words, the more temp fluctuation within a month, the less likely to find Bd infection in our data.
+
+Pr:
+```{r}
+lm.TPC2.pr <- glm(Status_Pr ~ TPC2, family = binomial, data = df_p_pr)
+summary(lm.TPC2.pr)
+# Call:
+# glm(formula = Status_Pr ~ TPC2, family = binomial, data = df_p_pr)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept)  -5.1857     0.4643 -11.169  < 2e-16 ***
+# TPC2          1.0496     0.3350   3.133  0.00173 ** 
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 144.03  on 1223  degrees of freedom
+# Residual deviance: 130.69  on 1222  degrees of freedom
+# AIC: 134.69
+# 
+# Number of Fisher Scoring iterations: 8
+
+exp(coef(lm.TPC2.pr))
+# (Intercept)        TPC2 
+# 0.005596222 2.856441869 
+```
+Not considering anything else in the data, there is a significant relationship between TPC2 and Pr status where with unit increase in TPC2, the log odds of Pr positive increase by $e^{1.0496}$ or the odds of being infected with Bd decrease by a factor $2.86$.\ Low sample sizes though.
+
+Rv:
+
+```{r}
+lm.TPC2.rv <- glm(Status_Rv ~ TPC2, family = binomial, data = df_p_rv)
+summary(lm.TPC2.rv)
+# Call:
+# glm(formula = Status_Rv ~ TPC2, family = binomial, data = df_p_rv)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept)  -3.0921     0.1430 -21.622   <2e-16 ***
+# TPC2         -0.1032     0.1113  -0.927    0.354    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 426.99  on 1186  degrees of freedom
+# Residual deviance: 426.15  on 1185  degrees of freedom
+# AIC: 430.15
+# 
+# Number of Fisher Scoring iterations: 6
+
+exp(coef(lm.TPC2.rv))
+# (Intercept)        TPC2 
+#  0.04540685  0.90192942
+```
+
+Not considering anything else in the data, there is NOT a significant relationship between TPC2 and Rv status.
+
+####Visualization
+Distribution of TPC2 values by infection status.
+
+```{r}
+#Visualize dataset
+#Set colors for pathogen comparisons
+Bd_c <- c("darkgrey","#40B0A6")
+Pr_c <- c("darkgrey","#E1BE6A")
+Rv_c <- c("darkgrey","#9966FF")
+
+Bd_TPC2_prev_bar <- ggplot(
+  df_p_bd, aes(x = Status_Bd, y = TPC2, color = Status_Bd, fill = Status_Bd)) + 
+  geom_boxplot(
+    width = .15, fill = Bd_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Bd_c, guide = "none") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + scale_y_continuous(limits=c(-4,3)) + 
+   theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+   facet_grid(cols = vars(Status_Bd), scales = "free_x", space = "free_x") +
+   theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none")
+
+Pr_TPC2_prev_bar <- ggplot(
+  df_p_pr, aes(x = Status_Pr, y = TPC2, color = Status_Pr, fill = Status_Pr)) + 
+  geom_boxplot(
+    width = .15, fill = Pr_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Pr_c, guide = "none") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + scale_y_continuous(limits=c(-4,3)) + 
+   theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+   facet_grid(cols = vars(Status_Pr), scales = "free_x", space = "free_x") +
+   theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none")
+
+Rv_TPC2_prev_bar <- ggplot(
+  df_p_rv, aes(x = Status_Rv, y = TPC2, color = Status_Rv, fill = Status_Rv)) + 
+  geom_boxplot(
+    width = .15, fill = Rv_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Rv_c, guide = "none") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + scale_y_continuous(limits=c(-4,3)) + 
+   theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+   facet_grid(cols = vars(Status_Rv), scales = "free_x", space = "free_x") +
+   theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none")
+```
+
+Figure 4g-i
+```{r fig.height=10, fig.width=8}
+library(patchwork)
+(Bd_TPC2_prev_bar | Pr_TPC2_prev_bar | Rv_TPC2_prev_bar) 
+```
+#-----------------------------------------------
+
+# PPC1 v. Status
+
+#### Bd: Not significantly different
+- There is no significant difference in means between PPC1 and infection status.
+
+#### Pr: Not significantly different
+- There is no significant difference in means between PPC1 and infection status.
+
+#### Rv: Not significantly different
+- There is no significant difference in means between PPC1 and infection status.
+
+####T-test: PPC1
+Bd:
+```{r}
+#Null hypothesis: There is no significant difference in the mean precipitation between infection status and precipitation PPC1
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED PPC1 VALUES.
+Bd_pos <- filter(df_p_bd, df_p_bd$Status_Bd == "1")
+Bd_neg <- filter(df_p_bd, df_p_bd$Status_Bd == "0")
+Bd_ppc1_prev_var.t <- var.test(Bd_pos$PPC1, Bd_neg$PPC1, alternative = "two.sided")
+Bd_ppc1_prev_var.t
+
+# 	F test to compare two variances
+# 
+# data:  Bd_pos$PPC1 and Bd_neg$PPC1
+# F = 0.85103, num df = 215, denom df = 1064, p-value = 0.1405
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.6964563 1.0550999
+# sample estimates:
+# ratio of variances 
+#          0.8510339 
+#PASSED - EQUAL VARIANCES
+
+Bd_ppc1_prev_var.t$estimate
+plotNormalHistogram(df_p_bd$PPC1) #Close to normal.. fat upper tails
+qqPlot(df_p_bd$PPC1) 
+
+BdLat_ttest.prev <-t.test(PPC1 ~ Status_Bd, data = df_p_bd, alternative = "two.sided", var.equal = TRUE)
+BdLat_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  PPC1 by Status_Bd
+# t = 1.2527, df = 1279, p-value = 0.2106
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -0.1252489  0.5677330
+# sample estimates:
+# mean in group 0 mean in group 1 
+#      0.05128602     -0.16995602  
+# NOT SIGNIFICANT
+```
+
+```{r}
+Bd_pos_exto <- subset(Bd_pos, 
+                      Bd_pos$Bd_Tissue == "Combination" |
+                      Bd_pos$Bd_Tissue == "External_tissues")
+Bd_neg_exto <- subset(Bd_neg, 
+                      Bd_neg$Bd_Tissue == "Combination" |
+                      Bd_neg$Bd_Tissue == "External_tissues")
+
+Bd_exto_ppc1_prev_var.t <- var.test(Bd_pos_exto$PPC1, Bd_neg_exto$PPC1, alternative = "two.sided")
+Bd_exto_ppc1_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_exto$PPC1 and Bd_neg_exto$PPC1
+# F = 0.74884, num df = 197, denom df = 646, p-value = 0.01531
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.6014315 0.9453253
+# sample estimates:
+# ratio of variances 
+#          0.7488426
+#FAILED - UNEQUAL VARIANCE
+
+Bd_exto <- subset(df_p_bd, 
+                      df_p_bd$Bd_Tissue == "Combination" |
+                      df_p_bd$Bd_Tissue == "External_tissues")
+
+Bd_exto_ppc1_ttest.prev <-t.test(PPC1 ~ Status_Bd, data = Bd_exto, alternative = "two.sided", var.equal = FALSE)
+Bd_exto_ppc1_ttest.prev
+# 	Welch Two Sample t-test
+# 
+# data:  PPC1 by Status_Bd
+# t = -1.639, df = 371.97, p-value = 0.1021
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -0.66173907  0.06007828
+# sample estimates:
+# mean in group 0 mean in group 1 
+#      -0.6769798      -0.3761494 
+# NOT SIGNIFICANT
+
+#How about internal only tissues?
+Bd_into <- subset(df_p_bd, 
+                      df_p_bd$Bd_Tissue == "Internal_tissues")
+
+Bd_pos_into <- subset(Bd_pos, 
+                      Bd_pos$Bd_Tissue == "Internal_tissues")
+Bd_neg_into <- subset(Bd_neg, 
+                      Bd_neg$Bd_Tissue == "Internal_tissues")
+
+Bd_into_ppc1_prev_var.t <- var.test(Bd_pos_into$PPC1, Bd_neg_into$PPC1, alternative = "two.sided")
+Bd_into_ppc1_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_into$PPC1 and Bd_neg_into$PPC1
+# F = 0.37014, num df = 16, denom df = 345, p-value = 0.0236
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.2009630 0.8660776
+# sample estimates:
+# ratio of variances 
+#          0.3701385 
+# FAILED - UNEQUAL VARIANCES
+
+Bd_into_ppc1_ttest.prev <-t.test(PPC1 ~ Status_Bd, data = Bd_into, alternative = "two.sided", var.equal = FALSE)
+Bd_into_ppc1_ttest.prev
+# 	Welch Two Sample t-test
+# 
+# data:  PPC1 by Status_Bd
+# t = -3.6684, df = 20.513, p-value = 0.001476
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -1.5453436 -0.4261169
+# sample estimates:
+# mean in group 0 mean in group 1 
+#        1.092577        2.078307
+# SIGNIFICANT
+
+#Let's visualize this with facetted boxplots
+ggplot(df_p_bd, aes(x=PPC1, y = Status_Bd)) + geom_boxplot() + facet_wrap(~Bd_Tissue)
+```
+Pr:
+```{r}
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED PPC1 VALUES.
+Pr_pos <- filter(df_p_pr, df_p_pr$Status_Pr == "1")
+Pr_neg <- filter(df_p_pr, df_p_pr$Status_Pr == "0")
+Pr_ppc1_prev_var.t <- var.test(Pr_pos$PPC1, Pr_neg$PPC1, alternative = "two.sided")
+Pr_ppc1_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Pr_pos$PPC1 and Pr_neg$PPC1
+# F = 0.30072, num df = 12, denom df = 1210, p-value = 0.02123
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.1537830 0.8213212
+# sample estimates:
+# ratio of variances 
+#          0.3007163 
+#FAILED - UNEQUAL VARIANCE
+
+Pr_ppc1_prev_var.t$estimate
+plotNormalHistogram(df_p_pr$PPC1) #NORMAL ENOUGH DISTRIBUTION
+qqPlot(df_p_pr$PPC1) 
+
+PrPPC1_ttest.prev <-t.test(PPC1 ~ Status_Pr, data = df_p_pr, alternative = "two.sided", var.equal = FALSE)
+PrPPC1_ttest.prev
+# 	Welch Two Sample t-test
+# 
+# data:  PPC1 by Status_Pr
+# t = -1.1822, df = 12.872, p-value = 0.2585
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -1.2441578  0.3646866
+# sample estimates:
+# mean in group 0 mean in group 1 
+#      0.01642904      0.45616463
+# NOT SIGNIFICANT
+```
+Rv:
+```{r}
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED PPC1 VALUES.
+Rv_pos <- filter(df_p_rv, df_p_rv$Status_Rv == "1")
+Rv_neg <- filter(df_p_rv, df_p_rv$Status_Rv == "0")
+Rv_ppc1_prev_var.t <- var.test(Rv_pos$PPC1, Rv_neg$PPC1, alternative = "two.sided")
+Rv_ppc1_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Rv_pos$PPC1 and Rv_neg$PPC1
+# F = 0.86971, num df = 51, denom df = 1134, p-value = 0.5402
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.6045455 1.3467989
+# sample estimates:
+# ratio of variances 
+#          0.8697128
+#PASSED - EQUAL VARIANCES
+
+Rv_ppc1_prev_var.t$estimate
+plotNormalHistogram(df_p_rv$PPC1) #NORMAL ENOUGH DISTRIBUTION
+qqPlot(df_p_rv$PPC1) 
+
+RvPPC1_ttest.prev <-t.test(PPC1 ~ Status_Rv, data = df_p_rv, alternative = "two.sided", var.equal = TRUE)
+RvPPC1_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  PPC1 by Status_Rv
+# t = 0.86685, df = 1185, p-value = 0.3862
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -0.3732652  0.9641837
+# sample estimates:
+# mean in group 0 mean in group 1 
+#     -0.01143939     -0.30689864  
+# NOT SIGNIFICANT
+```
+
+####Logistic Regressin: PPC1
+Bd:
+```{r}
+#Null hypothesis: There is no significant correlation between PPC1 and infection status.
+lm.ppc1.bd <- glm(Status_Bd ~ PPC1, family = binomial, data = df_p_bd)
+summary(lm.ppc1.bd)
+# Call:
+# glm(formula = Status_Bd ~ PPC1, family = binomial, data = df_p_bd)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept) -1.59775    0.07478 -21.367   <2e-16 ***
+# PPC1        -0.03787    0.03096  -1.223    0.221    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 1162.3  on 1280  degrees of freedom
+# Residual deviance: 1160.9  on 1279  degrees of freedom
+# AIC: 1164.9
+# 
+# Number of Fisher Scoring iterations: 4
+
+exp(coef(lm.ppc1.bd))
+# (Intercept)        PPC1 
+#   0.2023515   0.9628424 
+```
+
+Not considering anything else in the data, there is not a significant relationship between PPC1 and Bd status.
+
+Pr:
+```{r}
+lm.ppc1.pr <- glm(Status_Pr ~ PPC1, family = binomial, data = df_p_pr)
+summary(lm.ppc1.pr)
+# Call:
+# glm(formula = Status_Pr ~ PPC1, family = binomial, data = df_p_pr)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept)  -4.5540     0.2845 -16.007   <2e-16 ***
+# PPC1          0.0818     0.1244   0.657    0.511    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 144.03  on 1223  degrees of freedom
+# Residual deviance: 143.58  on 1222  degrees of freedom
+# AIC: 147.58
+# 
+# Number of Fisher Scoring iterations: 7
+
+exp(coef(lm.ppc1.pr))
+# (Intercept)        PPC1 
+#  0.01052522  1.08523688 
+```
+Not considering anything else in the data, there is NOT a significant relationship between PPC1 and Pr status, though we have very low sample sizes.
+
+Rv:
+```{r}
+lm.ppc1.rv <- glm(Status_Rv ~ PPC1, family = binomial, data = df_p_rv)
+summary(lm.ppc1.rv)
+# Call:
+# glm(formula = Status_Rv ~ PPC1, family = binomial, data = df_p_rv)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept) -3.09096    0.14285 -21.638   <2e-16 ***
+# PPC1        -0.04960    0.05726  -0.866    0.386    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 426.99  on 1186  degrees of freedom
+# Residual deviance: 426.26  on 1185  degrees of freedom
+# AIC: 430.26
+# 
+# Number of Fisher Scoring iterations: 6
+
+exp(coef(lm.ppc1.rv))
+# (Intercept)        PPC1 
+#  0.04545851  0.95160637
+```
+
+Not considering anything else in the data, there is not a significant relationship between PPC1 and Rv status.
+
+####Visualization
+Distribution of PPC1 values by infection status.
+
+```{r}
+#Visualize dataset
+#Set colors for pathogen comparisons
+Bd_c <- c("darkgrey","#40B0A6")
+Pr_c <- c("darkgrey","#E1BE6A")
+Rv_c <- c("darkgrey","#9966FF")
+
+Bd_PPC1_prev_bar <- ggplot(
+  df_p_bd, aes(x = Status_Bd, y = PPC1, color = Status_Bd, fill = Status_Bd)) + 
+  geom_boxplot(
+    width = .15, fill = Bd_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Bd_c, guide = "none") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + scale_y_continuous(limits=c(-4.5,3.5)) + 
+   theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+   facet_grid(cols = vars(Status_Bd), scales = "free_x", space = "free_x") +
+   theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none")
+
+Pr_PPC1_prev_bar <- ggplot(
+  df_p_pr, aes(x = Status_Pr, y = PPC1, color = Status_Pr, fill = Status_Pr)) + 
+  geom_boxplot(
+    width = .15, fill = Pr_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Pr_c, guide = "none") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + scale_y_continuous(limits=c(-4.5,3.5)) + 
+   theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+   facet_grid(cols = vars(Status_Pr), scales = "free_x", space = "free_x") +
+   theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none")
+
+Rv_PPC1_prev_bar <- ggplot(
+  df_p_rv, aes(x = Status_Rv, y = PPC1, color = Status_Rv, fill = Status_Rv)) + 
+  geom_boxplot(
+    width = .15, fill = Rv_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Rv_c, guide = "none") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + scale_y_continuous(limits=c(-4.5,3.5)) + 
+   theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+   facet_grid(cols = vars(Status_Rv), scales = "free_x", space = "free_x") +
+   theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank())+
+  theme(legend.position="none")
+```
+
+Not included in the manuscript.
+```{r fig.height=10, fig.width=8}
+library(patchwork)
+(Bd_PPC1_prev_bar | Pr_PPC1_prev_bar | Rv_PPC1_prev_bar) 
+```
+#-----------------------------------------------
+
+# PPC2 v. Status
+
+#### Bd: *Significantly different
+- There is a significant difference in mean PPC2 between infected and uninfected groups.
+- The probability of infection increases with increasing PPC2. *See tissue conflict section below*
+
+#### Pr: Not significantly different
+- There is a significant difference in mean PPC2 between infected and uninfected groups. 
+- The probability of infection cannot be determined with our data.
+
+#### Rv: Not significantly different
+- There is a significant difference in mean PPC2 between infected and uninfected groups. 
+- The probability of infection increases with increasing PPC2.
+
+####T-test: PPC2
+Bd:
+```{r}
+#Null hypothesis: There is no significant difference in the mean precipitation between infection status and precipitation PPC2.
+
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED LATITUDE VALUES.
+Bd_pos <- filter(df_p_bd, df_p_bd$Status_Bd == "1")
+Bd_neg <- filter(df_p_bd, df_p_bd$Status_Bd == "0")
+Bd_ppc2_prev_var.t <- var.test(Bd_pos$PPC2, Bd_neg$PPC2, alternative = "two.sided")
+Bd_ppc2_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos$PPC2 and Bd_neg$PPC2
+# F = 0.72941, num df = 215, denom df = 1064, p-value = 0.004301
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.5969276 0.9043184
+# sample estimates:
+# ratio of variances 
+#          0.7294149 
+#FAILED - UNEQUAL VARIANCES
+
+Bd_ppc2_prev_var.t$estimate
+plotNormalHistogram(df_p_bd$PPC2) #Close to normal.. fat upper tails
+qqPlot(df_p_bd$PPC2) 
+
+BdLat_ttest.prev <-t.test(PPC2 ~ Status_Bd, data = df_p_bd, alternative = "two.sided", var.equal = FALSE)
+BdLat_ttest.prev
+
+# 	Welch Two Sample t-test
+# 
+# data:  PPC2 by Status_Bd
+# t = -3.3592, df = 345.78, p-value = 0.0008688
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -0.5202900 -0.1360177
+# sample estimates:
+# mean in group 0 mean in group 1 
+#     -0.07911626      0.24903756
+# SIGNIFICANT
+```
+
+```{r}
+Bd_pos_exto <- subset(Bd_pos, 
+                      Bd_pos$Bd_Tissue == "Combination" |
+                      Bd_pos$Bd_Tissue == "External_tissues")
+Bd_neg_exto <- subset(Bd_neg, 
+                      Bd_neg$Bd_Tissue == "Combination" |
+                      Bd_neg$Bd_Tissue == "External_tissues")
+
+Bd_exto_ppc2_prev_var.t <- var.test(Bd_pos_exto$PPC2, Bd_neg_exto$PPC2, alternative = "two.sided")
+Bd_exto_ppc2_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_exto$PPC2 and Bd_neg_exto$PPC2
+# F = 0.81026, num df = 197, denom df = 646, p-value = 0.07646
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.6507622 1.0228629
+# sample estimates:
+# ratio of variances 
+#          0.8102643 
+# PASSED - EQUAL VARIANCE
+
+Bd_exto <- subset(df_p_bd, 
+                      df_p_bd$Bd_Tissue == "Combination" |
+                      df_p_bd$Bd_Tissue == "External_tissues")
+
+Bd_exto_ppc2_ttest.prev <-t.test(PPC2 ~ Status_Bd, data = Bd_exto, alternative = "two.sided", var.equal = TRUE)
+Bd_exto_ppc2_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  PPC2 by Status_Bd
+# t = -1.3783, df = 843, p-value = 0.1685
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -0.36728925  0.06424841
+# sample estimates:
+# mean in group 0 mean in group 1 
+#       0.1497701       0.3012905
+# NOT SIGNIFICANT
+
+#How about internal only tissues?
+Bd_into <- subset(df_p_bd, 
+                      df_p_bd$Bd_Tissue == "Internal_tissues")
+
+Bd_pos_into <- subset(Bd_pos, 
+                      Bd_pos$Bd_Tissue == "Internal_tissues")
+Bd_neg_into <- subset(Bd_neg, 
+                      Bd_neg$Bd_Tissue == "Internal_tissues")
+
+Bd_into_ppc2_prev_var.t <- var.test(Bd_pos_into$PPC2, Bd_neg_into$PPC2, alternative = "two.sided")
+Bd_into_ppc2_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Bd_pos_into$PPC2 and Bd_neg_into$PPC2
+# F = 0.80188, num df = 16, denom df = 345, p-value = 0.6328
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.4353732 1.8763008
+# sample estimates:
+# ratio of variances 
+#          0.8018808
+# PASSED - EQUAL VARIANCES
+
+Bd_into_ppc2_ttest.prev <-t.test(PPC2 ~ Status_Bd, data = Bd_into, alternative = "two.sided", var.equal = TRUE)
+Bd_into_ppc2_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  PPC2 by Status_Bd
+# t = -0.15231, df = 361, p-value = 0.879
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -0.8406771  0.7198187
+# sample estimates:
+# mean in group 0 mean in group 1 
+#      -0.4498009      -0.3893716 
+# NOT SIGNIFICANT
+
+#Let's visualize this with facetted boxplots
+ggplot(df_p_bd, aes(x=PPC2, y = Status_Bd)) + geom_boxplot() + facet_wrap(~Bd_Tissue)
+```
+
+Pr:
+```{r}
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED LATITUDE VALUES.
+Pr_pos <- filter(df_p_pr, df_p_pr$Status_Pr == "1")
+Pr_neg <- filter(df_p_pr, df_p_pr$Status_Pr == "0")
+Pr_ppc2_prev_var.t <- var.test(Pr_pos$PPC2, Pr_neg$PPC2, alternative = "two.sided")
+Pr_ppc2_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Pr_pos$PPC2 and Pr_neg$PPC2
+# F = 0.82971, num df = 12, denom df = 1210, p-value = 0.7605
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.4243037 2.2661137
+# sample estimates:
+# ratio of variances 
+#          0.8297085  
+#PASSED - EQUAL VARIANCE
+
+Pr_ppc2_prev_var.t$estimate
+plotNormalHistogram(df_p_pr$PPC2) #NORMAL ENOUGH DISTRIBUTION
+qqPlot(df_p_pr$PPC2) 
+
+PrPPC2_ttest.prev <-t.test(PPC2 ~ Status_Pr, data = df_p_pr, alternative = "two.sided", var.equal = TRUE)
+PrPPC2_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  PPC2 by Status_Pr
+# t = 0.46586, df = 1222, p-value = 0.6414
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -0.6097201  0.9894489
+# sample estimates:
+# mean in group 0 mean in group 1 
+#     -0.05267445     -0.24253882
+# NOT SIGNIFICANT
+```
+Rv:
+```{r}
+#TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED LATITUDE VALUES.
+Rv_pos <- filter(df_p_rv, df_p_rv$Status_Rv == "1")
+Rv_neg <- filter(df_p_rv, df_p_rv$Status_Rv == "0")
+Rv_ppc2_prev_var.t <- var.test(Rv_pos$PPC2, Rv_neg$PPC2, alternative = "two.sided")
+Rv_ppc2_prev_var.t
+# 	F test to compare two variances
+# 
+# data:  Rv_pos$PPC2 and Rv_neg$PPC2
+# F = 0.65336, num df = 51, denom df = 1134, p-value = 0.05624
+# alternative hypothesis: true ratio of variances is not equal to 1
+# 95 percent confidence interval:
+#  0.4541599 1.0117717
+# sample estimates:
+# ratio of variances 
+#          0.6533647  
+#PASSED - EQUAL VARIANCES
+
+Rv_ppc2_prev_var.t$estimate
+plotNormalHistogram(df_p_rv$PPC2) #NORMAL ENOUGH DISTRIBUTION
+qqPlot(df_p_rv$PPC2) 
+
+RvPPC2_ttest.prev <-t.test(PPC2 ~ Status_Rv, data = df_p_rv, alternative = "two.sided", var.equal = TRUE)
+RvPPC2_ttest.prev
+# 	Two Sample t-test
+# 
+# data:  PPC2 by Status_Rv
+# t = -1.5101, df = 1185, p-value = 0.1313
+# alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+# 95 percent confidence interval:
+#  -0.71569790  0.09314929
+# sample estimates:
+# mean in group 0 mean in group 1 
+#     -0.04506488      0.26620943 
+# NOT SIGNIFICANT
+```
+
+####Logistic Regression: PPC2
+Bd:
+```{r}
+#Null hypothesis: There is no significant correlation between latitude and infection status.
+lm.ppc2.bd <- glm(Status_Bd ~ PPC2, family = binomial, data = df_p_bd)
+summary(lm.ppc2.bd)
+# Call:
+# glm(formula = Status_Bd ~ PPC2, family = binomial, data = df_p_bd)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept) -1.61074    0.07574 -21.267  < 2e-16 ***
+# PPC2         0.16768    0.05587   3.001  0.00269 ** 
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 1162.3  on 1280  degrees of freedom
+# Residual deviance: 1152.8  on 1279  degrees of freedom
+# AIC: 1156.8
+# 
+# Number of Fisher Scoring iterations: 4
+
+exp(coef(lm.ppc2.bd))
+# (Intercept)        PPC2 
+#   0.1997399   1.1825639 
+```
+
+Not considering anything else in the data, there is a significant relationship between PPC2 and Bd status where with unit increase in PPC2, the log odds of Bd positive increase by $e^{0.16768}$ or the odds of being infected with Bd increase by a factor $1.1826$.
+
+Pr:
+```{r}
+lm.ppc2.pr <- glm(Status_Pr ~ PPC2, family = binomial, data = df_p_pr)
+summary(lm.ppc2.pr)
+# Call:
+# glm(formula = Status_Pr ~ PPC2, family = binomial, data = df_p_pr)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept) -4.54661    0.28226 -16.108   <2e-16 ***
+# PPC2        -0.08466    0.18183  -0.466    0.642    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 144.03  on 1223  degrees of freedom
+# Residual deviance: 143.82  on 1222  degrees of freedom
+# AIC: 147.82
+# 
+# Number of Fisher Scoring iterations: 7
+
+exp(coef(lm.ppc2.pr))
+# (Intercept)        PPC2 
+#  0.01060304  0.91882824 
+```
+Not considering anything else in the data, there is not a significant relationship between PPC2 and Pr status. Though it could be that we do not have enough positive points for there to be signal in the data.
+
+Rv:
+
+```{r}
+lm.ppc2.rv <- glm(Status_Rv ~ PPC2, family = binomial, data = df_p_rv)
+summary(lm.ppc2.rv)
+# Call:
+# glm(formula = Status_Rv ~ PPC2, family = binomial, data = df_p_rv)
+# 
+# Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+# (Intercept)  -3.1020     0.1446 -21.452   <2e-16 ***
+# PPC2          0.1625     0.1081   1.503    0.133    
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+# 
+# (Dispersion parameter for binomial family taken to be 1)
+# 
+#     Null deviance: 426.99  on 1186  degrees of freedom
+# Residual deviance: 424.57  on 1185  degrees of freedom
+# AIC: 428.57
+# 
+# Number of Fisher Scoring iterations: 6
+
+exp(coef(lm.ppc2.rv))
+# (Intercept)        PPC2 
+#  0.04495782  1.17643162 
+```
+
+Not considering anything else in the data, there is not a significant relationship between PPC2 and Rv status.
+
+####Visualization
+Distribution of PPC1 values by infection status.
+```{r}
+#Visualize dataset
+#Set colors for pathogen comparisons
+Bd_c <- c("darkgrey","#40B0A6")
+Pr_c <- c("darkgrey","#E1BE6A")
+Rv_c <- c("darkgrey","#9966FF")
+
+Bd_PPC2_prev_bar <- ggplot(
+  df_p_bd, aes(x = Status_Bd, y = PPC2, color = Status_Bd, fill = Status_Bd)) + 
+  geom_boxplot(
+    width = .15, fill = Bd_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Bd_c, guide = "none") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + scale_y_continuous(limits=c(-4.5,3)) + 
+   theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+   facet_grid(cols = vars(Status_Bd), scales = "free_x", space = "free_x") +
+   theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none")
+
+
+Pr_PPC2_prev_bar <- ggplot(
+  df_p_pr, aes(x = Status_Pr, y = PPC2, color = Status_Pr, fill = Status_Pr)) + 
+  geom_boxplot(
+    width = .15, fill = Pr_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Pr_c, guide = "none") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + scale_y_continuous(limits=c(-4.5,3)) + 
+   theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+   facet_grid(cols = vars(Status_Pr), scales = "free_x", space = "free_x") +
+   theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none")
+
+Rv_PPC2_prev_bar <- ggplot(
+  df_p_rv, aes(x = Status_Rv, y = PPC2, color = Status_Rv, fill = Status_Rv)) + 
+  geom_boxplot(
+    width = .15, fill = Rv_c,
+    size = 0.8, outlier.shape = NA) +
+  ggdist::stat_halfeye(
+    adjust = .4,
+    width = .3, 
+    color = "black",
+    position = position_nudge(x = 0.20)) +
+  scale_x_discrete(expand = c(.07, .07)) +
+  scale_color_manual(values=c("black", "black")) +
+  scale_fill_manual(values = Rv_c, guide = "none") +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth = 1)) +
+  theme(panel.background = element_rect(fill='transparent'), #transparent panel bg
+  plot.background = element_rect(fill='transparent', color=NA), #trt plot bg
+    panel.grid.major = element_blank(), #remove major gridlines
+    panel.grid.minor = element_blank(), #remove minor gridlines
+    ) + scale_y_continuous(limits=c(-4.5,3)) + 
+   theme(axis.title.x=element_blank(), axis.title.y=element_blank()) +
+   facet_grid(cols = vars(Status_Rv), scales = "free_x", space = "free_x") +
+   theme(panel.spacing.x = unit(0, "cm"),strip.text.x = element_blank()) +
+  theme(legend.position="none")
+```
+
+Figure 4j-l
+```{r}
+library(patchwork)
+(Bd_PPC2_prev_bar | Pr_PPC2_prev_bar | Rv_PPC2_prev_bar) 
+```
+#-----------------------------------------------
+# Checking for interactions
+
+We must verify that there are no significant interactions between variables within the data that we need to account for when building our model below.
+
+We should consider adding interactive terms to linear model when the statistical association between a predictor and an outcome depends on the value/level of another predictor.
+
+In our Bd infection status data, we expect there to be differences in the statistical association between Fam & Latitude - we checked this above and ruled out interaction, also confirmed by interaction plots below.
+
+```{r, fig.height = 5, fig.width = 8, echo = FALSE}
+# Calculate the cell means for each (Status_Bd, Fam) combination
+# Group means
+bd_mean_fl  <- df_p_bd %>% group_by(Fam, Status_Bd) %>% summarise(m = mean(Latitude)) %>% ungroup()
+bd_mean_fl
+#   Fam       Status_Bd     m
+#   <fct>     <fct>     <dbl>
+# 1 Bufonidae 1          38.6
+# 2 Hylidae   1          34.9
+# 3 Ranidae   1          37.5
+
+library(ggplot2)
+p <- ggplot(df_p_bd, aes(x = Fam, y = Latitude, colour = Status_Bd))
+p <- p + geom_hline(aes(yintercept = 20), colour = "black"
+                  , linetype = "solid", alpha = 0.3)
+#p <- p + scale_y_continuous(limits = c(90, 170), breaks = seq(90, 170, by=10))
+p <- p + geom_boxplot(alpha = 0.5, outlier.size=0.1)
+p <- p + geom_point(data = bd_mean_fl, aes(y = m), size = 4)
+p <- p + geom_line(data = bd_mean_fl, aes(y = m, group = Status_Bd), size = 1.5)
+p <- p + theme_bw()
+p <- p + labs(title = "Latitude interaction plot, Fam by final infection status")
+print(p)
+
+library(gridExtra)
+grid.arrange(grobs = list(p), nrow=1, top="Bd infection status interactions")
+```
+
+#-----------------------------------------------
+
+#Infection status figures for manuscript
+Figure 4a - TPC1, TPC2
+```{r fig.height=12, fig.width=12}
+library(patchwork)
+(Bd_TPC1_prev_bar | Pr_TPC1_prev_bar | Rv_TPC1_prev_bar) /
+  (Bd_TPC2_prev_bar | Pr_TPC2_prev_bar | Rv_TPC2_prev_bar) 
+```
+Figure 4b - PPC1, PPC2
+```{r fig.height=12, fig.width=12}
+library(patchwork)
+  (Bd_PPC1_prev_bar | Pr_PPC1_prev_bar | Rv_PPC1_prev_bar) /
+  (Bd_PPC2_prev_bar | Pr_PPC2_prev_bar | Rv_PPC2_prev_bar)
+```
+#-----------------------------------------------
