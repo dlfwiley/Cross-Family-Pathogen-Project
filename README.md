@@ -20,18 +20,18 @@ CFPCS_statistical_analyses_Pt1_infection-status.qmd: This script includes code m
 
 CFPCS_statistical_analyses_Pt2_infection-status.qmd: This script includes code meant for processing and assessing pathogen *infection intensity* (response variable 2). It includes code for processing raw data, transforming variables, evaluating and eliminating outliers, and statistically assessing one-way relationships between intensity and other variables (i.e. difference in means, linear regressions).
 
-CFPCS_Bioclimatic_PCA.qmd:
+CFPCS_Bioclimatic_variables_PCA.qmd: This script covers the reduction of 19 WorldClim 2.1 (Fick & Hijmans, 2017) at 30 seconds (~1 km²) resolution into two principal component analyses. The first covering temperature-related variables and the second covering precipitation. It includes code to assess variable loadings and loading contributions which are what is reported in Supplemental Table S5-S6.
 
-CFPCS_Bd_all_RF_classification_model.qmd:
+CFPCS_Bd_all_RF_classification_model.qmd: This script covers the initial construction, refinement, and assessment of Balanced Random Forests classification models and covers all samples screened for Bd. Details on balancing and cross-validation are also included. 
 
-CFPCS_Rv_all_RF_classification_model.qmd:
+CFPCS_Rv_all_RF_classification_model.qmd: This script covers the initial construction, refinement, and assessment of Balanced Random Forests classification models and covers all samples screened for Rv. Details on balancing and cross-validation are also included. 
 
-CFPCS_Bd_Bufonidae_RF_classification_model.qmd:
+CFPCS_Bd_Bufonidae_RF_classification_model.qmd: This script covers the initial construction, refinement, and assessment of Balanced Random Forests classification models and covers only samples in the family Bufonidae screened for Bd. Details on balancing and cross-validation are also included. 
 
-CFPCS_Bd_Hylidae_RF_classification_model.qmd:
+CFPCS_Bd_Hylidae_RF_classification_model.qmd: This script covers the initial construction, refinement, and assessment of Balanced Random Forests classification models and covers only samples in the family Hylidae screened for Bd. Details on balancing and cross-validation are also included. 
 
-CFPCS_Bd_Ranidae_RF_classification_model.qmd:
+CFPCS_Bd_Ranidae_RF_classification_model.qmd: This script covers the initial construction, refinement, and assessment of Balanced Random Forests classification models and covers only samples in the family Ranidae screened for Bd. Details on balancing and cross-validation are also included. 
 
-CFPCS_Bd_all_RF_regression_model.qmd:
+CFPCS_Bd_all_RF_regression_model.qmd: This script covers the initial construction, refinement, and assessment of Balanced Random Forests regression models and covers all samples screened for Bd. Details on balancing and cross-validation are also included. 
 
 Questions? Contact me at dwiley7 [at] unm.edu.
