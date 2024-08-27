@@ -1,0 +1,457 @@
+---
+title: "Random forests to predict Bd infection intensity across all infected frogs"
+author: Dani Wiley
+date:   last-modified
+editor: visual
+description: |
+  Random forests models including variables associated with sample taxonomy (i.e. family, species), demography (i.e. age class, sex), geography (i.e. latitude, longitude, elevation), and climate (i.e. temperature PCA, precipitation PCA). The spreadsheet, "All_Pathogen_Dataset_Metadata", is helpful for understanding the data. Contact dlfwiley[at]gmail.com with any questions or requests for more information..
+ 
+format:
+  html:
+    theme:            litera
+    highlight-style:  atom-one
+    page-layout:      full      # article, full   # https://quarto.org/docs/output-formats/page-layout.html
+    toc:              true
+    toc-location:     body  # body, left, right
+    number-sections:  false
+    self-contained:         false     # !!! this can cause a render error
+    code-overflow:          scroll    # scroll, wrap
+    code-block-bg:          true
+    code-block-border-left: "#30B0E0"
+    code-copy:              false     # true, false, hover a copy buttom in top-right of code block
+---
+
+#Load packages   
+Helpful links for understanding RF output :https://www.ibm.com/topics/random-forest
+
+```{r}
+library(dplyr)
+library(randomForest)
+library(ggraph)
+library(igraph)
+library(tidyverse)
+library(caret)
+library(caTools)
+library(e1071)
+library(ggplot2)
+library(vip)
+```
+
+# Load data
+
+```{r}
+### LOAD FULL DATA
+Bd_i_df <- read.csv("All_Pathogen_Dataset.csv")
+#Bd intensity dataset: contains all positive and negative individuals
+Bd_i_df <- filter(Bd_i_df, !is.na(Bd_i_df$Confirmed_Average_Bd_SQ))
+#Rename long variable (Elevation_30s,"Confirmed_Log10_Average_Bd[Pr,Rv]SQ")
+names(Bd_i_df)[names(Bd_i_df) == "Fam"] <- "Family"
+names(Bd_i_df)[names(Bd_i_df) == "Sp"] <- "Species"
+names(Bd_i_df)[names(Bd_i_df) == "Elevation_30s"] <- "Elevation"
+names(Bd_i_df)[names(Bd_i_df) == "Confirmed_Average_Bd_SQ"] <- "BdSQ"
+names(Bd_i_df)[names(Bd_i_df) == "Tissue_Type_Tested_Bd"] <- "Tissue"
+
+#Making sure our variables are correctly classified.
+Bd_i_df$Species   <- as.factor(Bd_i_df$Species)
+Bd_i_df$Family    <- as.factor(Bd_i_df$Family)
+Bd_i_df$Status_Bd <- as.factor(Bd_i_df$Status_Bd)
+Bd_i_df$Age       <- as.factor(Bd_i_df$Age)
+Bd_i_df$Sex       <- as.factor(Bd_i_df$Sex)
+Bd_i_df$Month     <- as.factor(Bd_i_df$Month)
+Bd_i_df$Year      <- as.factor(Bd_i_df$Year)
+Bd_i_df$BdSQ      <- as.numeric(Bd_i_df$BdSQ)
+
+Bd_i_df <- Bd_i_df[!is.na(Bd_i_df$BdSQ),]
+
+str(Bd_i_df)
+```
+
+#------------------------------------------------------   
+
+#STEP 1: Verify data Check data for rows with missing values
+
+```{r}
+glimpse(Bd_i_df) #check data
+#Checking NAs STEP 1
+Bd_i_df %>%
+  summarise(
+    across(.cols = everything(),
+           .fns = ~sum(is.na(.)))) %>%
+  glimpse() 
+```
+
+
+#------------------------------------------------------   
+
+#STEP 2: Build datasets  
+Dropping variables with NAs and building model-specific datasets.  
+####RF Model 0: Full
+
+```{r}
+dim(Bd_i_df)
+RFfull_Bdp <- Bd_i_df %>% #FULL MODEL SET
+  dplyr::select(BdSQ
+                , Species
+                , Family
+                , Sex
+                , Age
+                , Tissue
+                , Latitude
+                , Longitude
+                , Elevation
+                , TPC1
+                , TPC2
+                , PPC1
+                , PPC2)
+dim(RFfull_Bdp)
+
+#Check to make sure there are no NAs
+RFfull_Bdp %>%
+  summarise(
+    across(.cols = everything(),
+           .fns = ~sum(is.na(.)))) %>%
+  glimpse() 
+#------------------------------------------------------------------------------------------
+```
+
+####RF Model 1 (-longitude) REDUCED MODEL SET (WITHOUT LONGITUDE)
+
+```{r}
+RF_Bdp.1 <- Bd_i_df %>% 
+  dplyr::select(BdSQ
+                , Species
+                , Family
+                , Sex
+                , Age
+              #  , Tissue # Tissue is used to determine project design limitations - do not include in models 
+                , Latitude
+                , Elevation
+                , TPC1
+                , TPC2
+                , PPC1
+                , PPC2)
+dim(RF_Bdp.1)
+```
+
+####RF Model 2 (-longitude, -species) REDUCED MODEL SET (WITHOUT LONGITUDE OR SPECIES)
+
+```{r}
+RF_Bdp.2 <- Bd_i_df %>% 
+  dplyr::select(BdSQ
+                , Family
+                , Sex
+                , Age
+               # , Tissue # Tissue is used to determine project design limitations - do not include in models 
+                , Latitude
+                , Elevation
+                , TPC1
+                , TPC2
+                , PPC1
+                , PPC2)
+dim(RF_Bdp.2)
+```
+
+####RF Model 3 (-species) REDUCED MODEL SET (WITHOUT SPECIES)
+
+```{r}
+RF_Bdp.3 <- Bd_i_df %>% 
+  dplyr::select(BdSQ
+                , Family
+                , Sex
+                , Age
+                , Tissue
+                , Latitude
+                , Longitude
+                , Elevation
+                , TPC1
+                , TPC2
+                , PPC1
+                , PPC2)
+dim(RF_Bdp.3)
+```
+
+#------------------------------------------------------   
+
+# STEP 3 & 4: Build original models run multiple Random Forest models and compare output & compare model output picking best model via OOB & mtry  
+
+####RF Model 0: Full
+
+```{r}
+############################### RANDOM FORESTS ###############################
+################# 0 - BD Intensity - FULL MODEL - 12 species #################
+#############################################################################
+#MODEL SET 0 (FULL)
+set.seed(123)
+Bd_i_df$BdSQ <- as.integer(Bd_i_df$BdSQ)
+
+rf0_IntensityBD <- randomForest(BdSQ~.
+                                , data=RFfull_Bdp
+                                , ntree=5000
+                                , nPerm=100
+                                , proximity=TRUE
+                                , importance=TRUE
+                                )
+print(rf0_IntensityBD) 
+# Call:
+#  randomForest(formula = BdSQ ~ ., data = RFfull_Bdp, ntree = 5000,      nPerm = 100, proximity = TRUE, importance = TRUE) 
+#                Type of random forest: regression
+#                      Number of trees: 5000
+# No. of variables tried at each split: 4
+# 
+#           Mean of squared residuals: 24141544
+#                     % Var explained: 10.76
+varImpPlot(rf0_IntensityBD)
+
+####Step 3. Find the optimal mtry value####
+mtry1 <- tuneRF(RFfull_Bdp[-1]
+                , RFfull_Bdp$BdSQ
+                , ntreeTry = 500
+                , stepFactor = 1.5
+                , improve = 0.01
+                , trace = T
+                , plot = T
+                )
+best.m.1 <- mtry1[mtry1[, 2] == min(mtry1[, 2]), 1]
+print(mtry1)
+print(best.m.1) #2
+
+#Build model again using best mtry value.
+set.seed(23)
+rf0.1_IntensityBD <- randomForest(BdSQ~.
+                                  , data=RFfull_Bdp
+                                  , mtry=best.m.1
+                                  , ntree=5000
+                                  , nPerm=100
+                                  , proximity=TRUE
+                                  , importance=TRUE
+                                  )
+print(rf0.1_IntensityBD) 
+# Call:
+#  randomForest(formula = BdSQ ~ ., data = RFfull_Bdp, mtry = best.m.1,      ntree = 5000, nPerm = 100, proximity = TRUE, importance = TRUE) 
+#                Type of random forest: regression
+#                      Number of trees: 5000
+# No. of variables tried at each split: 2
+# 
+#           Mean of squared residuals: 23953782
+#                     % Var explained: 11.45
+importance(rf0.1_IntensityBD)
+
+varImpPlot(rf0.1_IntensityBD)
+
+p1 <- vip(rf0.1_IntensityBD, geom = "point",
+          mapping = NULL,
+          aesthetics = list(),
+          horizontal = TRUE,
+          include_type = TRUE)
+p1plot <- p1 + geom_point(shape = 21, colour = "black", fill = "#40B0A6", size = 4, stroke = 1) + ggtitle("Random Forest regression - Model 0.1 Bd intensity")
+p1plot
+```
+
+####RF Model 1 (-longitude)
+
+```{r}
+############################### RANDOM FORESTS ###############################
+################# 1 - BD Intensity - NO LONGITUDE - 12 species #################
+#############################################################################
+#MODEL SET 1 (NO LONGITUDE)
+set.seed(123)
+rf1_IntensityBD <- randomForest(BdSQ~.
+                             , data=RF_Bdp.1
+                             , ntree=5000
+                             , nPerm=100
+                             , proximity=TRUE
+                             , importance=TRUE
+                             #, classwt = c(6,1) <- this can be used to penalize minority
+                             )
+
+print(rf1_IntensityBD)
+# Call:
+#  randomForest(formula = BdSQ ~ ., data = RF_Bdp.1, ntree = 5000,      nPerm = 100, proximity = TRUE, importance = TRUE) 
+#                Type of random forest: regression
+#                      Number of trees: 5000
+# No. of variables tried at each split: 3
+# 
+#           Mean of squared residuals: 23185206
+#                     % Var explained: 14.29
+
+RF_varimp = data.frame()
+
+####Step 3. Find the optimal mtry value####
+mtry2 <- tuneRF(RF_Bdp.1[-1], RF_Bdp.1$BdSQ, ntreeTry = 500, stepFactor = 1.5, improve = 0.01, trace = T, plot = T)
+best.m.2 <- mtry2[mtry2[, 2] == min(mtry2[, 2]), 1]
+print(mtry2)
+print(best.m.2) #2
+
+# library(caret)
+# for (i in 1:100) {
+
+#Build model again using best mtry value.
+RF_model <- randomForest(BdSQ~., data=RF_Bdp.1, 
+                                  mtry=best.m.2, 
+                                  ntree=5000, 
+                                  nPerm=100, 
+                                  proximity=TRUE, 
+                                  importance=TRUE)
+
+
+ #extract the importance measures 
+  imp = importance(RF_model,scale=TRUE)
+  
+  #append importance measures to dataframe
+  imp_temp <- data.frame(imp)
+  imp_temp$var <- row.names(imp_temp)
+  RF_varimp <- rbind(RF_varimp, imp_temp)
+# }
+
+print(RF_model) 
+# Call:
+#  randomForest(formula = BdSQ ~ ., data = RF_Bdp.1, mtry = best.m.2,      ntree = 5000, nPerm = 100, proximity = TRUE, importance = TRUE) 
+#                Type of random forest: regression
+#                      Number of trees: 5000
+# No. of variables tried at each split: 2
+# 
+#           Mean of squared residuals: 23376185
+#                     % Var explained: 13.59
+
+importance(RF_model)
+
+varImpPlot(RF_model)
+
+p2 <- vip(RF_model, geom = "point",
+          mapping = NULL,
+          aesthetics = list(),
+          horizontal = FALSE,
+          include_type = TRUE)
+
+RF_Bd_Reg <- p2 +  
+  geom_point(shape = 21, colour = "black", fill = "#40B0A6", size = 4, stroke = 1) + 
+  ggtitle("RF regression Bd intensity") +
+  theme(axis.text.x = element_text(angle=60, hjust=1,size=12)) + 
+  theme(axis.text.y = element_text(size=12)) + 
+  theme(axis.title = element_text(size=12,face="bold")) + 
+  xlab("") + ylab("")
+RF_Bd_Reg
+
+predictions <- predict(RF_model, newdata = RF_Bdp.1)
+mae <- mean(abs(predictions - RF_Bdp.1$BdSQ ))
+
+# Print the Mean Absolute Error
+print(paste("Mean Absolute Error:", mae))
+#"Mean Absolute Error: 1417.3914893057"
+
+# Get the R^2 value from the final model
+r_squared <- summary(RF_model)$rsq
+r_squared <- RF_model$rsq
+
+# Print the R^2 value
+print(paste("R^2 value:", r_squared))
+mean((RF_model)$rsq)
+# 0.1321606
+```
+#------------------------------------------------------   
+# Visualization Supplemental Figure S10
+
+```{r}
+RF_Bd_Reg
+```
+
+#------------------------------------------------------   
+#STEP 5: Validation of final model We chose model 1 (-longitude) and to balance via downsampling for this model.
+
+```{r}
+####Training data set and using different number of variables#####
+###################################################################
+#Split the data into train and test data sets
+#training data is for building a model, testing data is used for making predictions
+#make it reproducible
+
+# Now that we've selected which model set to go with, we can move forward with training and testing the model over 100 iterations and averaging the information.
+set.seed(123)
+#use 70% of dataset as training set and 30% as test set
+split_ds_sq <- sample(c(TRUE, FALSE), nrow(RF_Bdp.1), replace = TRUE, prob = c(0.7, 0.3))
+train_ds_sq <- RF_Bdp.1[split_ds_sq, ]
+test_ds_sq <- RF_Bdp.1[!split_ds_sq, ]
+dim(train_ds_sq)
+dim(test_ds_sq)
+
+mtry2 <- tuneRF(train_ds_sq[-1], train_ds_sq$BdSQ, ntreeTry = 500, stepFactor = 1.5, improve = 0.01, trace = T, plot = T)
+best.m.2 <- mtry2[mtry2[, 2] == min(mtry2[, 2]), 1]
+print(mtry2)
+print(best.m.2) #3
+
+library(caret)
+#Build model again using best mtry value.
+RF_model <- randomForest(BdSQ~., data=train_ds_sq, 
+                                  mtry=best.m.2, 
+                                  ntree=5000, 
+                                  nPerm=100, 
+                                  proximity=TRUE, 
+                                  importance=TRUE)
+
+
+ #extract the importance measures 
+  imp = importance(RF_model,scale=TRUE)
+  
+  #append importance measures to dataframe
+  imp_temp <- data.frame(imp)
+  imp_temp$var <- row.names(imp_temp)
+  RF_varimp <- rbind(RF_varimp, imp_temp)
+
+print(RF_model) 
+# Call:
+#  randomForest(formula = BdSQ ~ ., data = train_ds_sq, mtry = best.m.2,      ntree = 5000, nPerm = 100, proximity = TRUE, importance = TRUE) 
+# Type of random forest: regression
+# Number of trees: 5000
+# No. of variables tried at each split: 3
+# 
+# Mean of squared residuals: 19317916
+# % Var explained: 13.07
+
+importance(RF_model)
+#             %IncMSE IncNodePurity
+# Sp         1.047138     183313221
+# Fam       -3.244096       9680248
+# Sex       -7.164081      51203310
+# Age        1.668763     312413379
+# Latitude  19.113992     499796458
+# Elevation 10.802697     218796933
+# TPC1      20.577612     465910347
+# TPC2      -5.805187     188769479
+# PPC1       4.993171     224419319
+# PPC2       1.687685     226094071
+
+varImpPlot(RF_model)
+
+p2 <- vip(RF_model, geom = "point",
+          mapping = NULL,
+          aesthetics = list(),
+          horizontal = FALSE,
+          include_type = TRUE)
+
+RF_Bd_Reg <- p2 +  
+  geom_point(shape = 21, colour = "black", fill = "#40B0A6", size = 4, stroke = 1) + 
+  ggtitle("RF regression Bd intensity") +
+  theme(axis.text.x = element_text(angle=60, hjust=1,size=12)) + 
+  theme(axis.text.y = element_text(size=12)) + 
+  theme(axis.title = element_text(size=12,face="bold")) + 
+  xlab("") + ylab("")
+RF_Bd_Reg
+
+predictions <- predict(RF_model, newdata = train_ds_sq)
+mae <- mean(abs(predictions - train_ds_sq$BdSQ ))
+
+# Print the Mean Absolute Error
+print(paste("Mean Absolute Error:", mae))
+#"Mean Absolute Error: 1172.60361278794"
+
+# Get the R^2 value from the final model
+r_squared <- summary(RF_model)
+r_squared <- RF_model$rsq
+
+# Print the R^2 value
+print(paste("R^2 value:", r_squared))
+mean(r_squared)
+#0.1361458
+```
+
+

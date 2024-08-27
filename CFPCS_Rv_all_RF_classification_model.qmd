@@ -1,0 +1,1359 @@
+---
+title: "Random forests to predict Rv infection status across all families of frogs"
+author: Dani Wiley
+date:   last-modified
+editor: visual
+description: |
+  Random forests models including variables associated with sample taxonomy (i.e. family, species), demography (i.e. age class, sex), geography (i.e. latitude, longitude, elevation), and climate (i.e. temperature PCA, precipitation PCA). The spreadsheet, "All_Pathogen_Dataset_Metadata", is helpful for understanding the data. Contact dlfwiley[at]gmail.com with any questions or requests for more information.
+ 
+format:
+  html:
+    theme:            litera
+    highlight-style:  atom-one
+    page-layout:      full      # article, full   # https://quarto.org/docs/output-formats/page-layout.html
+    toc:              true
+    toc-location:     body  # body, left, right
+    number-sections:  false
+    self-contained:         false     # !!! this can cause a render error
+    code-overflow:          scroll    # scroll, wrap
+    code-block-bg:          true
+    code-block-border-left: "#30B0E0"
+    code-copy:              false     # true, false, hover a copy buttom in top-right of code block
+---
+
+#Load packages
+
+Helpful links for understanding RF output :https://www.ibm.com/topics/random-forest
+
+```{r}
+library(dplyr)
+library(randomForest)
+library(ggraph)
+library(igraph)
+library(tidyverse)
+library(caret)
+library(caTools)
+library(e1071)
+library(ggplot2)
+library(vip)
+```
+
+# Load data
+
+```{r}
+### LOAD FULL DATA
+Rv_p_df <- read.csv("All_Pathogen_Dataset.csv")
+#R prevalence dataset: contains all positive and negative individuals
+Rv_p_df <- filter(Rv_p_df, !is.na(Rv_p_df$Status_Rv))
+#Rename long variable (Elevation_30s,"Confirmed_Log10_Average_Rv[Pr,Rv]SQ")
+names(Rv_p_df)[names(Rv_p_df) == "Fam"] <- "Family"
+names(Rv_p_df)[names(Rv_p_df) == "Sp"] <- "Species"
+names(Rv_p_df)[names(Rv_p_df) == "Elevation_30s"] <- "Elevation"
+names(Rv_p_df)[names(Rv_p_df) == "Confirmed_Average_Rv_SQ"] <- "RvSQ"
+names(Rv_p_df)[names(Rv_p_df) == "Tissue_Type_Tested_Rv"] <- "Tissue"
+
+#Making sure our variables are correctly classified.
+Rv_p_df$Species   <- as.factor(Rv_p_df$Species)
+Rv_p_df$Family    <- as.factor(Rv_p_df$Family)
+Rv_p_df$Status_Rv <- as.factor(Rv_p_df$Status_Rv)
+Rv_p_df$Age       <- as.factor(Rv_p_df$Age)
+Rv_p_df$Sex       <- as.factor(Rv_p_df$Sex)
+Rv_p_df$Month     <- as.factor(Rv_p_df$Month)
+Rv_p_df$Year      <- as.factor(Rv_p_df$Year)
+```
+
+#------------------------------------------------------   
+
+#STEP 1: Verify data Check data for rows with missing values
+
+```{r}
+glimpse(Rv_p_df) #check data
+#Checking NAs STEP 1
+Rv_p_df %>%
+  summarise(
+    across(.cols = everything(),
+           .fns = ~sum(is.na(.)))) %>%
+  glimpse() 
+```
+
+#------------------------------------------------------   
+
+#STEP 2: Build datasets  
+Dropping variables with NAs and building model-specific datasets.  
+####RF Model 0: Full
+
+```{r}
+dim(Rv_p_df)
+RFfull_Rvp <- Rv_p_df %>% #FULL MODEL SET
+  dplyr::select(Status_Rv
+                , Species
+                , Family
+                , Sex
+                , Age
+                , Tissue
+                , Latitude
+                , Longitude
+                , Elevation
+                , TPC1
+                , TPC2
+                , PPC1
+                , PPC2)
+dim(RFfull_Rvp)
+
+#Check to make sure there are no NAs
+RFfull_Rvp %>%
+  summarise(
+    across(.cols = everything(),
+           .fns = ~sum(is.na(.)))) %>%
+  glimpse() 
+#------------------------------------------------------------------------------------------
+```
+
+####RF Model 1 (-longitude) REDUCED MODEL SET (WITHOUT LONGITUDE)
+
+```{r}
+RF_Rvp.1 <- Rv_p_df %>% 
+  dplyr::select(Status_Rv
+                , Species
+                , Family
+                , Sex
+                , Age
+              #  , Tissue # Tissue is used to determine project design limitations - do not include in models 
+                , Latitude
+                , Elevation
+                , TPC1
+                , TPC2
+                , PPC1
+                , PPC2)
+dim(RF_Rvp.1)
+```
+
+####RF Model 2 (-longitude, -species) REDUCED MODEL SET (WITHOUT LONGITUDE OR SPECIES)
+
+```{r}
+RF_Rvp.2 <- Rv_p_df %>% 
+  dplyr::select(Status_Rv
+                , Family
+                , Sex
+                , Age
+               # , Tissue # Tissue is used to determine project design limitations - do not include in models 
+                , Latitude
+                , Elevation
+                , TPC1
+                , TPC2
+                , PPC1
+                , PPC2)
+dim(RF_Rvp.2)
+```
+
+####RF Model 3 (-species) REDUCED MODEL SET (WITHOUT SPECIES)
+
+```{r}
+RF_Rvp.3 <- Rv_p_df %>% 
+  dplyr::select(Status_Rv
+                , Family
+                , Sex
+                , Age
+                , Tissue
+                , Latitude
+                , Longitude
+                , Elevation
+                , TPC1
+                , TPC2
+                , PPC1
+                , PPC2)
+dim(RF_Rvp.3)
+```
+
+#------------------------------------------------------   
+
+# STEP 3: Build original models run multiple Random Forest models and compare output  
+####RF Model 0: Full
+
+```{r}
+############################### RANDOM FORESTS ###############################
+################# 0 - RV STATUS - FULL MODEL - 12 species #################
+#############################################################################
+#MODEL SET 0 (FULL)
+set.seed(123)
+rf0_statusRV <- randomForest(as.factor(Status_Rv)~.
+                             , data=RFfull_Rvp
+                             , ntree=5000
+                             , nPerm=100
+                             , proximity=TRUE
+                             , importance=TRUE
+                             )
+print(rf0_statusRV) 
+
+#append importance measures to dataframe
+imp = importance(rf0_statusRV,scale=TRUE)
+imp_temp <- data.frame(imp)
+imp_temp$var <- row.names(imp_temp)
+imp_temp
+#In decreasing order, sort the variables by their average MeanDecreaseAccuracy
+MDA <- imp_temp[order(imp_temp$MeanDecreaseAccuracy,decreasing=T),]
+MDA
+gini <- imp_temp[order(imp_temp$MeanDecreaseGini,decreasing=T),]
+gini
+
+#Plots with details:
+RFfull_MDA.p  <- ggplot(MDA, 
+  aes(x=reorder(var,-MeanDecreaseAccuracy),y=MeanDecreaseAccuracy)) +
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) + 
+  theme(text = element_text(size=15), axis.text.x = element_text(angle=45,hjust=1)) + 
+  ggtitle("Rv status - Full model") + 
+  xlab("Variable") + 
+  ylab("Importance (MeanDecAccuracy)")
+
+RFfull_GINI.p <-ggplot(gini, aes(x=reorder(var,-MeanDecreaseGini),y=MeanDecreaseGini)) +
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) + 
+  theme(text = element_text(size=15), axis.text.x = element_text(angle=45,hjust=1)) + 
+  ggtitle("Rv status - Full model") + 
+  xlab("Variable") + 
+  ylab("Importance (MeanDecGini)")
+
+varImpPlot(rf0_statusRV)
+
+RFfull_MDA.p
+RFfull_GINI.p
+```
+
+####RF Model 1 (-longitude)
+
+```{r}
+############################### RANDOM FORESTS ###############################
+################# 1 - RV STATUS - NO LONGITUDE - 12 species #################
+#############################################################################
+#MODEL SET 1 (NO LONGITUDE)
+set.seed(123)
+rf1_statusRV <- randomForest(as.factor(Status_Rv)~.
+                             , data=RF_Rvp.1, ntree=5000
+                             , nPerm=100
+                             , proximity=TRUE
+                             , importance=TRUE
+                             )
+print(rf1_statusRV)
+
+#append importance measures to dataframe
+imp = importance(rf1_statusRV,scale=TRUE)
+imp_temp <- data.frame(imp)
+imp_temp$var <- row.names(imp_temp)
+imp_temp
+#In decreasing order, sort the variables by their average MeanDecreaseAccuracy
+MDA <- imp_temp[order(imp_temp$MeanDecreaseAccuracy,decreasing=T),]
+MDA
+gini <- imp_temp[order(imp_temp$MeanDecreaseGini,decreasing=T),]
+gini
+
+#Plots with details:
+RF1_MDA.p  <- ggplot(MDA, 
+  aes(x=reorder(var,-MeanDecreaseAccuracy),y=MeanDecreaseAccuracy)) +
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) + 
+  theme(text = element_text(size=15), axis.text.x = element_text(angle=45,hjust=1)) + 
+  ggtitle("Rv status - Model set 1 - No longitude") + 
+  xlab("Variable") + 
+  ylab("Importance (MeanDecAccuracy)")
+
+RF1_GINI.p <-ggplot(gini, aes(x=reorder(var,-MeanDecreaseGini),y=MeanDecreaseGini)) +
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) + 
+  theme(text = element_text(size=15), axis.text.x = element_text(angle=45,hjust=1)) + 
+  ggtitle("Rv status - Model set 1 - No longitude") + 
+  xlab("Variable") + 
+  ylab("Importance (MeanDecGini)")
+
+varImpPlot(rf1_statusRV)
+RF1_MDA.p
+RF1_GINI.p
+```
+
+####RF Model 2 (-longitude, -species)
+
+```{r}
+############################### RANDOM FORESTS ###############################
+############ 2 - RV STATUS - NO LONGITUDE or SPECIES - 12 species ###########
+#############################################################################
+#MODEL SET 2 (WITHOUT SPECIES OR LONGITUDE)
+set.seed(123)
+rf2_statusRV <- randomForest(as.factor(Status_Rv)~.
+                             , data=RF_Rvp.2
+                             , ntree=5000
+                             , nPerm=100
+                             , proximity=TRUE
+                             , importance=TRUE
+                             )
+print(rf2_statusRV) 
+
+#append importance measures to dataframe
+imp = importance(rf2_statusRV,scale=TRUE)
+imp_temp <- data.frame(imp)
+imp_temp$var <- row.names(imp_temp)
+imp_temp
+#In decreasing order, sort the variables by their average MeanDecreaseAccuracy
+MDA <- imp_temp[order(imp_temp$MeanDecreaseAccuracy,decreasing=T),]
+MDA
+gini <- imp_temp[order(imp_temp$MeanDecreaseGini,decreasing=T),]
+gini
+
+#Plots with details:
+RF2_MDA.p  <- ggplot(MDA, 
+  aes(x=reorder(var,-MeanDecreaseAccuracy),y=MeanDecreaseAccuracy)) +
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) + 
+  theme(text = element_text(size=15), axis.text.x = element_text(angle=45,hjust=1)) + 
+  ggtitle("Rv status - Model set 2 - No longitude or species") + 
+  xlab("Variable") + 
+  ylab("Importance (MeanDecAccuracy)")
+
+RF2_GINI.p <-ggplot(gini, aes(x=reorder(var,-MeanDecreaseGini),y=MeanDecreaseGini)) +
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) + 
+  theme(text = element_text(size=15), axis.text.x = element_text(angle=45,hjust=1)) + 
+  ggtitle("Rv status - Model set 2 - No longitude or species") + 
+  xlab("Variable") + 
+  ylab("Importance (MeanDecGini)")
+
+varImpPlot(rf2_statusRV)
+RF2_MDA.p 
+RF2_GINI.p
+```
+
+####RF Model 3 (-species)
+
+```{r}
+############################### RANDOM FORESTS ###############################
+############ 3 - RV STATUS - NO SPECIES - 12 species ###########
+#############################################################################
+#MODEL SET 3 (WITHOUT SPECIES)
+set.seed(123)
+rf3_statusRV <- randomForest(as.factor(Status_Rv)~.
+                             , data=RF_Rvp.3
+                             , ntree=5000
+                             , nPerm=100
+                             , proximity=TRUE
+                             , importance=TRUE
+                             )
+print(rf3_statusRV) 
+
+imp = importance(rf3_statusRV,scale=TRUE)
+imp_temp <- data.frame(imp)
+imp_temp$var <- row.names(imp_temp)
+imp_temp
+#In decreasing order, sort the variables by their average MeanDecreaseAccuracy
+MDA <- imp_temp[order(imp_temp$MeanDecreaseAccuracy,decreasing=T),]
+MDA
+gini <- imp_temp[order(imp_temp$MeanDecreaseGini,decreasing=T),]
+gini
+
+#Plots with details:
+RF3_MDA.p  <- ggplot(MDA, 
+  aes(x=reorder(var,-MeanDecreaseAccuracy),y=MeanDecreaseAccuracy)) +
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) + 
+  theme(text = element_text(size=15), axis.text.x = element_text(angle=45,hjust=1)) + 
+  ggtitle("Rv status - Model set 3 - No species") + 
+  xlab("Variable") + 
+  ylab("Importance (MeanDecAccuracy)")
+
+RF3_GINI.p <-ggplot(gini, aes(x=reorder(var,-MeanDecreaseGini),y=MeanDecreaseGini)) +
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) + 
+  theme(text = element_text(size=15), axis.text.x = element_text(angle=45,hjust=1)) + 
+  ggtitle("Rv status - Model set 3 - No species") + 
+  xlab("Variable") + 
+  ylab("Importance (MeanDecGini)")
+
+varImpPlot(rf3_statusRV)
+RF3_MDA.p 
+RF3_GINI.p
+```
+
+#------------------------------------------------------   
+
+# STEP 4: Compare model output Picking best model via OOB & mtry  
+
+####RF Model 0: Full
+
+```{r}
+library(vip)
+#FINDING MTRY FOR FULL MODEL
+####3. Find the optimal mtry value#### - FULL MODEL
+stBD_0 <- as.factor(RFfull_Rvp$Status_Rv)
+class(stBD_0)
+mtry_stBD_0 <- tuneRF(RFfull_Rvp[-1]
+                      , stBD_0
+                      , ntreeTry = 500
+                      , stepFactor = 1.5
+                      , improve = 0.01
+                      , trace = T
+                      , plot = T
+                      )
+best.m0 <- mtry_stBD_0[mtry_stBD_0[, 2] == min(mtry_stBD_0[, 2]), 1]
+print(mtry_stBD_0)
+print(best.m0) 
+```
+
+####RF Model 1 (-longitude)
+
+```{r}
+#FINDING MTRY FOR MODEL 1 (WITHOUT LONGITUDE)
+stBD_1 <- as.factor(RF_Rvp.1$Status_Rv)
+class(stBD_1)
+mtry_stBD_1 <- tuneRF(RF_Rvp.1[-1]
+                      , stBD_1
+                      , ntreeTry = 500
+                      , stepFactor = 1.5
+                      , improve = 0.01
+                      , trace = T
+                      , plot = T
+                      )
+best.m1 <- mtry_stBD_1[mtry_stBD_1[, 2] == min(mtry_stBD_1[, 2]), 1]
+print(mtry_stBD_1)
+print(best.m1) 
+```
+
+####RF Model 2 (-longitude, -species)
+
+```{r}
+#FINDING MTRY FOR MODEL 2 (WITHOUT LONGITUDE OR SPECIES)
+stBD_2 <- as.factor(RF_Rvp.2$Status_Rv)
+class(stBD_2)
+mtry_stBD_2 <- tuneRF(RF_Rvp.2[-1]
+                      , stBD_2
+                      , ntreeTry = 500
+                      , stepFactor = 1.5
+                      , improve = 0.01
+                      , trace = T
+                      , plot = T
+                      )
+best.m2 <- mtry_stBD_2[mtry_stBD_2[, 2] == min(mtry_stBD_2[, 2]), 1]
+print(mtry_stBD_2)
+print(best.m2) 
+```
+
+####RF Model 3 (-species)
+
+```{r}
+#FINDING MTRY FOR MODEL 3 (WITHOUT SPECIES)
+stBD_3 <- as.factor(RF_Rvp.3$Status_Rv)
+class(stBD_3)
+mtry_stBD_3 <- tuneRF(RF_Rvp.3[-1]
+                      , stBD_3
+                      , ntreeTry = 500
+                      , stepFactor = 1.5
+                      , improve = 0.01
+                      , trace = T
+                      , plot = T
+                      )
+best.m3 <- mtry_stBD_3[mtry_stBD_3[, 2] == min(mtry_stBD_3[, 2]), 1]
+print(mtry_stBD_3)
+print(best.m3) 
+```
+
+
+#------------------------------------------------------   
+
+# STEP 5: Assess model accuracy  
+Training data set     
+#### RF Model 0: Full
+
+```{r}
+#No longitude
+split_ds_Rvp <- sample(c(TRUE, FALSE), nrow(RFfull_Rvp), replace = TRUE, prob = c(0.7, 0.3))
+train_ds_Rvp <- RFfull_Rvp[split_ds_Rvp, ]
+test_ds_Rvp <- RFfull_Rvp[!split_ds_Rvp, ]
+dim(train_ds_Rvp)
+dim(test_ds_Rvp)
+
+#RF######
+rf_Rvp_full <- randomForest(as.factor(Status_Rv)~.
+                        , data=train_ds_Rvp
+                        , ntree=5000
+                        , nPerm=100
+                        , proximity=TRUE
+                        , mtry = best.m0[1] # selecting the mtry from step 4
+                        , importance=TRUE)
+print(rf_Rvp_full)
+
+#Prediction & Confusion Matrix – train data
+confusionMatrix(predict(rf_Rvp_full, train_ds_Rvp),train_ds_Rvp$Status_Rv, positive = '1')
+# Confusion Matrix and Statistics
+# 
+#           Reference
+# Prediction   0   1
+#          0 800   6
+#          1   0  29
+#                                           
+#                Accuracy : 0.9928          
+#                  95% CI : (0.9844, 0.9974)
+#     No Information Rate : 0.9581          
+#     P-Value [Acc > NIR] : 1.144e-09       
+#                                           
+#                   Kappa : 0.9025          
+#                                           
+#  Mcnemar's Test P-Value : 0.04123         
+#                                           
+#             Sensitivity : 0.82857         
+#             Specificity : 1.00000         
+#          Pos Pred Value : 1.00000         
+#          Neg Pred Value : 0.99256         
+#              Prevalence : 0.04192         
+#          Detection Rate : 0.03473         
+#    Detection Prevalence : 0.03473         
+#       Balanced Accuracy : 0.91429         
+#                                           
+#        'Positive' Class : 1
+```
+
+####RF Model 1 (-longitude)
+
+```{r}
+split_ds_Rvp <- sample(c(TRUE, FALSE), nrow(RF_Rvp.1), replace = TRUE, prob = c(0.7, 0.3))
+train_ds_Rvp <- RF_Rvp.1[split_ds_Rvp, ]
+test_ds_Rvp <- RF_Rvp.1[!split_ds_Rvp, ]
+dim(train_ds_Rvp)
+dim(test_ds_Rvp)
+
+#RF######
+rf1_Rvp <- randomForest(as.factor(Status_Rv)~.
+                        , data=train_ds_Rvp
+                        , ntree=5000
+                        , nPerm=100
+                        , proximity=TRUE
+                        , mtry = best.m1[1] # selecting the mtry from step 4
+                        , importance=TRUE)
+print(rf1_Rvp) 
+
+varImpPlot(rf1_Rvp)
+
+m1.1 <- vip(rf1_Rvp, geom = "point",
+          mapping = NULL,
+          aesthetics = list(),
+          horizontal = TRUE,
+          include_type = TRUE)
+RvpRF1 <- m1.1 + geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) + ggtitle("Random Forest classification - Model 1 Rv infection status")
+RvpRF1
+
+importance(rf1_Rvp)
+
+varImpPlot(rf1_Rvp)
+m_bdp <- vip(rf1_Rvp, geom = "point",
+          mapping = NULL,
+          aesthetics = list(),
+          horizontal = TRUE,
+          include_type = TRUE)
+m_bdp <- m_bdp + geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) + ggtitle("Random Forest classification - Trained Model Set for Rv infection status")
+m_bdp
+
+## Look at variable importance:
+round(importance(rf1_Rvp), 2)
+
+#Prediction & Confusion Matrix – train data
+confusionMatrix(predict(rf1_Rvp, train_ds_Rvp),train_ds_Rvp$Status_Rv, positive = '1')
+# Confusion Matrix and Statistics
+# 
+#           Reference
+# Prediction   0   1
+#          0 802  11
+#          1   0  21
+#                                           
+#                Accuracy : 0.9868          
+#                  95% CI : (0.9765, 0.9934)
+#     No Information Rate : 0.9616          
+#     P-Value [Acc > NIR] : 1.29e-05        
+#                                           
+#                   Kappa : 0.7859          
+#                                           
+#  Mcnemar's Test P-Value : 0.002569        
+#                                           
+#             Sensitivity : 0.65625         
+#             Specificity : 1.00000         
+#          Pos Pred Value : 1.00000         
+#          Neg Pred Value : 0.98647         
+#              Prevalence : 0.03837         
+#          Detection Rate : 0.02518         
+#    Detection Prevalence : 0.02518         
+#       Balanced Accuracy : 0.82812         
+#                                           
+#        'Positive' Class : 1 
+```
+
+#### RF Model 2 (-longitude, -species)
+
+```{r}
+split_ds_Rvp <- sample(c(TRUE, FALSE), nrow(RF_Rvp.2), replace = TRUE, prob = c(0.7, 0.3))
+train_ds_Rvp <- RF_Rvp.2[split_ds_Rvp, ]
+test_ds_Rvp <- RF_Rvp.2[!split_ds_Rvp, ]
+dim(train_ds_Rvp)
+dim(test_ds_Rvp)
+
+#RF######
+rf2_Rvp <- randomForest(as.factor(Status_Rv)~.
+                        , data=train_ds_Rvp
+                        , ntree=5000
+                        , nPerm=100
+                        , proximity=TRUE
+                        , mtry = best.m2[1] # selecting the mtry from step 4
+                        , importance=TRUE)
+print(rf2_Rvp) 
+
+#Prediction & Confusion Matrix – train data
+confusionMatrix(predict(rf2_Rvp, train_ds_Rvp),train_ds_Rvp$Status_Rv, positive = '1')
+# Confusion Matrix and Statistics
+# 
+#           Reference
+# Prediction   0   1
+#          0 815  17
+#          1   0  22
+#                                           
+#                Accuracy : 0.9801          
+#                  95% CI : (0.9683, 0.9884)
+#     No Information Rate : 0.9543          
+#     P-Value [Acc > NIR] : 4.607e-05       
+#                                           
+#                   Kappa : 0.7118          
+#                                           
+#  Mcnemar's Test P-Value : 0.0001042       
+#                                           
+#             Sensitivity : 0.56410         
+#             Specificity : 1.00000         
+#          Pos Pred Value : 1.00000         
+#          Neg Pred Value : 0.97957         
+#              Prevalence : 0.04567         
+#          Detection Rate : 0.02576         
+#    Detection Prevalence : 0.02576         
+#       Balanced Accuracy : 0.78205         
+#                                           
+#        'Positive' Class : 1   
+```
+
+#### RF Model 3 (-species)
+
+```{r}
+split_ds_Rvp <- sample(c(TRUE, FALSE), nrow(RF_Rvp.3), replace = TRUE, prob = c(0.7, 0.3))
+train_ds_Rvp <- RF_Rvp.3[split_ds_Rvp, ]
+test_ds_Rvp <- RF_Rvp.3[!split_ds_Rvp, ]
+dim(train_ds_Rvp)
+dim(test_ds_Rvp)
+
+#RF######
+rf3_Rvp <- randomForest(as.factor(Status_Rv)~.
+                        , data=train_ds_Rvp
+                        , ntree=5000
+                        , nPerm=100
+                        , proximity=TRUE
+                        , mtry = best.m3[1] # selecting the mtry from step 4
+                        , importance=TRUE)
+print(rf3_Rvp) 
+
+#Prediction & Confusion Matrix – train data
+confusionMatrix(predict(rf3_Rvp, train_ds_Rvp),train_ds_Rvp$Status_Rv, positive = '1')
+# Confusion Matrix and Statistics
+# 
+#           Reference
+# Prediction   0   1
+#          0 777   3
+#          1   4  27
+#                                           
+#                Accuracy : 0.9914          
+#                  95% CI : (0.9823, 0.9965)
+#     No Information Rate : 0.963           
+#     P-Value [Acc > NIR] : 3.728e-07       
+#                                           
+#                   Kappa : 0.8808          
+#                                           
+#  Mcnemar's Test P-Value : 1               
+#                                           
+#             Sensitivity : 0.90000         
+#             Specificity : 0.99488         
+#          Pos Pred Value : 0.87097         
+#          Neg Pred Value : 0.99615         
+#              Prevalence : 0.03699         
+#          Detection Rate : 0.03329         
+#    Detection Prevalence : 0.03822         
+#       Balanced Accuracy : 0.94744         
+#                                           
+#        'Positive' Class : 1 
+```
+
+Now that we've selected which model set to go with, we can move forward with training and testing the model over 100 iterations and averaging the information.
+
+#------------------------------------------------------   
+
+# STEP 6 Assess data structure Examine imbalance and classification errors
+
+```{r}
+####################################################################
+#### EXAMINE IMBALANCE AND CLASSIFICATION ERRORS
+
+# Check imbalance in the dataset
+ggplot(data = RF_Rvp.1) + geom_bar(mapping = aes(x = Status_Rv)) + ggtitle("Rv infection status distribution")
+
+## See how many were misclassified.
+#get prediction probability for each group
+FamilyPredicted <- rf1_statusBD$votes
+#get Family names and infection status from data
+FamilyInfo <- RF_Rvp.1[c(1,3)]
+FamilyPredicted <- cbind(FamilyPredicted,FamilyInfo)
+
+#see what this information looks like
+head(FamilyPredicted)
+
+#output these predictions to a file
+#write.csv(FamilyPredicted, file="RF_model_misclassified.csv", row.names=FALSE)
+
+#visualize the predictions for each group.
+#put predictions for each category in separate data frame
+FamilyPredicted_Pos <- FamilyPredicted[ which(FamilyPredicted$Status_Rv == '1'), 1:2]
+FamilyPredicted_Neg <- FamilyPredicted[ which(FamilyPredicted$Status_Rv == '0'), 1:2]
+FamilyPredicted_Pos
+
+#make plots
+par(mfrow=c(1,2))
+barplot(as.matrix(FamilyPredicted_Pos), col ="black", main = "Pos")
+barplot(as.matrix(FamilyPredicted_Neg), col ="black", main = "Neg")
+```
+
+There is class imbalance which will need to be fixed - as it stands now, our model is very good at predicting majority class (uninfected), but very bad at predicting our class of interest (minority).
+
+#------------------------------------------------------   
+
+# STEP 7: Balancing out models  
+
+####Upsampling
+
+```{r}
+#declare data frames to hold error rates and variable importance measures
+RF_model_error_u = data.frame()
+RF_varimp_u = data.frame()
+#declare training datasets for both classes
+Rv0=RF_Rvp.1[RF_Rvp.1$Status_Rv=="0",]
+Rv1=RF_Rvp.1[RF_Rvp.1$Status_Rv=="1",]
+#determine downsample.size by the minimum number of observations between the two class datasets
+upsample.size <- max(c(nrow(Rv0), nrow(Rv1)))
+upsample.size #1065
+
+for (i in 1:100) {
+
+  #sample from the larger dataset at the upsample size, or size of the smaller dataset
+   Rv1samp <- Rv1[(sample(nrow(Rv1), size=(upsample.size), replace = TRUE)),] #UPSAMPLE SIZE
+  #create training dataset to be used in random forest function
+   pred_samp_u=rbind(Rv0, Rv1samp)
+   #construct random forest object
+  RF_model_u <- randomForest(as.factor(Status_Rv)~.
+                   , data=pred_samp_u, ntree=2000, importance=TRUE
+                  # , classwt = c(1,6)
+                   , replace = TRUE,
+                   , strata = as.factor(pred_samp_u[,"Status_Rv"])
+                   , sampsize = c(500:500)
+                   , mtry = best.m1[1]
+                  )
+  #extract the final estimate of OOB error rates
+  err_u=RF_model_u$err.rate[nrow(RF_model_u$err.rate),]
+  #append OOB error estimate to dataframe
+  RF_model_error_u           <- rbind(RF_model_error_u, err_u)
+  colnames(RF_model_error_u) <- names(err_u)
+  #extract the importance measures
+  imp_u = importance(RF_model_u,scale=TRUE)
+  #append importance measures to dataframe
+  imp_temp_u <- data.frame(imp_u)
+  imp_temp_u$var <- row.names(imp_temp_u)
+  RF_varimp_u <- rbind(RF_varimp_u, imp_temp_u)
+}
+
+up_Rv_CM <- confusionMatrix(predict(RF_model_u, pred_samp_u), pred_samp_u$Status_Rv, positive = '1')
+up_Rv_CM
+#  Confusion Matrix and Statistics
+# 
+#           Reference
+# Prediction    0    1
+#          0 1069    0
+#          1   66 1135
+#                                           
+#                Accuracy : 0.9709          
+#                  95% CI : (0.9632, 0.9774)
+#     No Information Rate : 0.5             
+#     P-Value [Acc > NIR] : < 2.2e-16       
+#                                           
+#                   Kappa : 0.9419          
+#                                           
+#  Mcnemar's Test P-Value : 1.235e-15       
+#                                           
+#             Sensitivity : 1.0000          
+#             Specificity : 0.9419          
+#          Pos Pred Value : 0.9450          
+#          Neg Pred Value : 1.0000          
+#              Prevalence : 0.5000          
+#          Detection Rate : 0.5000          
+#    Detection Prevalence : 0.5291          
+#       Balanced Accuracy : 0.9709          
+#                                           
+#        'Positive' Class : 1  
+
+fourfoldplot(as.table(up_Rv_CM),color=c("red","#9966FF"),main = "Confusion Matrix" )
+```
+
+Upsampling validation and assessment
+
+```{r}
+####################################################################
+#### EXAMINE CLASSIFICATION ERRORS
+## See how many were misclassified.
+#get prediction probability for each group
+Predicted_u <- RF_model_u$votes
+#get Family names and infection status from data
+SampleInfo_u <- pred_samp_u[c(1,3)]
+StatusPredicted_u <- cbind(Predicted_u,SampleInfo_u)
+#see what this information looks like
+head(StatusPredicted_u)
+#output these predictions to a file
+#write.csv(StatusPredicted, file="RF_FINAL_model_misclassified.csv", row.names=FALSE)
+#visualize the predictions for each group.
+#put predictions for each category in separate data frame
+StatusPredicted_Pos_u <- StatusPredicted_u[ which(StatusPredicted_u$Status_Rv == '1'), 1:2]
+StatusPredicted_Neg_u <- StatusPredicted_u[ which(StatusPredicted_u$Status_Rv == '0'), 1:2]
+StatusPredicted_Pos_u
+#make plots
+par(mfrow=c(1,2))
+barplot(as.matrix(StatusPredicted_Pos_u), col ="black", main = "Pos")
+barplot(as.matrix(StatusPredicted_Neg_u), col ="black", main = "Neg")
+RF_model_error_u
+colMeans(RF_model_error_u,na.rm=T)
+#        OOB          0          1 
+# 0.03767841 0.07535683 0.00000000
+#FAR too low - overfit.
+#write.csv(RF_model_error_u,file = "RF_model_error_nolongitude_upsampling.csv",row.names=F)
+```
+
+```{r}
+# Now that variable importance data is stored, extract the MDA for all variables from each random forest and summarize.
+#isolate all MDA estimates from all 100 random forest objects
+RF_vardata_u <- data.frame(RF_varimp_u$var, RF_varimp_u$MeanDecreaseAccuracy)
+#calculate the average MDA estimate for each of the variables
+mda_means_u <- aggregate(.~RF_varimp_u.var, data = RF_vardata_u, FUN = mean)
+#Order the variable names by their average MDA estimate in decreasing order
+mda_means_u$RF_varimp_u.var <- factor(mda_means_u$RF_varimp_u.var, levels= mda_means_u$RF_varimp_u.var[order(mda_means_u$RF_varimp_u.MeanDecreaseAccuracy, decreasing = T)])
+#Order the average MDA estimates in decreasing order
+mda_means_u <- mda_means_u[order(mda_means_u$RF_varimp_u.MeanDecreaseAccuracy, decreasing = T),]
+
+#Now we can visualize MDA for each variable
+RF_Bpd_MDA_100_u <-
+  ggplot(mda_means_u, aes(x=RF_varimp_u.var, y = RF_varimp_u.MeanDecreaseAccuracy)) +
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) +
+  theme(axis.text.x = element_text(angle=60, hjust=1,size=10)) +
+  theme(axis.text.y = element_text(size=10)) +
+  ggtitle("Rv status Random Forest - Upsampling - 100 iterations") +
+  theme(axis.title = element_text(size=12,face="bold")) +
+  xlab("Variable") + ylab("Importance (Mean Decrease Accuracy)")
+RF_Bpd_MDA_100_u
+
+## Also visualize MDA for each class, uninfected and infected, separately.
+#isolate all MDA estimates from all 100 random forest objects for infected and uninfected.
+RF_vardata_Rv0_u <- data.frame(RF_varimp_u$var, RF_varimp_u$X0)
+RF_vardata_Rv1_u <- data.frame(RF_varimp_u$var, RF_varimp_u$X1)
+#calculate the average MDA estimate for each of the 46 variables
+mda_means_Rv0_u <- aggregate(.~RF_varimp_u.var, data = RF_vardata_Rv0_u, FUN = mean)
+mda_means_Rv1_u <- aggregate(.~RF_varimp_u.var, data = RF_vardata_Rv1_u, FUN = mean)
+#Order the variable names by their average MDA estimate in decreasing order
+mda_means_Rv0_u$RF_varimp_u.var <- factor(mda_means_Rv0_u$RF_varimp_u.var, levels= mda_means_Rv0_u$RF_varimp_u.var[order(mda_means_Rv0_u$RF_varimp_u.X0, decreasing = T)])
+mda_means_Rv1_u$RF_varimp_u.var <- factor(mda_means_Rv1_u$RF_varimp_u.var, levels= mda_means_Rv1_u$RF_varimp_u.var[order(mda_means_Rv1_u$RF_varimp_u.X1, decreasing = T)])
+#In decreasing order, sort the values of the average Mean Decrease Gini estimates
+mda_means_Rv0_u <- mda_means_Rv0_u[order(mda_means_Rv0_u$RF_varimp_u.X0, decreasing = T),]
+mda_means_Rv1_u <- mda_means_Rv1_u[order(mda_means_Rv1_u$RF_varimp_u.X1, decreasing = T),]
+#Now we can visualize MDA for each variable
+par(mfrow=c(1,2))
+ggplot(mda_means_Rv0_u, aes(x=RF_varimp_u.var, y = RF_varimp_u.X0)) +
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) +
+  theme(axis.text.x = element_text(angle=60, hjust=1))
+ggplot(mda_means_Rv1_u, aes(x=RF_varimp_u.var, y = RF_varimp_u.X1)) +
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) +
+  theme(axis.text.x = element_text(angle=60, hjust=1))
+```
+
+```{r}
+# Mean decrease in gini and save results of MDA and gini.
+#isolate all Mean Decrease Gini estimates from all 10 random forest objects
+RF_vardata_u <- data.frame(RF_varimp_u$MeanDecreaseGini, RF_varimp_u$var, row.names = NULL)
+#calculate the average Mean Decrease Gini estimate for each of the variables
+gini_means_u <- aggregate(.~RF_varimp_u.var, data = RF_vardata_u, FUN = mean, row.names = NULL)
+#In decreasing order, sort the variables by their average Mean Decrease Gini estimate
+gini_means_u$RF_varimp_u.var <- factor(gini_means_u$RF_varimp_u.var, levels= gini_means_u$RF_varimp_u.var[order(gini_means_u$RF_varimp_u.MeanDecreaseGini, decreasing = T)])
+#In decreasing order, sort the values of the average Mean Decrease Gini estimates
+gini_means_u <- gini_means_u[order(gini_means_u$RF_varimp_u.MeanDecreaseGini, decreasing = T),]
+#Plot mean decrease in GINI
+ggplot(gini_means_u, aes(x=RF_varimp_u.var, y = RF_varimp_u.MeanDecreaseGini)) +
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) +
+  theme(axis.text.x = element_text(angle=60, hjust=1))
+RF_Bpd_GINI_100_u <-
+  ggplot(gini_means_u, aes(x=RF_varimp_u.var, y = RF_varimp_u.MeanDecreaseGini)) +
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) +
+  theme(axis.text.x = element_text(angle=60, hjust=1,size=10)) +
+  theme(axis.text.y = element_text(size=10)) +
+  ggtitle("Rv status Random Forest - Upsampling - 100 iterations") +
+  theme(axis.title = element_text(size=12,face="bold")) +
+  xlab("Variable") + ylab("Importance (Mean Decrease Gini)")
+RF_Bpd_GINI_100_u
+RF_Bpd_GINI_100
+#write.csv(gini_means, file="RF_model_upsampling_importance_gini_nolongitude.csv", row.names = T)
+#write.csv(mda_means, file="RF_model_upsampling_importance_mda_nolongitude.csv", row.names = T)
+RF_model_u
+# Call:
+#  randomForest(formula = as.factor(Status_Rv) ~ ., data = pred_samp_u,      ntree = 2000, importance = TRUE, replace = TRUE, , strata = as.factor(pred_samp_u[,          "Status_Rv"]), sampsize = c(500:500), mtry = best.m1[1]) 
+#                Type of random forest: classification
+#                      Number of trees: 2000
+# No. of variables tried at each split: 2
+# 
+#         OOB estimate of  error rate: 3.79%
+# Confusion matrix:
+#      0    1 class.error
+# 0 1049   86  0.07577093
+# 1    0 1135  0.00000000
+```
+
+#### Downsampling
+
+```{r}
+#declare data frames to hold error rates and variable importance measures
+set.seed(25)
+RF_model_error = data.frame()
+RF_varimp = data.frame()
+
+#declare training datasets for both classes
+Rv0=RF_Rvp.1[RF_Rvp.1$Status_Rv=="0",] #1135
+Rv1=RF_Rvp.1[RF_Rvp.1$Status_Rv=="1",] #52
+  
+# #determine downsample.size by the minimum number of observations between the two class datasets
+downsample.size <- min(c(nrow(Rv0), nrow(Rv1)))
+downsample.size #52
+                   
+library(caret)
+for (i in 1:100) {
+  
+    # #sample from the larger dataset at the downsample size, or size of the smaller dataset at random
+   Rv0samp <- Rv0[(sample(nrow(Rv0), size=downsample.size)),] #DOWNSAMPLE SIZE
+
+  # #create training dataset to be used in random forest function (randomized for each iteration)
+   pred_samp=rbind(Rv1, Rv0samp)
+
+  #construct random forest object
+  RF_model <- randomForest(as.factor(Status_Rv)~.
+                  , data=pred_samp
+                  , ntree=2000
+                  , importance=T
+                  , strata = as.factor(pred_samp[,"Status_Rv"])
+                  , sampsize = c(52, 52) #subsample equally, so to build a model without majority class bias
+                  , mtry = best.m1[1] 
+                  )
+
+  #extract the final estimate of OOB error rates
+  err=RF_model$err.rate[nrow(RF_model$err.rate),]
+  
+  #append OOB error estimate to dataframe
+  RF_model_error<-rbind(RF_model_error, err)
+  colnames(RF_model_error) <- names(err)
+  
+  #extract the importance measures 
+  imp = importance(RF_model,scale=TRUE)
+  
+  #append importance measures to dataframe
+  imp_temp <- data.frame(imp)
+  imp_temp$var <- row.names(imp_temp)
+  RF_varimp <- rbind(RF_varimp, imp_temp)
+}
+down_Rv_CM <- confusionMatrix(predict(RF_model, pred_samp), pred_samp$Status_Rv, positive = '1')
+down_Rv_CM
+# Confusion Matrix and Statistics
+# 
+#           Reference
+# Prediction  0  1
+#          0 51  1
+#          1  1 51
+#                                           
+#                Accuracy : 0.9808          
+#                  95% CI : (0.9323, 0.9977)
+#     No Information Rate : 0.5             
+#     P-Value [Acc > NIR] : <2e-16          
+#                                           
+#                   Kappa : 0.9615          
+#                                           
+#  Mcnemar's Test P-Value : 1               
+#                                           
+#             Sensitivity : 0.9808          
+#             Specificity : 0.9808          
+#          Pos Pred Value : 0.9808          
+#          Neg Pred Value : 0.9808          
+#              Prevalence : 0.5000          
+#          Detection Rate : 0.4904          
+#    Detection Prevalence : 0.5000          
+#       Balanced Accuracy : 0.9808          
+#                                           
+#        'Positive' Class : 1
+fourfoldplot(as.table(down_Rv_CM),color=c("red","#9966FF"),main = "Confusion Matrix" )
+```
+
+Downsampling, validation, and assessment
+
+```{r}
+####################################################################
+#### EXAMINE CLASSIFICATION ERRORS
+
+## See how many were misclassified.
+#get prediction probability for each group
+Predicted <- RF_model$votes
+#get Family names and infection status from data
+SampleInfo <- pred_samp[c(1,3)]
+StatusPredicted <- cbind(Predicted,SampleInfo)
+
+#see what this information looks like
+head(StatusPredicted)
+
+#output these predictions to a file
+#write.csv(StatusPredicted, file="RF_FINAL_downsampling_model_misclassified_20240526.csv", row.names=FALSE)
+
+#visualize the predictions for each group.
+#put predictions for each category in separate data frame
+StatusPredicted_Pos <- StatusPredicted[ which(StatusPredicted$Status_Rv == '1'), 1:2]
+StatusPredicted_Neg <- StatusPredicted[ which(StatusPredicted$Status_Rv == '0'), 1:2]
+
+#make plots showing the classification of each Out-of-Bag sample
+par(mfrow=c(1,2))
+barplot(as.matrix(StatusPredicted_Pos), col ="black", main = "Pos")
+barplot(as.matrix(StatusPredicted_Neg), col ="black", main = "Neg")
+
+RF_model_error
+colMeans(RF_model_error,na.rm=T)
+#       OOB         0         1 
+# 0.3021154 0.3246154 0.2796154 
+#The proportion of the Out-of-Bag Error (incorrectly assigned) - each run through the forest, the average wins - if overall the trees are incorrect, then the out-of-bag for that run is incorrect. Therefore this is the rate across all runs as the average of each run collectively.
+
+#write.csv(RF_model_error,file = "RF_model_downsampling_error_nolongitude_20240526.csv",row.names=F)
+
+```
+
+```{r}
+# Now that variable importance data is stored, extract the MDA for all variables from each random forest and summarize.
+#isolate all MDA estimates from all 100 random forest objects
+RF_vardata <- data.frame(RF_varimp$var, RF_varimp$MeanDecreaseAccuracy)
+#calculate the average MDA estimate for each of the variables
+mda_means <- aggregate(.~RF_varimp.var, data = RF_vardata, FUN = mean)
+
+#Order the variable names by their average MDA estimate in decreasing order
+mda_means$RF_varimp.var <- factor(mda_means$RF_varimp.var, levels= mda_means$RF_varimp.var[order(mda_means$RF_varimp.MeanDecreaseAccuracy, decreasing = T)])
+
+#Order the average MDA estimates in decreasing order
+mda_means <- mda_means[order(mda_means$RF_varimp.MeanDecreaseAccuracy, decreasing = T),]
+
+#Now we can visualize MDA for each variable
+RF_Bpd_MDA_100 <-
+  ggplot(mda_means, aes(x=RF_varimp.var, y = RF_varimp.MeanDecreaseAccuracy)) + 
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) +
+  theme(axis.text.x = element_text(angle=60, hjust=1,size=10)) + 
+  theme(axis.text.y = element_text(size=10)) + 
+  ggtitle("Rv status Random Forest") +
+  theme(axis.title = element_text(size=12,face="bold")) + 
+  xlab("") + 
+  ylab("")
+RF_Bpd_MDA_100
+
+## Also visualize MDA for each class, uninfected and infected, separately.
+
+#isolate all MDA estimates from all 100 random forest objects for infected and uninfected.
+RF_vardata_Rv0 <- data.frame(RF_varimp$var, RF_varimp$X0)
+RF_vardata_Rv1 <- data.frame(RF_varimp$var, RF_varimp$X1)
+
+#calculate the average MDA estimate for each of the 46 variables
+mda_means_Rv0 <- aggregate(.~RF_varimp.var, data = RF_vardata_Rv0, FUN = mean)
+mda_means_Rv1 <- aggregate(.~RF_varimp.var, data = RF_vardata_Rv1, FUN = mean)
+
+#Order the variable names by their average MDA estimate in decreasing order
+mda_means_Rv0$RF_varimp.var <- factor(mda_means_Rv0$RF_varimp.var, levels= mda_means_Rv0$RF_varimp.var[order(mda_means_Rv0$RF_varimp.X0, decreasing = T)])
+mda_means_Rv1$RF_varimp.var <- factor(mda_means_Rv1$RF_varimp.var, levels= mda_means_Rv1$RF_varimp.var[order(mda_means_Rv1$RF_varimp.X1, decreasing = T)])
+
+#In decreasing order, sort the values of the average Mean Decrease Gini estimates
+mda_means_Rv0 <- mda_means_Rv0[order(mda_means_Rv0$RF_varimp.X0, decreasing = T),]
+mda_means_Rv1 <- mda_means_Rv1[order(mda_means_Rv1$RF_varimp.X1, decreasing = T),]
+
+#Now we can visualize MDA for each variable
+par(mfrow=c(1,2))
+Uninfected_MDA <- ggplot(
+  mda_means_Rv0, aes(x=RF_varimp.var, y = RF_varimp.X0)) + 
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) +
+  theme(axis.text.x = element_text(angle=60, hjust=1)) + 
+  ggtitle("Rv status Random Forest - Uninfected") +
+  theme(axis.title = element_text(size=12,face="bold")) + 
+  xlab("") + 
+  ylab("")
+
+Infected_MDA <-ggplot(
+  mda_means_Rv1, aes(x=RF_varimp.var, y = RF_varimp.X1)) + 
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) +
+  theme(axis.text.x = element_text(angle=60, hjust=1)) +
+  ggtitle("Rv status Random Forest - Infected") +
+  theme(axis.title = element_text(size=12,face="bold")) + 
+  xlab("") + 
+  ylab("")
+```
+
+```{r}
+# Mean decrease in gini and save results of MDA and gini.
+#isolate all Mean Decrease Gini estimates from all 10 random forest objects
+RF_vardata <- data.frame(RF_varimp$MeanDecreaseGini, RF_varimp$var, row.names = NULL)
+
+#calculate the average Mean Decrease Gini estimate for each of the variables
+gini_means <- aggregate(.~RF_varimp.var, data = RF_vardata, FUN = mean, row.names = NULL)
+
+#In decreasing order, sort the variables by their average Mean Decrease Gini estimate
+gini_means$RF_varimp.var <- factor(gini_means$RF_varimp.var, levels= gini_means$RF_varimp.var[order(gini_means$RF_varimp.MeanDecreaseGini, decreasing = T)])
+
+#In decreasing order, sort the values of the average Mean Decrease Gini estimates
+gini_means <- gini_means[order(gini_means$RF_varimp.MeanDecreaseGini, decreasing = T),]
+
+#Plot mean decrease in GINI 
+ggplot(gini_means, aes(x=RF_varimp.var, y = RF_varimp.MeanDecreaseGini)) + 
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) +
+  theme(axis.text.x = element_text(angle=60, hjust=1))
+
+RF_Bpd_GINI_100 <-
+  ggplot(gini_means, aes(x=RF_varimp.var, y = RF_varimp.MeanDecreaseGini)) + 
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) +
+  theme(axis.text.x = element_text(angle=60, hjust=1,size=10)) + 
+  theme(axis.text.y = element_text(size=10)) + 
+  ggtitle("Rv status Random Forest") +
+  theme(axis.title = element_text(size=12,face="bold")) + 
+  xlab("Variable") + ylab("Importance (Mean Decrease Gini)")
+RF_Bpd_GINI_100
+
+#write.csv(gini_means, file="RvStatus_RF_model_Downsampling_importance_gini_nolongitude.csv_20240526", row.names = T)
+#write.csv(mda_means, file="RvStatus_RF_model_Downsampling_importance_mda_nolongitude_20240526.csv", row.names = T)
+RF_model
+# Call:
+#  randomForest(formula = as.factor(Status_Rv) ~ ., data = pred_samp,      ntree = 2000, importance = T, strata = as.factor(pred_samp[,          "Status_Rv"]), sampsize = c(52, 52), mtry = best.m1[1]) 
+#                Type of random forest: classification
+#                      Number of trees: 2000
+# No. of variables tried at each split: 2
+# 
+#         OOB estimate of  error rate: 31.73%
+# Confusion matrix:
+#    0  1 class.error
+# 0 36 16   0.3076923
+# 1 17 35   0.3269231
+```
+
+#------------------------------------------------------ 
+///
+# Visualization Figure 3d-f
+
+```{r}
+library(patchwork)
+(RF_Bpd_MDA_100) /
+  (Uninfected_MDA | Infected_MDA)
+```
+
+#STEP 8: Validation of final model We chose model 1 (-longitude) and to balance via downsampling for this model.
+
+```{r}
+set.seed(25)
+RF_model_error = data.frame()
+RF_varimp = data.frame()
+Conf_Matrix = data.frame()
+
+split_ds_Rvp <- sample(c(TRUE, FALSE), nrow(RF_Rvp.1), replace = TRUE, prob = c(0.7, 0.3))
+train_ds_Rvp <- RF_Rvp.1[split_ds_Rvp, ] 
+test_ds_Rvp  <- RF_Rvp.1[!split_ds_Rvp, ] 
+dim(train_ds_Rvp)
+dim(test_ds_Rvp)
+
+#declare training datasets for both classes
+Rv0=train_ds_Rvp[train_ds_Rvp$Status_Rv=="0",] 
+Rv1=train_ds_Rvp[train_ds_Rvp$Status_Rv=="1",]
+
+Rvpt <- as.factor(train_ds_Rvp$Status_Rv)
+mtry2_Rvp <- tuneRF(train_ds_Rvp[-1]
+                    , Rvpt
+                    , ntreeTry = 500
+                    , stepFactor = 1.5
+                    , improve = 0.01
+                    , trace = T
+                    , plot = T
+                    )
+best.m2 <- mtry2_Rvp[mtry2_Rvp[, 2] == min(mtry2_Rvp[, 2]), 1]
+print(mtry2_Rvp)
+print(best.m2) #2
+
+downsample.size <- min(c(nrow(Rv1), nrow(Rv0)))
+downsample.size #32
+
+library(caret)
+for (i in 1:100) {
+  
+    # #sample from the larger dataset at the downsample size, or size of the smaller dataset at random
+   Rv0samp <- Rv0[(sample(nrow(Rv0), size=downsample.size)),] #DOWNSAMPLE SIZE
+
+  # #create training dataset to be used in random forest function (randomized for each iteration)
+   pred_samp=rbind(Rv1, Rv0samp)
+
+  #construct random forest object
+   RF_model <- randomForest(as.factor(Status_Rv)~.
+                  , data=pred_samp
+                  , ntree=2000
+                  , importance=T
+                  , strata = as.factor(pred_samp[,"Status_Rv"])
+                  , sampsize = c(32, 32) #subsample at similar rates to what we find in nature
+                  , mtry = best.m1[1] #choosing best mtry 
+                  )
+
+  
+  #extract the final estimate of OOB error rates
+  err=RF_model$err.rate[nrow(RF_model$err.rate),]
+  
+  #append OOB error estimate to dataframe
+  RF_model_error<-rbind(RF_model_error, err)
+  colnames(RF_model_error) <- names(err)
+  
+  #extract the importance measures 
+  imp = importance(RF_model,scale=TRUE)
+  
+  #append importance measures to dataframe
+  imp_temp <- data.frame(imp)
+  imp_temp$var <- row.names(imp_temp)
+  RF_varimp <- rbind(RF_varimp, imp_temp)
+}
+
+varImpPlot(RF_model)
+m_bdp <- vip(RF_model, geom = "point",
+          mapping = NULL,
+          aesthetics = list(),
+          horizontal = TRUE,
+          include_type = TRUE)
+m_bdp <- m_bdp + geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) + ggtitle("Random Forest classification - Trained Model Set for Rv infection status")
+m_bdp
+
+## Look at variable importance:
+round(importance(RF_model), 2)
+
+#Prediction & Confusion Matrix – train data
+ConfMatrix <- confusionMatrix(predict(RF_model, test_ds_Rvp), test_ds_Rvp$Status_Rv, positive = '1')
+ConfMatrix
+# Confusion Matrix and Statistics
+# 
+#           Reference
+# Prediction   0   1
+#          0 251   5
+#          1 103  15
+#                                           
+#                Accuracy : 0.7112          
+#                  95% CI : (0.6624, 0.7567)
+#     No Information Rate : 0.9465          
+#     P-Value [Acc > NIR] : 1               
+#                                           
+#                   Kappa : 0.1386          
+#                                           
+#  Mcnemar's Test P-Value : <2e-16          
+#                                           
+#             Sensitivity : 0.75000         
+#             Specificity : 0.70904         
+#          Pos Pred Value : 0.12712         
+#          Neg Pred Value : 0.98047         
+#              Prevalence : 0.05348         
+#          Detection Rate : 0.04011         
+#    Detection Prevalence : 0.31551         
+#       Balanced Accuracy : 0.72952         
+#                                           
+#        'Positive' Class : 1 
+
+fourfoldplot(as.table(ConfMatrix),color=c("red","#9966FF"),main = "Confusion Matrix" )
+```
+
+```{r}
+## See how many were misclassified.
+#get prediction probability for each group
+Predicted <- RF_model$votes
+#get Family names and infection status from data
+SampleInfo <- pred_samp[c(1,3)]
+StatusPredicted <- cbind(Predicted,SampleInfo)
+
+#see what this information looks like
+head(StatusPredicted)
+
+#output these predictions to a file
+#write.csv(StatusPredicted, file="RF_FINAL_downsampling_model_misclassified_20240526.csv", row.names=FALSE)
+
+#visualize the predictions for each group.
+#put predictions for each category in separate data frame
+StatusPredicted_Pos <- StatusPredicted[ which(StatusPredicted$Status_Rv == '1'), 1:2]
+StatusPredicted_Neg <- StatusPredicted[ which(StatusPredicted$Status_Rv == '0'), 1:2]
+StatusPredicted_Pos
+
+#make plots showing the classification of each Out-of-Bag sample
+par(mfrow=c(1,2))
+barplot(as.matrix(StatusPredicted_Pos), col ="black", main = "Pos")
+barplot(as.matrix(StatusPredicted_Neg), col ="black", main = "Neg")
+
+RF_model_error
+colMeans(RF_model_error,na.rm=T)
+#The proportion of the Out-of-Bag Error (incorrectly assigned) - each run through the forest, the average wins - if overall the trees are incorrect, then the out-of-bag for that run is incorrect. Therefore this is the rate across all runs as the average of each run collectively.
+# 
+#       OOB         0         1 
+# 0.3184375 0.3790625 0.2578125 
+#write.csv(RF_model_error,file = "RF_model_downsampling_error_nolongitude_20240526.csv",row.names=F)
+
+```
+
+```{r}
+# Now that variable importance data is stored, extract the MDA for all variables from each random forest and summarize.
+#isolate all MDA estimates from all 100 random forest objects
+RF_vardata <- data.frame(RF_varimp$var, RF_varimp$MeanDecreaseAccuracy)
+#calculate the average MDA estimate for each of the variables
+mda_means <- aggregate(.~RF_varimp.var, data = RF_vardata, FUN = mean)
+
+#Order the variable names by their average MDA estimate in decreasing order
+mda_means$RF_varimp.var <- factor(mda_means$RF_varimp.var, levels= mda_means$RF_varimp.var[order(mda_means$RF_varimp.MeanDecreaseAccuracy, decreasing = T)])
+
+#Order the average MDA estimates in decreasing order
+mda_means <- mda_means[order(mda_means$RF_varimp.MeanDecreaseAccuracy, decreasing = T),]
+
+#Now we can visualize MDA for each variable
+RF_Bpd_MDA_100 <-
+  ggplot(mda_means, aes(x=RF_varimp.var, y = RF_varimp.MeanDecreaseAccuracy)) + 
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) +
+  theme(axis.text.x = element_text(angle=60, hjust=1,size=10)) + 
+  theme(axis.text.y = element_text(size=10)) + 
+  ggtitle("Rv status Random Forest") +
+  theme(axis.title = element_text(size=12,face="bold")) + 
+  xlab("") + 
+  ylab("")
+RF_Bpd_MDA_100
+
+## Also visualize MDA for each class, uninfected and infected, separately.
+
+#isolate all MDA estimates from all 100 random forest objects for infected and uninfected.
+RF_vardata_Rv0 <- data.frame(RF_varimp$var, RF_varimp$X0)
+RF_vardata_Rv1 <- data.frame(RF_varimp$var, RF_varimp$X1)
+
+#calculate the average MDA estimate for each of the 46 variables
+mda_means_Rv0 <- aggregate(.~RF_varimp.var, data = RF_vardata_Rv0, FUN = mean)
+mda_means_Rv1 <- aggregate(.~RF_varimp.var, data = RF_vardata_Rv1, FUN = mean)
+
+#Order the variable names by their average MDA estimate in decreasing order
+mda_means_Rv0$RF_varimp.var <- factor(mda_means_Rv0$RF_varimp.var, levels= mda_means_Rv0$RF_varimp.var[order(mda_means_Rv0$RF_varimp.X0, decreasing = T)])
+mda_means_Rv1$RF_varimp.var <- factor(mda_means_Rv1$RF_varimp.var, levels= mda_means_Rv1$RF_varimp.var[order(mda_means_Rv1$RF_varimp.X1, decreasing = T)])
+
+#In decreasing order, sort the values of the average Mean Decrease Gini estimates
+mda_means_Rv0 <- mda_means_Rv0[order(mda_means_Rv0$RF_varimp.X0, decreasing = T),]
+mda_means_Rv1 <- mda_means_Rv1[order(mda_means_Rv1$RF_varimp.X1, decreasing = T),]
+
+#Now we can visualize MDA for each variable
+par(mfrow=c(1,2))
+Uninfected_MDA <- ggplot(
+  mda_means_Rv0, aes(x=RF_varimp.var, y = RF_varimp.X0)) + 
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) +
+  theme(axis.text.x = element_text(angle=60, hjust=1)) + 
+  ggtitle("Rv status Random Forest - Uninfected") +
+  theme(axis.title = element_text(size=12,face="bold")) + 
+  xlab("") + 
+  ylab("")
+
+Infected_MDA <-ggplot(
+  mda_means_Rv1, aes(x=RF_varimp.var, y = RF_varimp.X1)) + 
+  geom_point(shape = 21, colour = "black", fill = "#9966FF", size = 4, stroke = 1) +
+  theme(axis.text.x = element_text(angle=60, hjust=1)) +
+  ggtitle("Rv status Random Forest - Infected") +
+  theme(axis.title = element_text(size=12,face="bold")) + 
+  xlab("") + 
+  ylab("")
+```
