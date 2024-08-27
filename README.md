@@ -16,6 +16,10 @@ We also documented demographic traits (i.e. sex, age class), aspects of sampling
 Analysis code is available on GitHub: https://github.com/dlfwiley/Cross-Family-Pathogen-Project. All data are linked to vouchered specimens housed at the Museum of Southwestern Biology (MSB) at the University of New Mexico, USA. Specimen records are accessible in the Artcos database (https://www.arctosdb.org).
 
 R SCRIPTS
+All_Pathogen_Dataset.csv: This dataframe is the primary mastersheet used in all scripts below.
+
+All_pathogen_dataset_Metadata.xlsx: This spreadsheet defines each column (variable) in our project's mastersheet, with links to more information.
+
 CFPCS_statistical_analyses_Pt1_infection-status.qmd: This script includes code meant for processing and assessing pathogen *prevalence* (response variable 1). It includes code for processing raw data, transforming variables, evaluating and eliminating outliers, and statistically assessing one-way relationships between prevalence and other variables (i.e. chi-squared, difference in means, logistic regressions). Start here.
 
 CFPCS_statistical_analyses_Pt2_infection-status.qmd: This script includes code meant for processing and assessing pathogen *infection intensity* (response variable 2). It includes code for processing raw data, transforming variables, evaluating and eliminating outliers, and statistically assessing one-way relationships between intensity and other variables (i.e. difference in means, linear regressions).
