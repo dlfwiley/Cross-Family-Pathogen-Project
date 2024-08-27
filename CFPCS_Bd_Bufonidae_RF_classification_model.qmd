@@ -86,9 +86,7 @@ Bd_p_df.inte$Tissue <- as.factor(Bd_p_df.inte$Tissue) # 52
 str(Bd_p_df)
 ```
 
-#------------------------------------------------------ 
-.
-#STEP 1: Verify data Check data for rows with missing values
+#------------------------------------------------------ . #STEP 1: Verify data Check data for rows with missing values
 
 ```{r}
 glimpse(Bd_p_df) #check data
@@ -100,13 +98,12 @@ Bd_p_df %>%
   glimpse() 
 ```
 
-#------------------------------------------------------ 
-.
-#STEP 2: Build datasets
+#------------------------------------------------------ . #STEP 2: Build datasets
 
 Dropping variables with NAs and building model-specific datasets.
 
 Full model
+
 ```{r}
 dim(Bd_p_df)
 RFfull_Bdp <- Bd_p_df %>% #FULL MODEL SET
@@ -134,6 +131,7 @@ RFfull_Bdp %>%
 ```
 
 MODEL 1 REDUCED MODEL SET (WITHOUT LONGITUDE)
+
 ```{r}
 RF_Bdp.1 <- Bd_p_df %>% 
   dplyr::select(Status_Bd
@@ -152,6 +150,7 @@ dim(RF_Bdp.1)
 ```
 
 MODEL 2 External/combination tissues only:
+
 ```{r}
 RF_Bdp.1.exto <- Bd_p_df.exto %>% 
   dplyr::select(Status_Bd
@@ -168,11 +167,10 @@ RF_Bdp.1.exto <- Bd_p_df.exto %>%
 dim(RF_Bdp.1.exto) 
 ```
 
-#------------------------------------------------------ 
-.
-# STEP 3: Build original models Run multiple Random Forest models and compare output
+#------------------------------------------------------ . \# STEP 3: Build original models Run multiple Random Forest models and compare output
 
 ####RF Model 0: Full
+
 ```{r}
 ############################### RANDOM FORESTS ###############################
 ################# 0 - BD STATUS - FULL MODEL - 12 species #################
@@ -222,6 +220,7 @@ RFfull_GINI.p
 ```
 
 ####RF Model 1 (-longitude)
+
 ```{r}
 ############################### RANDOM FORESTS ###############################
 ################# 1 - BD STATUS - NO LONGITUDE - 12 species #################
@@ -269,6 +268,7 @@ RF1_GINI.p
 ```
 
 ####RF Model 2 (-longitude, -external/combination tissues only)
+
 ```{r}
 set.seed(456)
 #WITHOUT LONGITUDE, WITHOUT SOUTHEAST REGION SPECIES (with high internal-only tissues)
@@ -314,9 +314,7 @@ RF1_MDA.p.exto
 RF1_GINI.p.exto
 ```
 
-#------------------------------------------------------
-.
-# STEP 4: Compare model output Picking best model via OOB & mtry ####RF Model 0: Full
+#------------------------------------------------------ . \# STEP 4: Compare model output Picking best model via OOB & mtry ####RF Model 0: Full
 
 ```{r}
 library(vip)
@@ -338,6 +336,7 @@ print(best.m0)
 ```
 
 ####RF Model 1 (-longitude)
+
 ```{r}
 #FINDING MTRY FOR MODEL 1 (WITHOUT LONGITUDE)
 stBD_1 <- as.factor(RF_Bdp.1$Status_Bd)
@@ -356,6 +355,7 @@ print(best.m1)
 ```
 
 ####RF Model 2 (-longitude, -external/combination tissues only)
+
 ```{r}
 #FINDING MTRY FOR MODEL 2 (WITHOUT LONGITUDE and not considering southeastern species)
 stBD_2 <- as.factor(RF_Bdp.1.exto$Status_Bd)
@@ -373,13 +373,12 @@ print(mtry_stBD_2)
 print(best.m2) 
 ```
 
-#------------------------------------------------------ 
-.
-# STEP 5: Assess model accuracy
+#------------------------------------------------------ . \# STEP 5: Assess model accuracy
 
-Training data set 
+Training data set
 
 #### RF Model 0: Full
+
 ```{r}
 split_ds_Bdp <- sample(c(TRUE, FALSE), nrow(RFfull_Bdp), replace = TRUE, prob = c(0.7, 0.3))
 train_ds_Bdp <- RFfull_Bdp[split_ds_Bdp, ]
@@ -402,6 +401,7 @@ confusionMatrix(predict(rf_Bdp_full, train_ds_Bdp),train_ds_Bdp$Status_Bd, posit
 ```
 
 ####RF Model 1 (-longitude)
+
 ```{r}
 split_ds_Bdp <- sample(c(TRUE, FALSE), nrow(RF_Bdp.1), replace = TRUE, prob = c(0.7, 0.3))
 train_ds_Bdp <- RF_Bdp.1[split_ds_Bdp, ]
@@ -448,6 +448,7 @@ confusionMatrix(predict(rf1_Bdp, train_ds_Bdp),train_ds_Bdp$Status_Bd, positive 
 ```
 
 ####RF Model 2 (-longitude, -external/combination tissues only)
+
 ```{r}
 split_ds_Bdp <- sample(c(TRUE, FALSE), nrow(RF_Bdp.1.exto), replace = TRUE, prob = c(0.7, 0.3))
 train_ds_Bdp <- RF_Bdp.1.exto[split_ds_Bdp, ]
@@ -469,11 +470,9 @@ print(rf2_Bdp)
 confusionMatrix(predict(rf2_Bdp, train_ds_Bdp),train_ds_Bdp$Status_Bd, positive = '1')
 ```
 
-We will select model 1 (-longitude) for our final model. Now we can move forward with training and testing the model over 100 iterations and averaging the output. 
+We will select model 1 (-longitude) for our final model. Now we can move forward with training and testing the model over 100 iterations and averaging the output.
 
-#------------------------------------------------------ 
-.
-# STEP 6 Assess data structure Examine imbalance and classification errors
+#------------------------------------------------------ . \# STEP 6 Assess data structure Examine imbalance and classification errors
 
 ```{r}
 ####################################################################
@@ -506,11 +505,7 @@ barplot(as.matrix(FamilyPredicted_Pos), col ="black", main = "Pos")
 barplot(as.matrix(FamilyPredicted_Neg), col ="black", main = "Neg")
 ```
 
-There is class imbalance which will need to be fixed - as it stands now, our model is very good at predicting majority class (uninfected), but very bad at predicting our class of interest (minority). #------------------------------------------------------ 
-.
-# STEP 7: Balancing out models 
-.
-####Upsampling
+There is class imbalance which will need to be fixed - as it stands now, our model is very good at predicting majority class (uninfected), but very bad at predicting our class of interest (minority). #------------------------------------------------------ . \# STEP 7: Balancing out models . ####Upsampling
 
 ```{r}
 #declare data frames to hold error rates and variable importance measures
@@ -891,18 +886,17 @@ RF_model
 # 1  6 17   0.2608696
 ```
 
-#---------------------------------------------------
+#---------------------------------------------------   
 #Visualization
+
 ```{r}
 library(patchwork)
 (RF_Bpd_MDA_100) /
   (Uninfected_MDA | Infected_MDA)
 ```
 
-.
-#------------------------------------------------------ 
-#STEP 8: Validation of final model 
-We are choosing Model set 1 (-longitude).
+#------------------------------------------------------   
+#STEP 8: Validation of final model We are choosing Model set 1 (-longitude).
 
 ```{r}
 set.seed(456)
@@ -1111,6 +1105,7 @@ RF_Bpd_GINI_100
 #write.csv(gini_means, file="RF_model_Downsampling_importance_gini_nolongitude.csv", row.names = T)
 #write.csv(mda_means, file="RF_model_Downsampling_importance_mda_nolongitude.csv", row.names = T)
 ```
+
 #---------------------------------------------------
 
 #Tissue type - model check Checking that our model output matches after removing internal-only tissues.
@@ -1166,6 +1161,7 @@ down_Bd_CM_exto
 
 fourfoldplot(as.table(down_Bd_CM_exto),color=c("red","#40B0A6"),main = "Confusion Matrix" )
 ```
+
 Downsampling, validation, and assessment
 
 ```{r}
