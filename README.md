@@ -1,5 +1,5 @@
 # Cross-Family-Pathogen-Project
-Wiley et al., 2024 (in prep) Leveraging machine learning and natural history collections in the study of amphibian pathogens on a continental scale, PeerJ
+Wiley et al., 2024 (in prep) Leveraging machine learning and natural history collections in the study of amphibian pathogens on a continental scale.
 In this study, we leveraged frozen tissues stored in natural history collections and machine learning techniques to characterize infection dynamics of infectious pathogens known to cause mortality in frogs. 
 We asked: What is distribution, prevalence, and pathogen loads experienced across three major families of frogs (Bufonidae, Hylidae, and Ranidae) in the Central and Eastern U.S. Can we effectively capture infection dynamics using Random Forests machine learning models? Lastly, what factors (i.e. host traits: species, sex, age; environmental factors: temperature, precipiation; geographic features: latitude, elevation) are important in predicting pathogen infection status?
  
