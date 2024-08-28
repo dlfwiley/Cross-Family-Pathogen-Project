@@ -6,7 +6,7 @@ We asked: What is distribution, prevalence, and pathogen loads experienced acros
 Data are archived on FigShare: https://doi.org/10.6084/m9.figshare.26849554.
 
 DATASET
-Frogs were collected from during summer breeding months from 2009–2023 across 31 U.S. Central and Eastern states under appropriate state and local permits and were archived at the Museum of Southwestern Biology (MSB), University of New Mexico (UNM). Specimens represent 1,281 wild frogs of three co-distributed anuran families (Bufonidae n = 320, Hylidae n = 456, Ranidae n = 505) with four taxa in each family (11 species and one species complex). We screened frogs and quantified infection load via qPCR for three pathogens
+Frogs were collected during summer breeding months from 2009–2023 across 31 U.S. Central and Eastern states under appropriate state and local permits and were archived at the Museum of Southwestern Biology (MSB), University of New Mexico (UNM). Specimens represent 1,281 wild frogs of three co-distributed anuran families (Bufonidae n = 320, Hylidae n = 456, Ranidae n = 505) with four taxa in each family (11 species and one species complex). We screened frogs and quantified infection load via qPCR for three pathogens
 - Bd (Batrachochytrium dendrobatidis) (n = 1,281)
 - Pr (Amphibian Perkinsea) (n = 1,224)
 - Rv (Ranavirus) (n = 1,187)
