@@ -5,7 +5,6 @@ date:   last-modified
 editor: visual
 description: |
   Explores the data, summarizing singular relationships between independent and dependent variables and running simple hypothesis tests to understand patterns in the data. Contact dlfwiley@gmail.com with any questions or requests for more data.
-
 format:
   html:
     theme:            litera
@@ -19,10 +18,11 @@ format:
     code-block-bg:          true
     code-block-border-left: "#30B0E0"
     code-copy:              false     # true, false, hover a copy buttom in top-right of code block
+editor_options: 
+  chunk_output_type: inline
 ---
 
-#----------------------------------------------- 
-# Patterns in the data summary
+#-----------------------------------------------   \# Patterns in the data summary
 
 In pt 1 and pt 2 of the All_Pathogen_Statistical_Analyses.qmd, we explore the data in various ways, depending on the type of variables and relationships we are interested in testing. Overall summaries are listed here for convenience.
 
@@ -45,11 +45,11 @@ This document covers analyses relating to infection status.
     -   Pr - no signif difference between observed and expected, but low sample size.
 
     -   Rv - signif difference between observed and expected. *R. catesbeiana* & *R. clamitans* higher, all but *R. sphenocephala* lower than expected.
-    
+
 -   **Age class vs. infection status**
 
     -   Bd - No signif difference between observed and expected.
-    
+
     -   Pr - No signif difference between observed and expected.
 
     -   Rv - signif difference between observed and expected. Juveniles higher.
@@ -58,16 +58,15 @@ This document covers analyses relating to infection status.
 
     -   Not signif for any pathogen.
 
-
 -   **Tissue type vs. infection status**
 
     -   Bd - signif difference between observed and expected. External + combination tissue extracts are higher, while internal only are lower.
-    
+
 3\) Analysis of Variance (categorical independent variables with at least 3 or more categories and continuous dependent variable)
 
 -   **Family v. infection intensity**
 
-    -   Bd - signif difference in means. 
+    -   Bd - signif difference in means.
 
         -   Post-hoc Tukey shows signif difference in means between Bufonidae and Ranidae.
 
@@ -86,28 +85,27 @@ This document covers analyses relating to infection status.
     -   Pr - not enough data.
 
     -   Rv - no signif difference in means.
-    
+
 -   **TPC1 v. infection status**
 
-    -   Signif difference in mean TPC1 between infected & uninfected individuals for all pathogens. 
-    
+    -   Signif difference in mean TPC1 between infected & uninfected individuals for all pathogens.
+
 -   **TPC2 v. infection status**
 
     -   Bd signif difference in mean TPC2 between infected & uninfected individuals.
-    
+
     -   Pr signif difference in mean TPC2 between infected & uninfected individuals.
-    
+
     -   Rv no signif difference.
-    
 
 -   **PPC1 v. infection status**
 
     -   No signif difference in means between infected and uninfected for any pathogen.
-    
+
 -   **PPC2 v. infection status**
 
-    -   Bd - Signif difference in mean PPC2 between infected and uninfected individuals. 
-    
+    -   Bd - Signif difference in mean PPC2 between infected and uninfected individuals.
+
         -   Bd infected with higher average PPC2 values compared to uninfected.
 
 4\) Logistic regression (continuous independent variable and categorical dependent variables)
@@ -123,45 +121,44 @@ This document covers analyses relating to infection status.
 -   **Elevation v. infection status**
 
     -   Bd - No signif correlation between elevation and odds ratio of infection.
-    
+
     -   Pr not enough data.
-    
+
     -   Rv - No signif correlation between elevation and odds ratio of infection.
-    
+
 -   **TPC1 v. infection status**
 
-    -   Bd - Signif correlation between TPC1 and odds ratio of infection. 
-    
+    -   Bd - Signif correlation between TPC1 and odds ratio of infection.
+
         -   Lower TPC1 = higher probability of infection.
-  
+
     -   Pr - Not enough data.
-    
-    -   Rv - Signif correlation between TPC1 and odds ratio of infection. 
-    
+
+    -   Rv - Signif correlation between TPC1 and odds ratio of infection.
+
         -   Lower TPC1 = higher probability of infection.
-        
+
 -   **TPC2 v. infection status**
 
     -   Bd - Signif correlation between TPC2 and odds ratio of infection.
-      
+
         -   Lower TPC2 = higher probability of infection.
-    
+
     -   Pr - Signif correlation between TPC2 and odds ratio of infection.
-    
+
         -   Lower TPC2 = higher probability of infection, but low sample sizes.
-    
+
     -   Rv - No signif correlation between TPC2 and odds ratio of infection.
-    
+
 -   **PPC1 v. infection status**
 
     -   No signif correlation between PPC1 and odds ratio of any pathogen.
-    
+
 -   **PPC2 v. infection status**
 
-    -   Bd -  Signif correlation between TPC2 and odds ratio of infection. 
-    
+    -   Bd - Signif correlation between TPC2 and odds ratio of infection.
+
         -   Higher PPC2 = higher probability of infection.
-    
 
 5\) Linear regression (continuous independent variable and continuous dependent variable)
 
@@ -172,19 +169,19 @@ This document covers analyses relating to infection status.
 -   **Elevation v. infection intensity**
 
     -   No signif correlation in infection intensity and latitude for all pathogens.
-    
+
 -   **TPC1 v. infection intensity**
 
-    -   No signif correlation in infection intensity and latitude for all pathogens. 
-    
+    -   No signif correlation in infection intensity and latitude for all pathogens.
+
 -   **TPC2 v. infection intensity**
 
     -   No signif correlation in infection intensity and latitude for all pathogens.
-    
+
 -   **PPC1 v. infection intensity**
 
     -   No signif correlation in infection intensity and latitude for all pathogens.
-    
+
 -   **PPC2 v. infection intensity**
 
     -   No signif correlation in infection intensity and latitude for all pathogens.
@@ -209,7 +206,9 @@ library(binom)
 ```
 
 # Load prevalence data
+
 Code last updated 8/22/2024
+
 ```{r}
 # As of 29 April, 2024, these datasets are final. This version includes all 19 BioClim variables and 1 elevation variable.
 
@@ -293,7 +292,7 @@ Bd_exto_tiss <- subset(tiss_bd_df
                          tiss_bd_df$Bd_Tissue == "External_tissues" |
                          tiss_bd_df$Bd_Tissue == "Internal_tissues")
 
-Bd_exto_tiss$Bd_Tissue[Bd_exto_tiss$Bd_Tissue=="Combination"]  <-"Exto"
+Bd_exto_tiss$Bd_Tissue[Bd_exto_tiss$Bd_Tissue=="Combination"]       <-"Exto"
 Bd_exto_tiss$Bd_Tissue[Bd_exto_tiss$Bd_Tissue=="External_tissues"]  <-"Exto"
 
 Pr_exto_tiss <- subset(tiss_pr_df
@@ -499,9 +498,8 @@ df_p_pr$Sp <- as.factor(df_p_pr$Sp)
 df_p_rv$Sp <- as.factor(df_p_rv$Sp)
 ```
 
-#-----------------------------------------------
-#PT 1 START: Infection status analyses
-## Family v. pathogen status
+#----------------------------------------------- #PT 1 START: Infection status analyses\
+\# Family v. pathogen status
 
 #### Bd: Significantly different
 
@@ -624,6 +622,7 @@ corrplot(Rv.fam.chi$residuals,
 ```
 
 #### Bimonial confidence intervals
+
 Explore binomial confidence intervals using {binom}, similar to Mario Alvarado‑Rybak et al., 2021.
 
 We estimated 95% binomial confidence interval (95% CI) with a logistic (logit) parameterization for each category using the binom.confint function (R package ‘binom’) in the statistical software R v.3.1.397.
@@ -890,7 +889,9 @@ corrplot(Rv.spp.chi$residuals,
 
 #Positive residuals are in blue. Positive values in cells specify an attraction (positive association) between the corresponding row and column variables. Negative residuals are in red. This implies a repulsion (negative association) between the corresponding row and column variables.
 ```
+
 #### Bimonial confidence intervals
+
 ```{r}
 library(binom)
 #                                       expect 0    expect 1 |  obser 0 observ 1
@@ -1227,7 +1228,8 @@ Rv_bc
 # 1  logit 52 1187 0.04380792 0.03353359 0.05704438
 ```
 
-#-----------------------------------------------
+#-----------------------------------------------  
+
 ## Sex v. pathogen status
 
 #### Bd: Not significantly different
@@ -1344,7 +1346,9 @@ chisq.test(table(df_p_rv$Sex, df_p_rv$Status_Rv))$expected
 
 # NOTE: Rv female vs. male vs. unknown shows a significant difference between groups whereas female vs. male chi-squared shows no significant difference. The difference therefore lies in the unknown data, which doesn't actually tell us much.
 ```
+
 #### Bimonial confidence intervals
+
 ```{r}
 library(binom)
 #Uses eight different methods to obtain a confidence interval on the binomial probability.
@@ -1407,15 +1411,15 @@ m_rv_bc
 # 1  logit 12 402 0.02985075 0.01702884 0.05181801
 ```
 
-#-----------------------------------------------
-## Age class v. pathogen status
+#-----------------------------------------------  
+
+\## Age class v. pathogen status
 
 #### Bd: Not significantly different
 
 #### Pr: Not significantly different
 
 #### Rv: Significantly different
-
 
 ```{r}
 # Hypothesis (null): Observed and expected infection status counts do not differ across age classes.
@@ -1431,17 +1435,23 @@ chisq.test(table(ag_df_p_bd$Age, ag_df_p_bd$Status_Bd))
 # 
 # data:  age.Bd.table
 # X-squared = 2.2454, df = 1, p-value = 0.134
+ag_df_p_bd$Bd_Tissue <- as.character(ag_df_p_bd$Bd_Tissue)
+ag_df_p_bd <- subset(ag_df_p_bd,
+                     Bd_Tissue == "Combination" |
+                     Bd_Tissue == "External_tissues" |
+                     Bd_Tissue == "Internal_tissues")
 
-ag_df_p_bd_exto <- subset(ag_df_p_bd,
-                          ag_df_p_bd$Bd_Tissue == "Combination" |
-                          ag_df_p_bd$Bd_Tissue == "External_tissues"  )
+ag_df_p_bd$Bd_Tissue[ag_df_p_bd$Bd_Tissue=="Combination"]  <-"Exto"
+ag_df_p_bd$Bd_Tissue[ag_df_p_bd$Bd_Tissue=="External_tissues"]  <-"Exto"
 
-age.Bd.table_exto <- table(ag_df_p_bd_exto$Age, ag_df_p_bd_exto$Status_Bd)
+ag_df_p_bd$Bd_Tissue <- as.factor(ag_df_p_bd$Bd_Tissue)
+
+age.Bd.table_exto <- table(ag_df_p_bd$Age, ag_df_p_bd$Status_Bd)
 chisq.test(age.Bd.table_exto)
 # 	Pearson's Chi-squared test with Yates' continuity correction
 # 
 # data:  age.Bd.table_exto
-# X-squared = 0.79955, df = 1, p-value = 0.3712
+# X-squared = 1.2894, df = 1, p-value = 0.2562
 
 ggplot(ag_df_p_bd, aes(x= Status_Bd, fill = Age)) + geom_bar()
 
@@ -1494,7 +1504,9 @@ chisq.test(table(ag_df_p_rv$Age, ag_df_p_rv$Status_Rv))$expected
 
 # NOTE: Rv adult v. juvenile shows a significant difference between groups. We will keep age class in the models.
 ```
+
 #### Bimonial confidence intervals
+
 ```{r}
 #Bd-------------------------------------------------------------------------------
 adult_bd_x <- 145
@@ -1584,8 +1596,7 @@ corrplot(Rv.age.chi$residuals,
 
 Rv infection status is significantly different between juveniles and adults, however, majority of our juvenile points reside in species with high Rv prevalence (*R. catesbeiana* & *R. clamitans*) and therefore interaction should be checked in later models between family & age.
 
-#-----------------------------------------------
-## Tissue type v. pathogen status
+#-----------------------------------------------   \## Tissue type v. pathogen status
 
 #### Bd: Significantly different
 
@@ -1665,6 +1676,7 @@ chisq.test(table(Bd_exto_tiss$Bd_Tissue, Bd_exto_tiss$Status_Bd))$expected
 ```
 
 ####Binomial confidence intervals
+
 ```{r}
 ext_bd_x <- 198
 ext_bd_n <- (198+647)
@@ -1743,8 +1755,9 @@ corrplot(Rv.tiss.chi$residuals,
          title = Pr.tiss.corr,
          is.cor = FALSE)
 ```
-We see that there is a clear difference in infection prevalence between internal only and exto (combination/external tissues) where internal only is not detecting Bd in our samples. 
-Next, we need to understand how this is distributed in our sampling to potentially connect areas of bias in our analyses and models.
+
+We see that there is a clear difference in infection prevalence between internal only and exto (combination/external tissues) where internal only is not detecting Bd in our samples. Next, we need to understand how this is distributed in our sampling to potentially connect areas of bias in our analyses and models.
+
 ```{r}
 Fam_c <- c("#C00000","#009900","#0066CC")
 
@@ -1780,9 +1793,11 @@ corrplot(Bd.Fam.tiss.chi$residuals,
          title = Bd.Fam.corr,
          is.cor = FALSE)
 ```
-We see that we sampled more than expected internal only tissues in the family Hylidae, which *could* explain the low prevalence that we see within that family. 
+
+We see that we sampled more than expected internal only tissues in the family Hylidae, which *could* explain the low prevalence that we see within that family.
 
 Let's see how this breaks down over the families.
+
 ```{r}
 #Comparison by family
 tiss.Sp.table <- table(Bd_exto_tiss$Sp,Bd_exto_tiss$Bd_Tissue)
@@ -1819,22 +1834,23 @@ corrplot(Bd.Sp.tiss.chi$residuals,
          is.cor = FALSE)
 ```
 
-#-----------------------------------------------
-# One way tests for environmental variables + response variables
-#-----------------------------------------------
-## Latitude v Status
+#-----------------------------------------------   \# One way tests for environmental variables + response variables\
+#-----------------------------------------------   \## Latitude v Status
 
-#### Bd: *Significantly different
-- There is a significant difference in mean latitude between Bd infected and uninfected groups. 
-- The probability of infection increases with increasing latitude. *See tissue interaction note at end of latitude sub-section*
+#### Bd: \*Significantly different
+
+-   There is a significant difference in mean latitude between Bd infected and uninfected groups.
+-   The probability of infection increases with increasing latitude. *See tissue interaction note at end of latitude sub-section*
 
 #### Pr: Significantly different
-- There is a significant difference in mean latitude between Pr infected and uninfected groups. 
-- The probability of infection cannot be determined with our data (low sample sizes).
+
+-   There is a significant difference in mean latitude between Pr infected and uninfected groups.
+-   The probability of infection cannot be determined with our data (low sample sizes).
 
 #### Rv: Significantly different
-- There is a significant difference in mean latitude between Rv infected and uninfected groups. 
-- The probability of infection increases with increasing latitude.
+
+-   There is a significant difference in mean latitude between Rv infected and uninfected groups.
+-   The probability of infection increases with increasing latitude.
 
 ####T-test: Latitude
 
@@ -2057,11 +2073,10 @@ Bd_into_Lat_ttest.prev
 ggplot(df_p_bd, aes(x=Latitude, y = Status_Bd)) + geom_boxplot() + facet_wrap(~Bd_Tissue)
 ```
 
-Bd is not expected to be detectable in liver/internal only tissues, as it primarily infects the skin. 
-We see that internal tissues are potentially interacting with our latitude results.
-There are significantly lower than expected Bd infections in our internal only tissues (see section below) *and* variable significance changes when excluding internal-only tissues (see section above).
+Bd is not expected to be detectable in liver/internal only tissues, as it primarily infects the skin. We see that internal tissues are potentially interacting with our latitude results. There are significantly lower than expected Bd infections in our internal only tissues (see section below) *and* variable significance changes when excluding internal-only tissues (see section above).
 
 Latitude within families ONLY USING EXTERNAL-ONLY SAMPLES:
+
 ```{r}
 # Null: There are no differences in mean latitude between uninfected and infected individuals in the family [Bufonidae],[Hylidae],[Ranidae] WHEN ONLY USING EXTERNAL-ONLY TISSUE SAMPLES.
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED LATITUDE VALUES within families (External tissues only)
@@ -2163,11 +2178,11 @@ BdLat_Rani_ttest.prev
 #        38.52073        38.12416 
 #NOT SIGNIFICANT
 ```
-Bufonidae - no longer significant.
-Hylidae - still not significant.
-Ranidae - no longer significant.
+
+Bufonidae - no longer significant. Hylidae - still not significant. Ranidae - no longer significant.
 
 Pr:
+
 ```{r}
 # Null hypothesis: There is no significant difference in the mean latitude between infection status and latitude.
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED LATITUDE VALUES.
@@ -2206,6 +2221,7 @@ PrLat_ttest.prev
 ```
 
 Rv:
+
 ```{r}
 # Null hypothesis: There is no significant difference in the mean latitude between infection status and latitude.
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED LATITUDE VALUES.
@@ -2246,6 +2262,7 @@ RvLat_ttest.prev
 ####Logistic Regression: Latitude
 
 Bd:
+
 ```{r}
 #Null hypothesis: There is no significant correlation between latitude and infection status.
 lm.lat.bd <- glm(Status_Bd ~ Latitude, family = binomial, data = df_p_bd)
@@ -2275,6 +2292,7 @@ exp(coef(lm.lat.bd))
 Not considering anything else in the data, there is a significant relationship between latitude and Bd status where with unit increase in latitude, the log odds of Bd positive increase by $e^{0.06572}$ or the odds of being infected with Bd increase by a factor $1.068$.\
 
 Pr:
+
 ```{r}
 # Null hypothesis: There is no significant correlation between latitude and infection status.
 lm.lat.pr <- glm(Status_Pr ~ Latitude, family = binomial, data = df_p_pr)
@@ -2303,6 +2321,7 @@ exp(coef(lm.lat.pr))
 Not considering anything else in the data, there is NOT a significant relationship between latitude and Pr status.
 
 Rv:
+
 ```{r}
 lm.lat.rv <- glm(Status_Rv ~ Latitude, family = binomial, data = df_p_rv)
 summary(lm.lat.rv)
@@ -2331,8 +2350,8 @@ exp(coef(lm.lat.rv))
 
 Not considering anything else in the data, there is a significant relationship between latitude and Rv status where with unit increase in latitude, the Odds ratio of Rv increases by $e^{0.07484$ or the odds of being infected with Rv increase by a factor $1.078$.
 
-####Visualization
-Distribution of latitude values by infection status.
+####Visualization Distribution of latitude values by infection status.
+
 ```{r}
 #Visualize dataset
 #Set colors for pathogen comparisons
@@ -2428,20 +2447,25 @@ library(patchwork)
 
 ## Longitude v Status
 
-#### Bd: Significantly different 
-- There is a significant difference in mean longitude between infected and uninfected groups. 
-- The probability of infection increases with increasing longitude. *See tissue interaction note at end of Longitude sub-section*
+#### Bd: Significantly different
+
+-   There is a significant difference in mean longitude between infected and uninfected groups.
+-   The probability of infection increases with increasing longitude. *See tissue interaction note at end of Longitude sub-section*
 
 #### Pr: Significantly different
-- There is a significant difference in mean longitude between infected and uninfected groups.
-- The probability of infection cannot be determined with our data due to low sample sizes.
+
+-   There is a significant difference in mean longitude between infected and uninfected groups.
+-   The probability of infection cannot be determined with our data due to low sample sizes.
 
 #### Rv: Significantly different
-- There is a significant difference in mean longitude between infected and uninfected groups. 
-- The probability of infection increases with increasing longitude.
+
+-   There is a significant difference in mean longitude between infected and uninfected groups.
+-   The probability of infection increases with increasing longitude.
 
 #### T-test: Longitude
+
 Bd:
+
 ```{r}
 # Null hypothesis: There is no significant difference in the mean longitude between infection statuses.
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED LONGITUDE VALUES.
@@ -2561,6 +2585,7 @@ ggplot(df_p_bd, aes(x=Longitude, y = Status_Bd)) + geom_boxplot() + facet_wrap(~
 We believe that results pertaining to longitude are heavily influenced by *A. woodhousii* (western-most species), which has no infections.
 
 Pr:
+
 ```{r}
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED Longitude VALUES.
 Pr_pos <- filter(df_p_pr, df_p_pr$Status_Pr == "1")
@@ -2596,7 +2621,9 @@ PrLong_ttest.prev
 #       -85.31429       -90.10927 
 #SIGNIFICANT
 ```
+
 Rv:
+
 ```{r}
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED Longitude VALUES.
 Rv_pos <- filter(df_p_rv, df_p_rv$Status_Rv == "1")
@@ -2633,6 +2660,7 @@ RvLong_ttest.prev
 #### Logistic Regression: Longitude
 
 Bd:
+
 ```{r}
 # Null hypothesis: There is no significant correlation between longitude and infection status.
 lm.lat.bd <- glm(Status_Bd ~ Longitude, family = binomial, data = df_p_bd)
@@ -2663,6 +2691,7 @@ exp(coef(lm.lat.bd))
 Not considering anything else in the data, there is a significant relationship between longitude and Bd status where with every unit increase in longitude, the log odds of Bd positive increase by $e^{0.03595}$ or the odds of being infected with Bd increase by a factor $1.04$.\
 
 Pr:
+
 ```{r}
 # Null hypothesis: There is no significant correlation between longitude and infection status.
 lm.lat.pr <- glm(Status_Pr ~ Longitude, family = binomial, data = df_p_pr)
@@ -2723,8 +2752,8 @@ exp(coef(lm.lat.rv))
 
 Not considering anything else in the data, there is a significant relationship between longitude and Rv status where with unit increase in longitude, the Odds ratio of Rv increases by $e^{0.09338$ or the odds of being infected with Rv increase by a factor $1.098$.
 
-####Visualization
-Distribution of longitude values by infection status.
+####Visualization Distribution of longitude values by infection status.
+
 ```{r}
 #Visualize dataset
 #Set colors for pathogen comparisons
@@ -2821,20 +2850,23 @@ library(patchwork)
 
 ## Elevation v Status
 
-#### Bd: Not significantly different 
-- No difference in mean elevation between Bd infected and uninfected samples. 
-- No correlation between elevation and infection status.
+#### Bd: Not significantly different
 
-#### Pr: Not significantly different 
-- No difference in mean elevation between Pr infected and uninfected samples. 
-- No correlation between elevation and infection status.
+-   No difference in mean elevation between Bd infected and uninfected samples.
+-   No correlation between elevation and infection status.
 
-#### Rv: Not significantly different 
-- No difference in mean elevation between Rv infected and uninfected samples. 
-- No significant correlation between elevation and infection status.
+#### Pr: Not significantly different
 
-####T-test: Elevation
-Bd:
+-   No difference in mean elevation between Pr infected and uninfected samples.
+-   No correlation between elevation and infection status.
+
+#### Rv: Not significantly different
+
+-   No difference in mean elevation between Rv infected and uninfected samples.
+-   No significant correlation between elevation and infection status.
+
+####T-test: Elevation Bd:
+
 ```{r}
 #Null hypothesis: There is no significant difference in the mean elevation between infection statuses.
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED ELEVATION VALUES.
@@ -2896,7 +2928,9 @@ BdEle_ttest.prev
 #        4.227270        4.342626 
 #NOT SIGNIFICANT
 ```
+
 No significant difference in elevation means between Bd infected vs. uninfected frogs.
+
 ```{r}
 Bd_pos_exto <- subset(Bd_pos, 
                       Bd_pos$Bd_Tissue == "Combination" |
@@ -2989,6 +3023,7 @@ ggplot(df_p_bd, aes(x=Log10Elev, y = Status_Bd)) + geom_boxplot() + facet_wrap(~
 ```
 
 Pr:
+
 ```{r}
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED ELEVATION VALUES.
 Pr_pos <- filter(df_p_pr, df_p_pr$Status_Pr == "1")
@@ -3033,8 +3068,9 @@ PrEle_ttest.prev
 #        1.834148        1.906252 
 # NOT SIGNIFICANT
 ```
-No significant difference in elevation means between Pr infected vs. uninfected frogs.
-Rv:
+
+No significant difference in elevation means between Pr infected vs. uninfected frogs. Rv:
+
 ```{r}
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED ELEVATION VALUES.
 Rv_pos <- filter(df_p_rv, df_p_rv$Status_Rv == "1")
@@ -3079,10 +3115,11 @@ RvEle_ttest.prev
 #        1.841597        1.959480 
 # NOT SIGNIFICANT
 ```
+
 No significant difference in elevation means between Rv infected vs. uninfected frogs.
 
-####Logistic Regression: Elevation
-Bd:
+####Logistic Regression: Elevation Bd:
+
 ```{r}
 #Null hypothesis: There is no significant correlation between infection status and elevation.
 df_p_bd$Log10Elev <- log(df_p_bd$Elevation_30s)
@@ -3110,6 +3147,7 @@ summary(lm.elev.bd)
 Not considering anything else in the data, there is not a significant relationship between elevation and Bd status.
 
 Pr:
+
 ```{r}
 lm.elev.pr <- glm(Status_Pr ~ Log10Elev, family = binomial, data = df_p_pr) 
 summary(lm.elev.pr) 
@@ -3135,6 +3173,7 @@ summary(lm.elev.pr)
 Not considering anything else in the data, there is not a significant relationship between elevation and Pr status.
 
 Rv:
+
 ```{r}
 lm.elev.rv <- glm(Status_Rv ~ Log10Elev, family = binomial, data = df_p_rv) 
 summary(lm.elev.rv) 
@@ -3159,8 +3198,7 @@ summary(lm.elev.rv)
 
 Not considering anything else in the data, there is not a significant relationship between elevation and Rv status.
 
-####Visualization
-Distribution of elevation values by infection status.
+####Visualization Distribution of elevation values by infection status.
 
 ```{r}
 #Visualize dataset
@@ -3218,6 +3256,7 @@ Rv_elev_prev_bar <- ggplot(df_p_rv, aes(x = Status_Rv, y = Log10Elev)) +
 ```
 
 Not used in any figure, but for our records.
+
 ```{r fig.height=10, fig.width=8}
 library(patchwork)
 (Bd_elev_prev_bar | Pr_elev_prev_bar | Rv_elev_prev_bar) 
@@ -3227,20 +3266,23 @@ library(patchwork)
 
 # TPC1 v. Status
 
-#### Bd: *Significantly different
-- There is a significant difference in means TPC1 between infected and uninfected groups.
-- The probability of infection increases with decreasing TPC1. *See tissue conflict notes below*
+#### Bd: \*Significantly different
+
+-   There is a significant difference in means TPC1 between infected and uninfected groups.
+-   The probability of infection increases with decreasing TPC1. *See tissue conflict notes below*
 
 #### Pr: Significantly different
-- There is a significant difference in means TPC1 between infected and uninfected groups.
-- The probability of infection cannot be determined with our data (low sample size).
+
+-   There is a significant difference in means TPC1 between infected and uninfected groups.
+-   The probability of infection cannot be determined with our data (low sample size).
 
 #### Rv: Significantly different
-- There is a significant difference in mean TPC1 between infected and uninfected groups.
-- The probability of infection increases with decreasing TPC1.
 
-####T-test: TPC1
-Bd:
+-   There is a significant difference in mean TPC1 between infected and uninfected groups.
+-   The probability of infection increases with decreasing TPC1.
+
+####T-test: TPC1 Bd:
+
 ```{r}
 #Null hypothesis: There is no significant difference in the mean temperature between infection status and temperature TPC1
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED TPC1 VALUES.
@@ -3363,6 +3405,7 @@ ggplot(df_p_bd, aes(x=TPC1, y = Status_Bd)) + geom_boxplot() + facet_wrap(~Bd_Ti
 ```
 
 Pr:
+
 ```{r}
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED TPC1 VALUES.
 Pr_pos <- filter(df_p_pr, df_p_pr$Status_Pr == "1")
@@ -3397,7 +3440,9 @@ PrTPC1_ttest.prev
 #      0.05227572      1.09261354
 # SIGNIFICANT
 ```
+
 Rv:
+
 ```{r}
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED TPC1 VALUES.
 Rv_pos <- filter(df_p_rv, df_p_rv$Status_Rv == "1")
@@ -3438,6 +3483,7 @@ RvTPC1_ttest.prev
 ####Logistic Regression: TPC1
 
 Bd:
+
 ```{r}
 #Null hypothesis: There is no significant correlation between TPC1 and infection status.
 lm.tpc1.bd <- glm(Status_Bd ~ TPC1, family = binomial, data = df_p_bd)
@@ -3468,6 +3514,7 @@ exp(coef(lm.tpc1.bd))
 Not considering anything else in the data, there is a significant relationship between TPC1 and Bd status where with each unit increase in TPC1, the log odds of Bd positive decrease by $e^{0.14005}$ or the odds of being infected with Bd decrease by a factor $0.869$.\
 
 Pr:
+
 ```{r}
 lm.tpc1.pr <- glm(Status_Pr ~ TPC1, family = binomial, data = df_p_pr)
 summary(lm.tpc1.pr)
@@ -3493,9 +3540,11 @@ exp(coef(lm.tpc1.pr))
 # (Intercept)        TPC1 
 # 0.009838464 1.156171573 
 ```
+
 Not considering anything else in the data, there is NOT a significant relationship between TPC1 and Pr status, but sample sizes are low.
 
 Rv:
+
 ```{r}
 lm.tpc1.rv <- glm(Status_Rv ~ TPC1, family = binomial, data = df_p_rv)
 summary(lm.tpc1.rv)
@@ -3524,8 +3573,7 @@ exp(coef(lm.tpc1.rv))
 
 Not considering anything else in the data, there is a significant relationship between TPC1 and Rv status where with unit increase in TPC1, the Odds ratio of Rv decrease by $e^{0.1493}$ or the odds of being infected with Rv decrease by a factor $0.861$.
 
-####Visualization
-Distribution of TPC1 values by infection status.
+####Visualization Distribution of TPC1 values by infection status.
 
 ```{r}
 #Visualize dataset
@@ -3609,27 +3657,31 @@ Rv_TPC1_prev_bar <- ggplot(
 ```
 
 Figure 4bd-f: TPC1 vs. infection status.
+
 ```{r fig.height=10, fig.width=8}
 library(patchwork)
 (Bd_TPC1_prev_bar | Pr_TPC1_prev_bar | Rv_TPC1_prev_bar) 
 ```
 
-#----------------------------------------------------------------------------------------------------------------
-# TPC2 v. Status
+#----------------------------------------------------------------------------------------------------------------\
+#TPC2 v. Status
 
 #### Bd: Significantly different
-- There is a significant difference in mean TPC2 between infected and uninfected groups. 
-- The probability of infection increases with decreasing TPC2.
+
+-   There is a significant difference in mean TPC2 between infected and uninfected groups.
+-   The probability of infection increases with decreasing TPC2.
 
 #### Pr: Significantly different
-- There is a significant difference in mean TPC2 between infected and uninfected groups.
-- The probability of infection cannot be determined with our data.
+
+-   There is a significant difference in mean TPC2 between infected and uninfected groups.
+-   The probability of infection cannot be determined with our data.
 
 #### Rv: Not significantly different
-- There is NO significant difference in mean TPC2 between infected and uninfected groups.
 
-####T-test: TPC2
-Bd:
+-   There is NO significant difference in mean TPC2 between infected and uninfected groups.
+
+####T-test: TPC2 Bd:
+
 ```{r}
 #Null hypothesis: There is no significant difference in the mean temperature between infection status and TPC2
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED TPC2 VALUES.
@@ -3900,6 +3952,7 @@ Bd_BIO2_prev_bar
 ```
 
 Pr:
+
 ```{r}
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED TPC2 VALUES.
 Pr_pos <- filter(df_p_pr, df_p_pr$Status_Pr == "1")
@@ -3938,7 +3991,9 @@ PrTPC2_ttest.prev
 #     -0.02188424      1.11587988 
 # SIGNIFICANT
 ```
+
 Rv:
+
 ```{r}
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED TPC2 VALUES.
 Rv_pos <- filter(df_p_rv, df_p_rv$Status_Rv == "1")
@@ -3977,7 +4032,9 @@ RvTPC2_ttest.prev
 ```
 
 #### Logistic Regression: TPC2
+
 Bd:
+
 ```{r}
 #Null hypothesis: There is no significant correlation between TPC2 and infection status.
 lm.TPC2.bd <- glm(Status_Bd ~ TPC2, family = binomial, data = df_p_bd)
@@ -4032,6 +4089,7 @@ exp(coef(lm.BIO8.bd))
                                  # (Intercept) BIO8_Mean_Temperature_of_Wettest_Quarter_30s 
                                  #   0.5254924                                    0.9529818 
 ```
+
 Not considering anything else in the data, there is a significant relationship between BIO8 and Bd status where with unit increase in BIO8, the log odds of Bd positive decrease by $e^{0.4816}$ or the odds of being infected with Bd decrease by a factor $0.953$.\
 
 In other words, the warmer the wet quarter, the less likely to find Bd infection in our data.
@@ -4062,11 +4120,13 @@ exp(coef(lm.BIO2.bd))
 # (Intercept) BIO2_Mean_Diurnal_Range_30s 
 #   7.1172733                   0.7416517 
 ```
+
 Not considering anything else in the data, there is a significant relationship between BIO2 and Bd status where with unit increase in BIO2, the log odds of Bd positive decrease by $e^{0.299}$ or the odds of being infected with Bd decrease by a factor $0.742$.\
 
 In other words, the more temp fluctuation within a month, the less likely to find Bd infection in our data.
 
 Pr:
+
 ```{r}
 lm.TPC2.pr <- glm(Status_Pr ~ TPC2, family = binomial, data = df_p_pr)
 summary(lm.TPC2.pr)
@@ -4092,7 +4152,8 @@ exp(coef(lm.TPC2.pr))
 # (Intercept)        TPC2 
 # 0.005596222 2.856441869 
 ```
-Not considering anything else in the data, there is a significant relationship between TPC2 and Pr status where with unit increase in TPC2, the log odds of Pr positive increase by $e^{1.0496}$ or the odds of being infected with Bd decrease by a factor $2.86$.\ Low sample sizes though.
+
+Not considering anything else in the data, there is a significant relationship between TPC2 and Pr status where with unit increase in TPC2, the log odds of Pr positive increase by $e^{1.0496}$ or the odds of being infected with Bd decrease by a factor $2.86$. Low sample sizes though.
 
 Rv:
 
@@ -4124,8 +4185,7 @@ exp(coef(lm.TPC2.rv))
 
 Not considering anything else in the data, there is NOT a significant relationship between TPC2 and Rv status.
 
-####Visualization
-Distribution of TPC2 values by infection status.
+####Visualization Distribution of TPC2 values by infection status.
 
 ```{r}
 #Visualize dataset
@@ -4208,25 +4268,30 @@ Rv_TPC2_prev_bar <- ggplot(
 ```
 
 Figure 4g-i
+
 ```{r fig.height=10, fig.width=8}
 library(patchwork)
 (Bd_TPC2_prev_bar | Pr_TPC2_prev_bar | Rv_TPC2_prev_bar) 
 ```
+
 #-----------------------------------------------
 
 # PPC1 v. Status
 
 #### Bd: Not significantly different
-- There is no significant difference in means between PPC1 and infection status.
+
+-   There is no significant difference in means between PPC1 and infection status.
 
 #### Pr: Not significantly different
-- There is no significant difference in means between PPC1 and infection status.
+
+-   There is no significant difference in means between PPC1 and infection status.
 
 #### Rv: Not significantly different
-- There is no significant difference in means between PPC1 and infection status.
 
-####T-test: PPC1
-Bd:
+-   There is no significant difference in means between PPC1 and infection status.
+
+####T-test: PPC1 Bd:
+
 ```{r}
 #Null hypothesis: There is no significant difference in the mean precipitation between infection status and precipitation PPC1
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED PPC1 VALUES.
@@ -4251,8 +4316,8 @@ Bd_ppc1_prev_var.t$estimate
 plotNormalHistogram(df_p_bd$PPC1) #Close to normal.. fat upper tails
 qqPlot(df_p_bd$PPC1) 
 
-BdLat_ttest.prev <-t.test(PPC1 ~ Status_Bd, data = df_p_bd, alternative = "two.sided", var.equal = TRUE)
-BdLat_ttest.prev
+BdPPC1_ttest.prev <-t.test(PPC1 ~ Status_Bd, data = df_p_bd, alternative = "two.sided", var.equal = TRUE)
+BdPPC1_ttest.prev
 # 	Two Sample t-test
 # 
 # data:  PPC1 by Status_Bd
@@ -4346,7 +4411,9 @@ Bd_into_ppc1_ttest.prev
 #Let's visualize this with facetted boxplots
 ggplot(df_p_bd, aes(x=PPC1, y = Status_Bd)) + geom_boxplot() + facet_wrap(~Bd_Tissue)
 ```
+
 Pr:
+
 ```{r}
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED PPC1 VALUES.
 Pr_pos <- filter(df_p_pr, df_p_pr$Status_Pr == "1")
@@ -4383,7 +4450,9 @@ PrPPC1_ttest.prev
 #      0.01642904      0.45616463
 # NOT SIGNIFICANT
 ```
+
 Rv:
+
 ```{r}
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED PPC1 VALUES.
 Rv_pos <- filter(df_p_rv, df_p_rv$Status_Rv == "1")
@@ -4421,8 +4490,8 @@ RvPPC1_ttest.prev
 # NOT SIGNIFICANT
 ```
 
-####Logistic Regressin: PPC1
-Bd:
+####Logistic Regressin: PPC1 Bd:
+
 ```{r}
 #Null hypothesis: There is no significant correlation between PPC1 and infection status.
 lm.ppc1.bd <- glm(Status_Bd ~ PPC1, family = binomial, data = df_p_bd)
@@ -4453,6 +4522,7 @@ exp(coef(lm.ppc1.bd))
 Not considering anything else in the data, there is not a significant relationship between PPC1 and Bd status.
 
 Pr:
+
 ```{r}
 lm.ppc1.pr <- glm(Status_Pr ~ PPC1, family = binomial, data = df_p_pr)
 summary(lm.ppc1.pr)
@@ -4478,9 +4548,11 @@ exp(coef(lm.ppc1.pr))
 # (Intercept)        PPC1 
 #  0.01052522  1.08523688 
 ```
+
 Not considering anything else in the data, there is NOT a significant relationship between PPC1 and Pr status, though we have very low sample sizes.
 
 Rv:
+
 ```{r}
 lm.ppc1.rv <- glm(Status_Rv ~ PPC1, family = binomial, data = df_p_rv)
 summary(lm.ppc1.rv)
@@ -4509,8 +4581,7 @@ exp(coef(lm.ppc1.rv))
 
 Not considering anything else in the data, there is not a significant relationship between PPC1 and Rv status.
 
-####Visualization
-Distribution of PPC1 values by infection status.
+####Visualization Distribution of PPC1 values by infection status.
 
 ```{r}
 #Visualize dataset
@@ -4593,28 +4664,33 @@ Rv_PPC1_prev_bar <- ggplot(
 ```
 
 Not included in the manuscript.
+
 ```{r fig.height=10, fig.width=8}
 library(patchwork)
 (Bd_PPC1_prev_bar | Pr_PPC1_prev_bar | Rv_PPC1_prev_bar) 
 ```
+
 #-----------------------------------------------
 
 # PPC2 v. Status
 
-#### Bd: *Significantly different
-- There is a significant difference in mean PPC2 between infected and uninfected groups.
-- The probability of infection increases with increasing PPC2. *See tissue conflict section below*
+#### Bd: \*Significantly different
+
+-   There is a significant difference in mean PPC2 between infected and uninfected groups.
+-   The probability of infection increases with increasing PPC2. *See tissue conflict section below*
 
 #### Pr: Not significantly different
-- There is a significant difference in mean PPC2 between infected and uninfected groups. 
-- The probability of infection cannot be determined with our data.
+
+-   There is a significant difference in mean PPC2 between infected and uninfected groups.
+-   The probability of infection cannot be determined with our data.
 
 #### Rv: Not significantly different
-- There is a significant difference in mean PPC2 between infected and uninfected groups. 
-- The probability of infection increases with increasing PPC2.
 
-####T-test: PPC2
-Bd:
+-   There is a significant difference in mean PPC2 between infected and uninfected groups.
+-   The probability of infection increases with increasing PPC2.
+
+####T-test: PPC2 Bd:
+
 ```{r}
 #Null hypothesis: There is no significant difference in the mean precipitation between infection status and precipitation PPC2.
 
@@ -4639,8 +4715,8 @@ Bd_ppc2_prev_var.t$estimate
 plotNormalHistogram(df_p_bd$PPC2) #Close to normal.. fat upper tails
 qqPlot(df_p_bd$PPC2) 
 
-BdLat_ttest.prev <-t.test(PPC2 ~ Status_Bd, data = df_p_bd, alternative = "two.sided", var.equal = FALSE)
-BdLat_ttest.prev
+BdPPC2_ttest.prev <-t.test(PPC2 ~ Status_Bd, data = df_p_bd, alternative = "two.sided", var.equal = FALSE)
+BdPPC2_ttest.prev
 
 # 	Welch Two Sample t-test
 # 
@@ -4737,6 +4813,7 @@ ggplot(df_p_bd, aes(x=PPC2, y = Status_Bd)) + geom_boxplot() + facet_wrap(~Bd_Ti
 ```
 
 Pr:
+
 ```{r}
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED LATITUDE VALUES.
 Pr_pos <- filter(df_p_pr, df_p_pr$Status_Pr == "1")
@@ -4773,7 +4850,9 @@ PrPPC2_ttest.prev
 #     -0.05267445     -0.24253882
 # NOT SIGNIFICANT
 ```
+
 Rv:
+
 ```{r}
 #TEST FOR EQUAL VARIANCES BETWEEN INFECTED VS. UNINFECTED LATITUDE VALUES.
 Rv_pos <- filter(df_p_rv, df_p_rv$Status_Rv == "1")
@@ -4811,8 +4890,8 @@ RvPPC2_ttest.prev
 # NOT SIGNIFICANT
 ```
 
-####Logistic Regression: PPC2
-Bd:
+####Logistic Regression: PPC2 Bd:
+
 ```{r}
 #Null hypothesis: There is no significant correlation between latitude and infection status.
 lm.ppc2.bd <- glm(Status_Bd ~ PPC2, family = binomial, data = df_p_bd)
@@ -4843,6 +4922,7 @@ exp(coef(lm.ppc2.bd))
 Not considering anything else in the data, there is a significant relationship between PPC2 and Bd status where with unit increase in PPC2, the log odds of Bd positive increase by $e^{0.16768}$ or the odds of being infected with Bd increase by a factor $1.1826$.
 
 Pr:
+
 ```{r}
 lm.ppc2.pr <- glm(Status_Pr ~ PPC2, family = binomial, data = df_p_pr)
 summary(lm.ppc2.pr)
@@ -4868,6 +4948,7 @@ exp(coef(lm.ppc2.pr))
 # (Intercept)        PPC2 
 #  0.01060304  0.91882824 
 ```
+
 Not considering anything else in the data, there is not a significant relationship between PPC2 and Pr status. Though it could be that we do not have enough positive points for there to be signal in the data.
 
 Rv:
@@ -4900,8 +4981,8 @@ exp(coef(lm.ppc2.rv))
 
 Not considering anything else in the data, there is not a significant relationship between PPC2 and Rv status.
 
-####Visualization
-Distribution of PPC1 values by infection status.
+####Visualization Distribution of PPC1 values by infection status.
+
 ```{r}
 #Visualize dataset
 #Set colors for pathogen comparisons
@@ -4984,12 +5065,13 @@ Rv_PPC2_prev_bar <- ggplot(
 ```
 
 Figure 4j-l
+
 ```{r}
 library(patchwork)
 (Bd_PPC2_prev_bar | Pr_PPC2_prev_bar | Rv_PPC2_prev_bar) 
 ```
-#-----------------------------------------------
-# Checking for interactions
+
+#-----------------------------------------------   \# Checking for interactions
 
 We must verify that there are no significant interactions between variables within the data that we need to account for when building our model below.
 
@@ -5026,17 +5108,20 @@ grid.arrange(grobs = list(p), nrow=1, top="Bd infection status interactions")
 
 #-----------------------------------------------
 
-#Infection status figures for manuscript
-Figure 4a - TPC1, TPC2
+#Infection status figures for manuscript Figure 4a - TPC1, TPC2
+
 ```{r fig.height=12, fig.width=12}
 library(patchwork)
 (Bd_TPC1_prev_bar | Pr_TPC1_prev_bar | Rv_TPC1_prev_bar) /
   (Bd_TPC2_prev_bar | Pr_TPC2_prev_bar | Rv_TPC2_prev_bar) 
 ```
+
 Figure 4b - PPC1, PPC2
+
 ```{r fig.height=12, fig.width=12}
 library(patchwork)
   (Bd_PPC1_prev_bar | Pr_PPC1_prev_bar | Rv_PPC1_prev_bar) /
   (Bd_PPC2_prev_bar | Pr_PPC2_prev_bar | Rv_PPC2_prev_bar)
 ```
+
 #-----------------------------------------------
