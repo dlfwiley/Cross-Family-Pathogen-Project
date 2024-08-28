@@ -3,7 +3,7 @@ Wiley et al., 2024 (in prep) Leveraging machine learning and natural history col
 In this study, we leveraged frozen tissues stored in natural history collections and machine learning techniques to characterize infection dynamics of infectious pathogens known to cause mortality in frogs. 
 We asked: What is distribution, prevalence, and pathogen loads experienced across three major families of frogs (Bufonidae, Hylidae, and Ranidae) in the Central and Eastern U.S. Can we effectively capture infection dynamics using Random Forests machine learning models? Lastly, what factors (i.e. host traits: species, sex, age; environmental factors: temperature, precipiation; geographic features: latitude, elevation) are important in predicting pathogen infection status?
  
-Data are archived on FigShare: https://doi.org/10.6084/m9.figshare.26849554.v2.
+Data are archived on FigShare: https://doi.org/10.6084/m9.figshare.26849554.
 
 DATASET
 Frogs were collected from during summer breeding months from 2009–2023 across 31 U.S. Central and Eastern states under appropriate state and local permits and were archived at the Museum of Southwestern Biology (MSB), University of New Mexico (UNM). Specimens represent 1,281 wild frogs of three co-distributed anuran families (Bufonidae n = 320, Hylidae n = 456, Ranidae n = 505) with four taxa in each family (11 species and one species complex). We screened frogs and quantified infection load via qPCR for three pathogens
